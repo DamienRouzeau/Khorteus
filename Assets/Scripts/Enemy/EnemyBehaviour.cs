@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyBehaviour : MonoBehaviour
 {
     private NavMeshAgent agent;
-    public Transform player;
+    private Transform player;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +16,14 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(player.position);
+        if (player != null)
+        {
+            agent.SetDestination(player.position);
+        }
+    }
+
+    public void SetPlayerRef(Transform _player)
+    {
+        player = _player;
     }
 }

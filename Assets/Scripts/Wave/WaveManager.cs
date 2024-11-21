@@ -13,10 +13,15 @@ public class WaveManager : MonoBehaviour
     [SerializeField]
     private float preparationPhaseDuration;
     [SerializeField]
-    private Transform[] door;
+    private List<Animator> doorAlerte;
+    [SerializeField]
+    private List<Transform> door;
     private List<Transform> doorToSpawn = new List<Transform>();
     private List<GameObject> ennemies = new List<GameObject>();
     private bool spawnFinished;
+    [SerializeField]
+    private Transform player;
+
 
     private void Awake()
     {
@@ -49,7 +54,8 @@ public class WaveManager : MonoBehaviour
         yield return new WaitForSeconds((pair.numberToSpawn - delay) * pair.intervalSpawn);
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
         var enemy = Instantiate(pair.enemyType, whereSpawn);
-        ennemies.Add(enemy);
+        enemy.SetPlayerRef(player);
+        ennemies.Add(enemy.gameObject);
     }
 
 
@@ -73,7 +79,9 @@ public class WaveManager : MonoBehaviour
         if(doorToSpawn.Count > 0) doorToSpawn.Clear();
         for (int i = nbDoor; i > 0; i--)
         {
-            doorToSpawn.Add(door[Random.Range(0, door.Length)]);
+            Transform _door = door[Random.Range(0, door.Count)];
+            doorToSpawn.Add(_door);
+            doorAlerte[door.IndexOf(_door)].SetTrigger("Alerte");
         }
     }
 }

@@ -11,7 +11,8 @@
                     "id": "6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Look",
@@ -19,7 +20,8 @@
                     "id": "2690c379-f54d-45be-a724-414123833eb4",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Jump",
@@ -27,7 +29,8 @@
                     "id": "8c4abdf8-4099-493a-aa1a-129acec7c3df",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Sprint",
@@ -35,7 +38,26 @@
                     "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "23b44ac2-f32a-48d1-9c91-b6eec39f6ce2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shot",
+                    "type": "Button",
+                    "id": "c36108da-e7a3-450d-9ab3-900add9029bb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -212,6 +234,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b767618-da54-45b2-8ab9-539d369cfaa6",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99d5dc21-ce45-4b0c-9011-46ac23c082ec",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

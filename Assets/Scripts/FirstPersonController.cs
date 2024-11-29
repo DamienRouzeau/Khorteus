@@ -52,10 +52,18 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
+
+		[Header("Weapon")]
+		[SerializeField]
+		private Animator weaponAnim;
+		[SerializeField]
+		private GameObject bullet;
+		private bool isAiming;
+
 		// cinemachine
 		private float _cinemachineTargetPitch;
 
-		// player
+		
 		private float _speed;
 		private float _rotationVelocity;
 		private float _verticalVelocity;
@@ -116,6 +124,7 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			Aim();
 		}
 
 		private void LateUpdate()
@@ -253,6 +262,21 @@ namespace StarterAssets
 			if (lfAngle > 360f) lfAngle -= 360f;
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
+
+		private void Aim()
+        {
+			if(isAiming != _input.aim)
+            {
+				isAiming = _input.aim;
+				weaponAnim.SetBool("Aim", isAiming);
+			}
+        }
+
+		private void OnShot()
+		{
+			print("shot");
+		}
+
 
 		private void OnDrawGizmosSelected()
 		{

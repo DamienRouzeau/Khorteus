@@ -7,20 +7,30 @@ public class WaveManager : MonoBehaviour
     private static WaveManager Instance { get; set; }
     public static WaveManager instance => Instance;
 
+    [Header("Wave data")]
     public int currentWave = 0;
     [SerializeField]
     private List<Wave> wave;
     [SerializeField]
     private float preparationPhaseDuration;
+
+    [Header("Doors")]
     [SerializeField]
     private List<Animator> doorAlerte;
     [SerializeField]
     private List<Transform> door;
+    [SerializeField]
+    private float alarmeDuration;
+
+    [Header("Miscelaneous")]
+    [SerializeField]
+    private Transform playerRef;
+
+
     private List<Transform> doorToSpawn = new List<Transform>();
     private List<GameObject> ennemies = new List<GameObject>();
     private bool spawnFinished;
-    [SerializeField]
-    private Transform player;
+
 
 
     private void Awake()
@@ -54,7 +64,7 @@ public class WaveManager : MonoBehaviour
         yield return new WaitForSeconds((pair.numberToSpawn - delay) * pair.intervalSpawn);
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
         var enemy = Instantiate(pair.enemyType, whereSpawn);
-        enemy.SetPlayerRef(player);
+        enemy.SetPlayerRef(playerRef);
         ennemies.Add(enemy.gameObject);
     }
 
@@ -81,7 +91,14 @@ public class WaveManager : MonoBehaviour
         {
             Transform _door = door[Random.Range(0, door.Count)];
             doorToSpawn.Add(_door);
-            doorAlerte[door.IndexOf(_door)].SetTrigger("Alerte");
+            doorAlerte[door.IndexOf(_door)].SetBool("Alerte", true);
+            StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)]));
         }
+    }
+
+    private IEnumerator StopAlarme(Animator doorToStop)
+    {
+        yield return new WaitForSeconds(alarmeDuration);
+        doorToStop.SetBool("Alerte", false);
     }
 }

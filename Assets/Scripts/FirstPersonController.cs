@@ -57,8 +57,11 @@ namespace StarterAssets
 		[SerializeField]
 		private Animator weaponAnim;
 		[SerializeField]
-		private GameObject bullet;
+		private PoolBullet poolBullets;
 		private bool isAiming;
+		[SerializeField]
+		private float shotCouldown;
+		private float timeSinceLastBullet;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -117,6 +120,7 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+			timeSinceLastBullet = shotCouldown;
 		}
 
 		private void Update()
@@ -125,6 +129,7 @@ namespace StarterAssets
 			GroundedCheck();
 			Move();
 			Aim();
+			timeSinceLastBullet += Time.deltaTime;
 		}
 
 		private void LateUpdate()
@@ -274,7 +279,13 @@ namespace StarterAssets
 
 		private void OnShot()
 		{
-			print("shot");
+			if(timeSinceLastBullet>= shotCouldown)
+            {
+				BulletBehaviour bullet = poolBullets.GetBullet();
+				weaponAnim.SetTrigger("Shot");
+				timeSinceLastBullet = 0;
+				bullet.Launch();
+            }
 		}
 
 

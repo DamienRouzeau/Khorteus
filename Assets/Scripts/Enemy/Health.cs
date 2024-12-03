@@ -2,30 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public interface Health
 {
-    private float currentHealth;
-    [SerializeField]
-    private float maxHealth;
+    public void TakeDamage(float damage);
 
-    private void Start()
-    {
-        currentHealth = maxHealth;
-    }
 
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        if(currentHealth<=0)
-        {
-            Die();
-        }
-    }
+    public void Die();
 
-    public void Die()
-    {
-        Destroy(this.gameObject);
-    }
 
 
 }

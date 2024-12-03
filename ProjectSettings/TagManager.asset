@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - monster
+  - monsterAttack
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - poteaux
   - Ennemies
   - Bullet
-  - 
+  - ennemyAttack
   - 
   - 
   - 

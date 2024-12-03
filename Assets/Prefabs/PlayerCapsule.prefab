@@ -571,6 +571,7 @@ GameObject:
   - component: {fileID: 1978471637655604388}
   - component: {fileID: 5420857361349278248}
   - component: {fileID: 8616685848737228376}
+  - component: {fileID: 3791762584243447742}
   m_Layer: 8
   m_Name: PlayerCapsule
   m_TagString: Player
@@ -653,6 +654,7 @@ MonoBehaviour:
   weaponAnim: {fileID: 3619432642290596578}
   poolBullets: {fileID: 4331686988837673053}
   shotCouldown: 0.75
+  maxHealth: 100
 --- !u!114 &1978471637655604388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -789,6 +791,33 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!54 &3791762584243447742
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1001 &3600434905941816080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -922,6 +951,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399c280ca51b9c34a8f8d0337458865f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3583527553845622784, guid: ebfa559ebde2feb488b28426c64a2173,
-    type: 3}
+  bulletPrefab: {fileID: 0}
   bulletLauncher: {fileID: 388358507225467465}

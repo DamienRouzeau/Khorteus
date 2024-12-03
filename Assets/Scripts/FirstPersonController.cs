@@ -9,7 +9,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 	[RequireComponent(typeof(PlayerInput))]
 #endif
-	public class FirstPersonController : MonoBehaviour
+	public class FirstPersonController : MonoBehaviour, Health
 	{
 
 		[Header("Player")]
@@ -62,6 +62,13 @@ namespace StarterAssets
 		[SerializeField]
 		private float shotCouldown;
 		private float timeSinceLastBullet;
+
+		[Header("HEALTH")]
+		[SerializeField]
+		private float maxHealth;
+		[SerializeField]
+		private float currentHealth;
+
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -121,6 +128,7 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 			timeSinceLastBullet = shotCouldown;
+			currentHealth = maxHealth;
 		}
 
 		private void Update()
@@ -300,5 +308,19 @@ namespace StarterAssets
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
-	}
+
+        public void TakeDamage(float damage)
+        {
+			currentHealth -= damage;
+			if (currentHealth <= 0)
+			{
+				Die();
+			}
+		}
+
+        public void Die()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 }

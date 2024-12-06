@@ -69,6 +69,13 @@ namespace StarterAssets
 		[SerializeField]
 		private float currentHealth;
 
+		[Header("Inventory")]
+		[SerializeField]
+		private InventorySystem inventory;
+
+		//generator
+		private bool generatorClose;
+		private GeneratorBehaviour generator;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -296,6 +303,17 @@ namespace StarterAssets
             }
 		}
 
+		private void Interact()
+        {
+			if(generator != null)
+            {
+				if(inventory.RemoveFragment(1))
+                {
+					generator.AddFragment(1);
+                }
+            }
+        }
+
 
 		private void OnDrawGizmosSelected()
 		{
@@ -307,6 +325,24 @@ namespace StarterAssets
 
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.CompareTag("generator"))
+            {
+				generatorClose = true;
+				generator = other.GetComponent<GeneratorBehaviour>();
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+			if (other.CompareTag("generator"))
+			{
+				generatorClose = false;
+				generator = null;
+			}
 		}
 
         public void TakeDamage(float damage)

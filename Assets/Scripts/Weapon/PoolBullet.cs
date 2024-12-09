@@ -36,7 +36,9 @@ public class PoolBullet : MonoBehaviour
 
     public void AddBulletToPool(BulletBehaviour bullet)
     {
+        print("Pooled");
         bulletsBank.Add(bullet);
-        bullet.transform.parent = transform;        
+        bullet.transform.parent = transform;
+        bullet.gameObject.SetActive(false);
     }
 }

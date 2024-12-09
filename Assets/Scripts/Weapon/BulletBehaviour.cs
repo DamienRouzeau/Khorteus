@@ -11,6 +11,9 @@ public class BulletBehaviour : MonoBehaviour
     private PoolBullet pool;
     [SerializeField]
     private Rigidbody rb;
+    [SerializeField]
+    private float maxTimeAlive = 1;
+    private float timeAlive;
 
 
     public void SetPool(PoolBullet poolRef)
@@ -21,10 +24,13 @@ public class BulletBehaviour : MonoBehaviour
     private void Update()
     {
         //transform.position -= transform.right * speed * Time.deltaTime;
+        timeAlive -= Time.deltaTime;
+        if (timeAlive <= 0) Hit();
     }
 
     public void Launch()
     {
+        timeAlive = maxTimeAlive; 
         rb.AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
@@ -35,10 +41,8 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        print(collision.gameObject);
         if (collision.collider.CompareTag("monster"))
         {
-            print("BBB");
             Health health = collision.gameObject.GetComponent<Health>();
             Hit(health);
         }
@@ -47,10 +51,8 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.gameObject);
         if (other.CompareTag("monster"))
         {
-            print("BBB");
             Health health = other.gameObject.GetComponent<Health>();
             Hit(health);
         }
@@ -63,13 +65,12 @@ public class BulletBehaviour : MonoBehaviour
         rb.velocity = Vector3.zero;
         health.TakeDamage(damage);
         pool.AddBulletToPool(this);
-        gameObject.SetActive(false);
     }
 
     private void Hit()
     {
+        print("Hit");
         rb.velocity = Vector3.zero;
         pool.AddBulletToPool(this);
-        gameObject.SetActive(false);
     }
 }

@@ -1,17 +1,14 @@
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Crafting : MonoBehaviour
 {
-    [SerializeField]
-    private List<GameObject> turrets;
-    [SerializeField]
-    private List<float> timeToCraft;
-
-    public void StartCrafting()
-    {
-
-    }
-
+    [Header("Turrets stats")]
+    public GameObject turrets;
+    public float timeToCraft;
+    public float currentCraftTime;
 }

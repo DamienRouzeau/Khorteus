@@ -18,7 +18,7 @@ public class GeneratorBehaviour : MonoBehaviour
     private float currentEnergy;
     [SerializeField]
     private float fragmentConvertion = 10;
-    UnityEvent outOfPowerEvent;
+    UnityEvent outOfPowerEvent = new UnityEvent();
 
     [Header("UI")]
     [SerializeField]
@@ -40,6 +40,12 @@ public class GeneratorBehaviour : MonoBehaviour
     [SerializeField]
     private List<Animator> lights = new List<Animator>();
     private List<float> intensities = new List<float>();
+
+    [Header("Audio")]
+    [SerializeField]
+    private AudioSource ambiantSound;
+    [SerializeField]
+    private AudioSource shutdownSound;
 
     private void Awake()
     {
@@ -91,6 +97,8 @@ public class GeneratorBehaviour : MonoBehaviour
         {
             light.SetBool("Power", false);
         }
+        shutdownSound.Play();
+        ambiantSound.Stop();
     }
 
     private void EnergyBack()

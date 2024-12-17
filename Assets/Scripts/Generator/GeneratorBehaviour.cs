@@ -80,7 +80,7 @@ public class GeneratorBehaviour : MonoBehaviour
             if (secondes < 10) timerText.text = new string(minutes + ":0" + secondes);
             else timerText.text = new string(minutes + ":" + secondes);
         }
-        energyText.text = currentEnergy + " W";
+        energyText.text = (int)currentEnergy + " W";
     }
 
     private void OutOfEnergy()

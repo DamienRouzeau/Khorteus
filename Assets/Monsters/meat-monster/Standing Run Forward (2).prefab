@@ -5275,7 +5275,7 @@ PrefabInstance:
     - target: {fileID: 1082271958561512970, guid: 62ff6392fa1a89a46b7aebe5ce046b7f,
         type: 3}
       propertyPath: m_Name
-      value: Skeleton
+      value: mixamorig:Hips
       objectReference: {fileID: 0}
     - target: {fileID: 1082271958561512970, guid: 62ff6392fa1a89a46b7aebe5ce046b7f,
         type: 3}
@@ -5606,7 +5606,7 @@ MonoBehaviour:
   maxHealth: 50
   damage: 10
   hitCouldown: 0
-  anim: {fileID: 0}
+  anim: {fileID: 2321896062327094812}
   attackCollider: {fileID: 3817747806457539776}
   range: 3
   state: 0

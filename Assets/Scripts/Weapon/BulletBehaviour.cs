@@ -46,7 +46,7 @@ public class BulletBehaviour : MonoBehaviour
             Health health = collision.gameObject.GetComponent<Health>();
             Hit(health);
         }
-        else Hit();
+        //else Hit();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,7 +56,7 @@ public class BulletBehaviour : MonoBehaviour
             Health health = other.gameObject.GetComponent<Health>();
             Hit(health);
         }
-        else Hit();
+        //else Hit();
     }
 
 
@@ -69,7 +69,6 @@ public class BulletBehaviour : MonoBehaviour
 
     private void Hit()
     {
-        print("Hit");
         rb.velocity = Vector3.zero;
         pool.AddBulletToPool(this);
     }

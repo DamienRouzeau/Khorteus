@@ -73,9 +73,9 @@ namespace StarterAssets
 		[SerializeField]
 		private InventorySystem inventory;
 
-		//generator
-		private bool generatorClose;
-		private GeneratorBehaviour generator;
+		[Header("Interaction")]
+		[SerializeField]
+		private float interactionDistance = 5;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -303,15 +303,40 @@ namespace StarterAssets
             }
 		}
 
-		private void Interact()
+		private void OnInteract()
         {
-			if(generator != null)
+            Debug.Log("interact");
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit, interactionDistance))
             {
-				if(inventory.RemoveFragment(1))
-                {
-					generator.AddFragment(1);
-                }
+				Debug.Log(hit + " | " + hit.collider.gameObject);
+				switch(hit.collider.tag)
+				{
+					case "generator":
+						GeneratorBehaviour generator = hit.collider.gameObject.GetComponent<GeneratorBehaviour>();
+                        if (generator != null)
+                        {
+                            if (inventory.RemoveFragment(1))
+                            {
+                                generator.AddFragment(1);
+                            }
+                        }
+                        break;
+
+                    case "craft":
+
+                        break;
+
+                    case "turret":
+
+                        break;
+
+
+                    default:
+						break;
+				}
             }
+
         }
 
 
@@ -327,24 +352,6 @@ namespace StarterAssets
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
 		}
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.CompareTag("generator"))
-            {
-				generatorClose = true;
-				generator = other.GetComponent<GeneratorBehaviour>();
-            }
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-			if (other.CompareTag("generator"))
-			{
-				generatorClose = false;
-				generator = null;
-			}
-		}
-
         public void TakeDamage(float damage)
         {
 			currentHealth -= damage;
@@ -357,6 +364,16 @@ namespace StarterAssets
         public void Die()
         {
             throw new System.NotImplementedException();
+        }
+
+		public float GetHealth()
+		{
+			return currentHealth;
+		}
+
+        public float GetMaxHealth()
+        {
+            return maxHealth;
         }
     }
 }

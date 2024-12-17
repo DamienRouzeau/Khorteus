@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class GeneratorBehaviour : MonoBehaviour
 {
+    private static GeneratorBehaviour Instance { get; set; }
+    public static GeneratorBehaviour instance => Instance;
+
     [Header("Energy")]
     [SerializeField]
     private float maxEnergy;
@@ -13,11 +17,17 @@ public class GeneratorBehaviour : MonoBehaviour
     private float additionnalEnergyDrain;
     private float currentEnergy;
     [SerializeField]
+    private float fragmentConvertion = 10;
+    UnityEvent outOfPowerEvent;
+
+    [Header("UI")]
+    [SerializeField]
     private Slider energyGauge;
     [SerializeField]
     private TMPro.TextMeshProUGUI timerText;
     [SerializeField]
-    private float fragmentConvertion = 10;
+    private TMPro.TextMeshProUGUI energyText;
+
 
     [Header("Alarme")]
     [SerializeField]
@@ -30,6 +40,12 @@ public class GeneratorBehaviour : MonoBehaviour
     [SerializeField]
     private List<Animator> lights = new List<Animator>();
     private List<float> intensities = new List<float>();
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
+    }
 
     private void Start()
     {
@@ -64,11 +80,13 @@ public class GeneratorBehaviour : MonoBehaviour
             if (secondes < 10) timerText.text = new string(minutes + ":0" + secondes);
             else timerText.text = new string(minutes + ":" + secondes);
         }
+        energyText.text = currentEnergy + " W";
     }
 
     private void OutOfEnergy()
     {
         outOfEnergy = true;
+        outOfPowerEvent.Invoke();
         foreach(Animator light in lights)
         {
             light.SetBool("Power", false);
@@ -133,5 +151,16 @@ public class GeneratorBehaviour : MonoBehaviour
 
     public float GetEnergy() { return currentEnergy; }
 
+    #endregion
+
+    #region SUB event
+    public void SubOutOfPower(UnityAction action)
+    {
+        outOfPowerEvent.AddListener(action);
+    }
+    public void UnsubOutOfPower(UnityAction action)
+    {
+        outOfPowerEvent.RemoveListener(action);
+    }
     #endregion
 }

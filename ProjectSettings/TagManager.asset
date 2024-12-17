@@ -8,6 +8,8 @@ TagManager:
   - monster
   - monsterAttack
   - generator
+  - craft
+  - turret
   layers:
   - Default
   - TransparentFX

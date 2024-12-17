@@ -22,9 +22,13 @@ public class WaveManager : MonoBehaviour
     [SerializeField]
     private float alarmeDuration;
 
-    [Header("Miscelaneous")]
+    [Header("References")]
     [SerializeField]
     private Transform playerRef;
+    [SerializeField]
+    private Transform generatorRef;
+    [SerializeField]
+    private List<Transform> hidingSpots = new List<Transform>();
 
 
     private List<Transform> doorToSpawn = new List<Transform>();
@@ -65,6 +69,8 @@ public class WaveManager : MonoBehaviour
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
         var enemy = Instantiate(pair.enemyType, whereSpawn);
         enemy.SetPlayerRef(playerRef);
+        enemy.SetGeneratorRef(generatorRef);
+        enemy.SetHidingSpots(hidingSpots);
         ennemies.Add(enemy.gameObject);
     }
 

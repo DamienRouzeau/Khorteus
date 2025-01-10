@@ -8,9 +8,9 @@ public class TurretBehaviour : MonoBehaviour
     [Header("Cost")]
     [SerializeField]
     private float additionnalDrain;
-    private bool isActive;
+    private bool isActive = true;
     private GeneratorBehaviour generator = GeneratorBehaviour.instance;
-    
+
     [Header("Shot")]
     [SerializeField]
     private float couldownShot;
@@ -27,11 +27,11 @@ public class TurretBehaviour : MonoBehaviour
 
     private void Start()
     {
-        timeSinceLastShot = couldownShot;
-        generator.SubOutOfPower(RanOutOfPower);
+        //timeSinceLastShot = couldownShot;
+        //generator.SubOutOfPower(RanOutOfPower);
 
-        if (generator.GetEnergy() > 0) isActive = true;
-        generator.AddDrain(additionnalDrain);
+        //if (generator.GetEnergy() > 0) isActive = true;
+        //generator.AddDrain(additionnalDrain);
     }
     private void Update()
     {
@@ -118,5 +118,5 @@ public class TurretBehaviour : MonoBehaviour
         isActive = false;
     }
 }
-    
-   
+
+

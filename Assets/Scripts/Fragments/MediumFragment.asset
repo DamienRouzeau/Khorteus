@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139d64849203c0646a5012a5f6ccd9cd, type: 3}
+  m_Name: MediumFragment
+  m_EditorClassIdentifier: 
+  maxHealth: 60
+  health: 60
+  probability: 30
+  minTime: 120
+  maxTime: 240
+  visual: {fileID: 142522403874833043, guid: 9381e2a63f45a09489f5d0e455649264, type: 3}
+  nextEvolution: {fileID: 11400000, guid: 81cebb454eacd1749b91575bc03e4bd5, type: 2}

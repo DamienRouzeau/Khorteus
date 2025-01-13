@@ -57,6 +57,7 @@ public class FragmentBehaviour : MonoBehaviour
     public void Hit(float dmg)
     {
         type.health -= dmg;
+        Debug.Log(type.health);
         if(type.health <= 0)
         {
             DestroyFragment();

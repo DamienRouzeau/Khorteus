@@ -43,6 +43,7 @@ namespace StarterAssets
 		public float GroundedRadius = 0.5f;
 		[Tooltip("What layers the character uses as ground")]
 		public LayerMask GroundLayers;
+		public LayerMask InteractLayers;
 
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
@@ -305,9 +306,10 @@ namespace StarterAssets
 
 		private void OnInteract()
         {
-            Debug.Log("interact");
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward),out hit, interactionDistance))
+			
+			Debug.DrawRay(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) * interactionDistance, Color.green, 100);
+			if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) , out hit, interactionDistance, InteractLayers))
             {
 				Debug.Log(hit + " | " + hit.collider.gameObject);
 				switch(hit.collider.tag)
@@ -331,6 +333,10 @@ namespace StarterAssets
 
                         break;
 
+					case "fragment":
+						FragmentBehaviour frag = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
+						frag.Hit(3);
+						break;
 
                     default:
 						break;

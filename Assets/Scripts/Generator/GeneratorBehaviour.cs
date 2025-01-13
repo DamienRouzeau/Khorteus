@@ -64,6 +64,11 @@ public class GeneratorBehaviour : MonoBehaviour
             if (secondes < 10) timerText.text = new string(minutes + ":0" + secondes);
             else timerText.text = new string(minutes + ":" + secondes);
         }
+<<<<<<< Updated upstream
+=======
+        int energyShowed = (int)currentEnergy;
+        energyText.text = energyShowed + " W";
+>>>>>>> Stashed changes
     }
 
     private void OutOfEnergy()

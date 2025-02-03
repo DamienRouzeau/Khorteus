@@ -19,3 +19,4 @@ MonoBehaviour:
   maxTime: 120
   visual: {fileID: 3380772109527769220, guid: 76c84a160ac076148ba3bed7c6b45493, type: 3}
   nextEvolution: {fileID: 11400000, guid: e1460d258f431f143b62e5d46bdaeb20, type: 2}
+  quantity: 1

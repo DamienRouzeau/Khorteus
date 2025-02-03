@@ -12,4 +12,5 @@ public class FragmentType : ScriptableObject
     public float maxTime;
     public GameObject visual;
     public FragmentType nextEvolution;
+    public int quantity;
 }

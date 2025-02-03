@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FragmentBehaviour : MonoBehaviour
 {
@@ -8,10 +9,18 @@ public class FragmentBehaviour : MonoBehaviour
     private float timeBeforeEvolution;
     private GameObject visual;
     private FragmentManager manager;
+    [SerializeField]
+    private Slider healthBar;
+    private float health;
 
     public void Init(FragmentManager manag)
     {
         manager = manag;
+    }
+
+    private void Start()
+    {
+        health = type.health;
     }
 
     private void FixedUpdate()
@@ -40,14 +49,14 @@ public class FragmentBehaviour : MonoBehaviour
         if(type == null)
         {
             type = newType;
-            type.health = type.maxHealth;
+            health = type.maxHealth;
         }
         else
         {
             Destroy(visual);
-            float hpTransition = (type.health * 100) / type.maxHealth;
+            float hpTransition = (health * 100) / type.maxHealth;
             type = newType;
-            type.health = (type.maxHealth * hpTransition) / 100;
+            health = (type.maxHealth * hpTransition) / 100;
         }
         timeBeforeEvolution = Random.Range(type.minTime, type.maxTime);
         var newVisu = Instantiate(type.visual, transform);
@@ -56,13 +65,27 @@ public class FragmentBehaviour : MonoBehaviour
 
     public void Hit(float dmg)
     {
-        type.health -= dmg;
-        Debug.Log(type.health);
-        if(type.health <= 0)
+        health -= dmg;
+        Debug.Log(health);
+        if(health <= 0)
         {
             DestroyFragment();
         }
+        else if(!healthBar.gameObject.activeInHierarchy)
+        {
+            healthBar.gameObject.SetActive(true);
+        }
+        UpdateHealth();
     }
+
+    private void UpdateHealth()
+    {
+        healthBar.value = health / type.maxHealth;
+    }
+
+    public int GetQuantity() { return type.quantity; }
+
+    public float GetHealth() { return health; }
 
     public void DestroyFragment()
     {

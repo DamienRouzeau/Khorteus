@@ -22,4 +22,6 @@ public class InventorySystem : MonoBehaviour
         else return false;
         
     }
+
+    public int GetFragmentQuantity() { return fragmentNB; }
 }

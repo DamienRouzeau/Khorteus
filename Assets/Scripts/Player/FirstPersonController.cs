@@ -14,13 +14,20 @@ namespace StarterAssets
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
+		[Range(0,10)]
 		public float MoveSpeed = 4.0f;
 		[Tooltip("Sprint speed of the character in m/s")]
+		[Range(0, 20)]
 		public float SprintSpeed = 6.0f;
 		[Tooltip("Rotation speed of the character")]
+		[Range(0, 5)]
 		public float RotationSpeed = 1.0f;
 		[Tooltip("Acceleration and deceleration")]
 		public float SpeedChangeRate = 10.0f;
+		private bool canMove = true;
+		private bool canRotate = true;
+		[SerializeField]
+		private PlayerInput playerInput;
 
 		[Space(10)]
 		[Tooltip("The height the player can jump")]
@@ -45,10 +52,13 @@ namespace StarterAssets
 		public LayerMask GroundLayers;
 		public LayerMask InteractLayers;
 
+
+
 		[Header("Cinemachine")]
 		[Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
 		public GameObject CinemachineCameraTarget;
 		[Tooltip("How far in degrees can you move the camera up")]
+		
 		public float TopClamp = 90.0f;
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
@@ -77,6 +87,17 @@ namespace StarterAssets
 		[Header("Interaction")]
 		[SerializeField]
 		private float interactionDistance = 5;
+		[SerializeField]
+		private float minningStrenght;
+		private bool interacting;
+		private bool minning;
+		FragmentBehaviour fragment;
+		[SerializeField]
+		private InputAction interactAction;
+
+		[Header("UI")]
+		[SerializeField]
+		private GameObject notEnoughtMessage;
 
 		// cinemachine
 		private float _cinemachineTargetPitch;
@@ -137,15 +158,41 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 			timeSinceLastBullet = shotCouldown;
 			currentHealth = maxHealth;
+			playerInput.actions["Interact"].canceled += StopInteract;
 		}
 
 		private void Update()
 		{
-			JumpAndGravity();
+				JumpAndGravity();
 			GroundedCheck();
-			Move();
-			Aim();
+			if(canMove)Move();
+			if(canRotate) Aim();
+			if (interacting && minning) {print("YEAAAAAH"); Minning(); }
+			else
+			{
+				interacting = false;
+				minning = false;
+				canMove = true;
+				canRotate = true;
+			}
 			timeSinceLastBullet += Time.deltaTime;
+
+			RaycastHit hit;
+
+			if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hit, interactionDistance, InteractLayers))
+			{
+				if(hit.collider.CompareTag("generator"))
+                {
+					if(inventory.GetFragmentQuantity() <= 0)
+                    {
+						notEnoughtMessage.SetActive(true);
+					}
+					else notEnoughtMessage.SetActive(false);
+				}
+				else notEnoughtMessage.SetActive(false);
+			}
+			else notEnoughtMessage.SetActive(false);
+
 		}
 
 		private void LateUpdate()
@@ -306,9 +353,17 @@ namespace StarterAssets
 
 		private void OnInteract()
         {
-            RaycastHit hit;
-			
+			RaycastHit hit;
+			interacting = true;
+			//if (context.performed) interacting = true;
+			//else if (context.canceled)
+			//{
+			//	interacting = false;
+			//	canMove = true;
+			//	canRotate = true;
+			//}
 			Debug.DrawRay(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) * interactionDistance, Color.green, 100);
+			
 			if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) , out hit, interactionDistance, InteractLayers))
             {
 				Debug.Log(hit + " | " + hit.collider.gameObject);
@@ -334,8 +389,10 @@ namespace StarterAssets
                         break;
 
 					case "fragment":
-						FragmentBehaviour frag = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
-						frag.Hit(3);
+						fragment = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
+						minning = true;
+						canMove = false;
+						canRotate = false;
 						break;
 
                     default:
@@ -344,6 +401,31 @@ namespace StarterAssets
             }
 
         }
+		private void StopInteract(InputAction.CallbackContext context)
+        {
+			if (context.canceled)
+			{
+				interacting = false;
+				canMove = true;
+				canRotate = true;
+			}
+		}
+
+		private void Minning()
+        {
+			if(fragment == null)
+            {
+				minning = false;
+				return;
+            }
+			fragment.Hit(minningStrenght);
+			if (fragment.GetHealth() <= 0)
+            {
+				//Gain crystal
+				inventory.AddFragment(fragment.GetQuantity());
+			}
+
+		}
 
 
 		private void OnDrawGizmosSelected()

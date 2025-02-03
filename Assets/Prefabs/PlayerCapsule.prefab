@@ -747,12 +747,12 @@ GameObject:
   - component: {fileID: 4964798729264433429}
   - component: {fileID: 4862600278906386294}
   m_Layer: 5
-  m_Name: Image
+  m_Name: NotEnoughtFragment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4091672183306258537
 RectTransform:
   m_ObjectHideFlags: 0
@@ -822,6 +822,7 @@ GameObject:
   - component: {fileID: 8997996947095583982}
   - component: {fileID: 8616685848737228382}
   - component: {fileID: 8616685848737228371}
+  - component: {fileID: 6032091769562269369}
   - component: {fileID: 1978471637655604388}
   - component: {fileID: 5420857361349278248}
   - component: {fileID: 8616685848737228376}
@@ -893,6 +894,7 @@ MonoBehaviour:
   SprintSpeed: 6
   RotationSpeed: 1
   SpeedChangeRate: 10
+  playerInput: {fileID: 8616685848737228376}
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.1
@@ -903,6 +905,9 @@ MonoBehaviour:
   GroundLayers:
     serializedVersion: 2
     m_Bits: 513
+  InteractLayers:
+    serializedVersion: 2
+    m_Bits: 0
   CinemachineCameraTarget: {fileID: 4135013735270702863}
   TopClamp: 89
   BottomClamp: -89
@@ -911,7 +916,32 @@ MonoBehaviour:
   shotCouldown: 0.75
   maxHealth: 100
   currentHealth: 0
-  inventory: {fileID: 0}
+  inventory: {fileID: 6032091769562269369}
+  interactionDistance: 5
+  minningStrenght: 0
+  interactAction:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 15ad89bb-9d63-46cb-989c-3fb07f665755
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  notEnoughtMessage: {fileID: 6738176518809374762}
+--- !u!114 &6032091769562269369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8616685848737228372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aa17e889fc35a54e93b0d27f03aae2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fragmentNB: 0
 --- !u!114 &1978471637655604388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,9 +1007,9 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8616685848737228372}
         m_TargetAssemblyTypeName: 
-        m_MethodName: InputMove
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -993,9 +1023,9 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8616685848737228372}
         m_TargetAssemblyTypeName: 
-        m_MethodName: InputLook
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1009,9 +1039,9 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8616685848737228372}
         m_TargetAssemblyTypeName: 
-        m_MethodName: InputJump
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1025,9 +1055,9 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8616685848737228372}
         m_TargetAssemblyTypeName: 
-        m_MethodName: InputSprint
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1040,9 +1070,54 @@ MonoBehaviour:
     m_ActionId: 980e881e-182c-404c-8cbf-3d09fdb48fef
     m_ActionName: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e4ce1614-c754-48c1-9103-33130441661f
-    m_ActionName: UI/New action
+      m_Calls:
+      - m_Target: {fileID: 8616685848737228372}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 23b44ac2-f32a-48d1-9c91-b6eec39f6ce2
+    m_ActionName: Player/Aim[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8616685848737228372}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c36108da-e7a3-450d-9ab3-900add9029bb
+    m_ActionName: Player/Shot[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8616685848737228372}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: -3040209665245440200, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a10502a9-96bb-4161-b4f8-40c101e39b07
+    m_ActionName: Player/Interact[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

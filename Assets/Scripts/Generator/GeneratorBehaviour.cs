@@ -50,6 +50,7 @@ public class GeneratorBehaviour : MonoBehaviour
     private void Start()
     {
         currentEnergy = maxEnergy;
+        outOfPowerEvent = new UnityEvent();
     }
 
     private void FixedUpdate()
@@ -80,7 +81,7 @@ public class GeneratorBehaviour : MonoBehaviour
             if (secondes < 10) timerText.text = new string(minutes + ":0" + secondes);
             else timerText.text = new string(minutes + ":" + secondes);
         }
-        int truncateEnergy = (int)currentEnergy;
+        int truncateEnergy = (int)currentEnergy +1;
         energyText.text = truncateEnergy + " W";
     }
 

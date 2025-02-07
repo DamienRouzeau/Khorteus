@@ -19,7 +19,7 @@ TagManager:
   - Water
   - UI
   - 
-  - 
+  - Center
   - Character
   - Ground
   - Light
@@ -28,8 +28,8 @@ TagManager:
   - Bullet
   - ennemyAttack
   - Interact
-  - 
-  - 
+  - CamVolume
+  - PostFx
   - 
   - 
   - 

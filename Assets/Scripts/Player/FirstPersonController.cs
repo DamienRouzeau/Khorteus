@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -73,6 +74,10 @@ namespace Player
 		[SerializeField]
 		private float shotCouldown;
 		private float timeSinceLastBullet;
+		[SerializeField] private int maxBulletInMagazine;
+		private int bulletLeftInMagazine;
+		[SerializeField] private float reloadTime;
+		private float reloadTimeLeft;
 
 		[Header("HEALTH")]
 		[SerializeField]
@@ -141,6 +146,7 @@ namespace Player
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+			bulletLeftInMagazine = maxBulletInMagazine;
 		}
 
 		private void Start()
@@ -163,11 +169,11 @@ namespace Player
 
 		private void Update()
 		{
-				JumpAndGravity();
+			JumpAndGravity();
 			GroundedCheck();
 			if(canMove)Move();
 			if(canRotate) Aim();
-			if (interacting && minning) {print("YEAAAAAH"); Minning(); }
+			if (interacting && minning) { Minning(); }
 			else
 			{
 				interacting = false;
@@ -193,9 +199,16 @@ namespace Player
 			}
 			else notEnoughtMessage.SetActive(false);
 
+			#region Reload Timer
+			if (bulletLeftInMagazine <= 0)
+			{
+
+			}
+			#endregion
+
 		}
 
-		private void LateUpdate()
+        private void LateUpdate()
 		{
 			CameraRotation();
 		}
@@ -331,7 +344,9 @@ namespace Player
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
 
-		private void Aim()
+        #region Weapon
+
+        private void Aim()
         {
 			if(isAiming != _input.aim)
             {
@@ -344,14 +359,43 @@ namespace Player
 		{
 			if(timeSinceLastBullet>= shotCouldown)
             {
-				BulletBehaviour bullet = poolBullets.GetBullet();
-				weaponAnim.SetTrigger("Shot");
-				timeSinceLastBullet = 0;
-				bullet.Launch();
+				if (bulletLeftInMagazine > 0)
+				{
+					BulletBehaviour bullet = poolBullets.GetBullet();
+					weaponAnim.SetTrigger("Shot");
+					timeSinceLastBullet = 0;
+					bullet.Launch();
+					bulletLeftInMagazine--;
+					Debug.Log(bulletLeftInMagazine);
+					if (bulletLeftInMagazine <= 0)
+					{
+                        StartCoroutine(WaitReloadTimer());
+					}
+				}
             }
 		}
 
-		private void OnInteract()
+		private void OnReload()
+		{
+			if(bulletLeftInMagazine< maxBulletInMagazine)
+			{
+				bulletLeftInMagazine = 0;
+                StartCoroutine(WaitReloadTimer());
+            }
+        }
+
+		private IEnumerator WaitReloadTimer()
+		{
+            yield return new WaitForSeconds(shotCouldown);
+            weaponAnim.SetTrigger("Reload");
+            yield return new WaitForSeconds(reloadTime);
+            bulletLeftInMagazine = maxBulletInMagazine;
+		}
+
+        #endregion
+
+
+        private void OnInteract()
         {
 			RaycastHit hit;
 			interacting = true;

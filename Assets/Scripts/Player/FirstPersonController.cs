@@ -3,7 +3,7 @@
 using UnityEngine.InputSystem;
 #endif
 
-namespace StarterAssets
+namespace Player
 {
 	[RequireComponent(typeof(CharacterController))]
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -76,7 +76,7 @@ namespace StarterAssets
 
 		[Header("HEALTH")]
 		[SerializeField]
-		private float maxHealth;
+		private float maxHealth = 100;
 		[SerializeField]
 		private float currentHealth;
 
@@ -451,8 +451,13 @@ namespace StarterAssets
 
         public void Die()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
+
+		public void SetHealth(float _health)
+		{
+			currentHealth = _health;
+		}
 
 		public float GetHealth()
 		{

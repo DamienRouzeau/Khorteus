@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool aim;
+		public float newWeapon;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -49,6 +50,11 @@ namespace StarterAssets
         {
 			AimInput(value.isPressed);
         }
+
+		public void OnScroll(InputValue value)
+        {
+			Scroll(value.Get<float>());
+        }
 #endif
 
 
@@ -76,6 +82,12 @@ namespace StarterAssets
         {
 			aim = newAimState;
         }
+
+		public void Scroll(float _newWeapon)
+        {
+			newWeapon = _newWeapon;
+		}
+
 		
 		private void OnApplicationFocus(bool hasFocus)
 		{

@@ -88,6 +88,8 @@ namespace Player
 		[Header("Inventory")]
 		[SerializeField]
 		private InventorySystem inventory;
+		[SerializeField]
+		private GameObject turretSniper;
 
 		[Header("Interaction")]
 		[SerializeField]
@@ -96,9 +98,12 @@ namespace Player
 		private float minningStrenght;
 		private bool interacting;
 		private bool minning;
+		private bool crafting;
 		FragmentBehaviour fragment;
+		DesktopType desktop;
 		[SerializeField]
 		private InputAction interactAction;
+		private bool turretInHand;
 
 		[Header("UI")]
 		[SerializeField]
@@ -172,8 +177,12 @@ namespace Player
 			JumpAndGravity();
 			GroundedCheck();
 			if(canMove)Move();
+
 			if(canRotate) Aim();
 			if (interacting && minning) { Minning(); }
+			if (interacting && crafting) { Crafting(); }
+
+
 			else
 			{
 				interacting = false;
@@ -199,12 +208,23 @@ namespace Player
 			}
 			else notEnoughtMessage.SetActive(false);
 
+
 			#region Reload Timer
 			if (bulletLeftInMagazine <= 0)
 			{
 
 			}
 			#endregion
+
+			if (inventory.GetItemInHand().CompareTag("turret"))
+			{
+				RaycastHit hit2;
+				if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hit2, InteractLayers))
+				{
+					turretSniper.transform.position = hit2.transform.position;
+				}
+			}
+
 
 		}
 
@@ -344,11 +364,13 @@ namespace Player
 			return Mathf.Clamp(lfAngle, lfMin, lfMax);
 		}
 
+
         #region Weapon
 
-        private void Aim()
+		private void Aim()
+
         {
-			if(isAiming != _input.aim)
+			if(isAiming != _input.aim && inventory.GetItemInHand().name == "Gun")
             {
 				isAiming = _input.aim;
 				weaponAnim.SetBool("Aim", isAiming);
@@ -357,7 +379,7 @@ namespace Player
 
 		private void OnShot()
 		{
-			if(timeSinceLastBullet>= shotCouldown)
+			if(timeSinceLastBullet>= shotCouldown && inventory.GetItemInHand().name == "Gun")
             {
 				if (bulletLeftInMagazine > 0)
 				{
@@ -374,6 +396,7 @@ namespace Player
 				}
             }
 		}
+
 
 		private void OnReload()
 		{
@@ -395,17 +418,20 @@ namespace Player
         #endregion
 
 
+
+		private void OnScroll()
+        {
+			inventory.Scroll(_input.newWeapon);
+        }
+
+
+        #region Interaction
+
+
         private void OnInteract()
         {
 			RaycastHit hit;
 			interacting = true;
-			//if (context.performed) interacting = true;
-			//else if (context.canceled)
-			//{
-			//	interacting = false;
-			//	canMove = true;
-			//	canRotate = true;
-			//}
 			Debug.DrawRay(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) * interactionDistance, Color.green, 100);
 			
 			if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) , out hit, interactionDistance, InteractLayers))
@@ -424,9 +450,12 @@ namespace Player
                         }
                         break;
 
-                    case "craft":
-
-                        break;
+                    case "desktop":
+						desktop = hit.collider.gameObject.GetComponentInParent<DesktopType>();
+						crafting = true;
+						canMove = false;
+						canRotate = false;
+						break;
 
                     case "turret":
 
@@ -452,6 +481,7 @@ namespace Player
 				interacting = false;
 				canMove = true;
 				canRotate = true;
+				fragment = null;
 			}
 		}
 
@@ -468,9 +498,36 @@ namespace Player
 				//Gain crystal
 				inventory.AddFragment(fragment.GetQuantity());
 			}
-
 		}
 
+		private void Crafting()
+		{
+			if(desktop == null)
+            {
+				crafting = false;
+				return;
+            }
+			if(desktop.Craft(inventory))
+            {
+				switch(desktop.turretType)
+                {
+					case "Sniper":
+						inventory.AddItem(turretSniper);
+						break;
+
+					case "Mitraillette":
+						inventory.AddItem(turretSniper);
+						break;
+
+					default:
+						Debug.Log("Turret name not found");
+						break;
+                }
+				crafting = false;
+            }
+		}
+
+		#endregion
 
 		private void OnDrawGizmosSelected()
 		{

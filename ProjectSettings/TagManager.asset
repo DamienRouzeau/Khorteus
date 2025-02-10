@@ -11,6 +11,7 @@ TagManager:
   - craft
   - turret
   - fragment
+  - desktop
   layers:
   - Default
   - TransparentFX

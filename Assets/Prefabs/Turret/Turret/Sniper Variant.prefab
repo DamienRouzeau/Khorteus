@@ -162,6 +162,10 @@ PrefabInstance:
       value: Sniper Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1000013227101710, guid: d9231829d3cedca409477c9327eb6425, type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000013227101710, guid: d9231829d3cedca409477c9327eb6425, type: 3}
       propertyPath: m_TagString
       value: turret
       objectReference: {fileID: 0}
@@ -242,6 +246,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 795558284482488981}
+    - targetCorrespondingSourceObject: {fileID: 1000013227101710, guid: d9231829d3cedca409477c9327eb6425,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4363151607889931259}
   m_SourcePrefab: {fileID: 100100000, guid: d9231829d3cedca409477c9327eb6425, type: 3}
 --- !u!1 &613084022300368939 stripped
 GameObject:
@@ -261,12 +269,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5737a926c1173ed49b4c355c40b690e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionnalDrain: 0
+  additionnalDrain: 0.05
   couldownShot: 1
   poolBullets:
   - {fileID: 5167021922535375971}
   turretAnim:
   - {fileID: 795558284482488981}
+  turretType: 1
 --- !u!114 &5167021922535375971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,6 +333,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &4363151607889931259
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613084022300368939}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.29714656
+  m_Height: 1.15054
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.37964123, z: 0.00422734}
 --- !u!4 &616892918516313083 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000012415272414, guid: d9231829d3cedca409477c9327eb6425,

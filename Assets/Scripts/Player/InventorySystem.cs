@@ -17,7 +17,7 @@ public class InventorySystem : MonoBehaviour
 
     public bool RemoveFragment(int nb)
     {
-        if (fragmentNB > nb)
+        if (fragmentNB >= nb)
         {
             fragmentNB -= nb;
             return true;
@@ -51,6 +51,16 @@ public class InventorySystem : MonoBehaviour
         items[itemInHand].SetActive(false);
         itemInHand = items.IndexOf(item);
         items[itemInHand].SetActive(true);
+    }
+
+    public void RemoveItem(GameObject item)
+    {
+        if(item == items[itemInHand])
+        {
+            items[itemInHand].SetActive(false);
+            Scroll(-1);
+        }
+        items.Remove(item);
     }
 
     public int GetFragmentQuantity() { return fragmentNB; }

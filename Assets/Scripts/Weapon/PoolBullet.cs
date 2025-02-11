@@ -5,12 +5,20 @@ using UnityEngine.WSA;
 
 public class PoolBullet : MonoBehaviour
 {
+    //private static PoolBullet Instance { get; set; }
+    //public static PoolBullet instance => Instance;
+
     private List<BulletBehaviour> bulletsBank = new List<BulletBehaviour>();
     [SerializeField]
     private BulletBehaviour bulletPrefab;
     [SerializeField]
     private Transform bulletLauncher;
 
+    //private void Awake()
+    //{
+    //    if (Instance != null && Instance != this) Destroy(this);
+    //    else Instance = this;
+    //}
 
     public BulletBehaviour GetBullet()
     {

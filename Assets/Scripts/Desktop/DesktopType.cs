@@ -33,8 +33,10 @@ public class DesktopType : MonoBehaviour
             if(currentCraftingTimer >= timeToCraft)
             {
                 //craft finished
-                buildBar.gameObject.SetActive(false);
                 buildBar.value = 0;
+                buildBar.gameObject.SetActive(false);
+                currentCraftingTimer = 0;
+                canCraft = false;
                 return true;
             }
         }

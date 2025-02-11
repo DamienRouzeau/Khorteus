@@ -344,13 +344,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1000010156534366, guid: ff744fa1e43cd5747a6732d0189a5a52, type: 3}
       propertyPath: m_Layer
-      value: 18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1000010156534366, guid: ff744fa1e43cd5747a6732d0189a5a52, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1000010156534366, guid: ff744fa1e43cd5747a6732d0189a5a52, type: 3}
+      propertyPath: m_TagString
+      value: turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011939376292, guid: ff744fa1e43cd5747a6732d0189a5a52, type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011939376292, guid: ff744fa1e43cd5747a6732d0189a5a52, type: 3}
       propertyPath: m_TagString
       value: turret
       objectReference: {fileID: 0}
@@ -451,6 +459,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7245230686815501798}
+    - targetCorrespondingSourceObject: {fileID: 1000011939376292, guid: ff744fa1e43cd5747a6732d0189a5a52,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5355611073575661456}
     - targetCorrespondingSourceObject: {fileID: 1000012327329486, guid: ff744fa1e43cd5747a6732d0189a5a52,
         type: 3}
       insertIndex: -1
@@ -478,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5737a926c1173ed49b4c355c40b690e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionnalDrain: 0.075
+  additionnalDrain: 0.02
   couldownShot: 0.2
   poolBullets:
   - {fileID: 7767042962503070567}
@@ -525,12 +537,41 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.49207842
   m_Height: 1.6558206
   m_Direction: 1
   m_Center: {x: 0, y: 0.6424208, z: 0.09309786}
+--- !u!1 &6221577742780190976 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000011939376292, guid: ff744fa1e43cd5747a6732d0189a5a52,
+    type: 3}
+  m_PrefabInstance: {fileID: 6220868010769989028}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &5355611073575661456
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6221577742780190976}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.8725783
+  m_Height: 2.1401587
+  m_Direction: 1
+  m_Center: {x: -0.018668516, y: 0.04998258, z: -0.06748472}
 --- !u!1 &6221577743419810666 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1000012327329486, guid: ff744fa1e43cd5747a6732d0189a5a52,

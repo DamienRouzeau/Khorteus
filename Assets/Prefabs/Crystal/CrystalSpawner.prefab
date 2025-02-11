@@ -119,6 +119,61 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fragment
       objectReference: {fileID: 0}
+    - target: {fileID: 1562715096803727709, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1562715096803727709, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.57087845
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.537978
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.40015888
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.47386754
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 2.285
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727507619666669592, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 27.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300352069247987761, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8671865866594093723, guid: 3e3bde5a5c48e5841acb3cc7c18ecb9e,
         type: 3}
       propertyPath: m_LocalPosition.x

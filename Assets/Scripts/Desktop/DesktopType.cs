@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DesktopType : MonoBehaviour
 {
-    public string turretType;
+    public TurretType turretType;
     [SerializeField]
     private float timeToCraft;
     private float currentCraftingTimer;

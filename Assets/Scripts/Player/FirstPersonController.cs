@@ -104,6 +104,8 @@ namespace Player
         private InventorySystem inventory;
         [SerializeField]
         private GameObject turretSniper;
+        [SerializeField]
+        private GameObject turretMachineGun;
 
         [Header("Interaction")]
         [SerializeField]
@@ -193,10 +195,11 @@ namespace Player
             if (canMove) Move();
 
             if (canRotate) Aim();
-            if (interacting && minning) { Minning(); }
-            if (interacting && crafting) { Crafting(); }
+            if (interacting && minning) { Minning();}
+            else if (interacting && crafting) { Crafting();}
 
 
+            #region Reset all actions
             else // No action
             {
                 interacting = false;
@@ -205,6 +208,7 @@ namespace Player
                 canRotate = true;
             }
             timeSinceLastBullet += Time.deltaTime;
+            #endregion
 
             #region raycast interract
             RaycastHit hitInterraction;
@@ -230,6 +234,7 @@ namespace Player
 
             if (inventory.GetItemInHand().CompareTag("turret"))
             {
+                turretProjection = inventory.GetItemInHand();
                 Vector3 turretPos;
                 if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hitTurretPlacement, turretPlacementDistance, InteractLayers))
                 {
@@ -471,7 +476,6 @@ namespace Player
                 case "Sniper":
                     TurretBehaviour sniper =  PoolTurret.instance.GetTurret(turretProjection.transform.position, TurretType.sniper);
                     sniper.transform.position = turretProjection.transform.position;
-                    //var _sniper = Instantiate(sniper, turretProjection.transform.position, turretProjection.transform.rotation);
                     inventory.RemoveItem(inventory.GetItemInHand());
                     Debug.Log("sniper created");
                     break;
@@ -479,7 +483,6 @@ namespace Player
                 case "MachineGun":
                     TurretBehaviour machineGun = PoolTurret.instance.GetTurret(turretProjection.transform.position, TurretType.mahineGun);
                     machineGun.transform.position = turretProjection.transform.position;
-                    //var _machineGun = Instantiate(machineGun, turretProjection.transform.position, turretProjection.transform.rotation);
                     inventory.RemoveItem(inventory.GetItemInHand());
                     Debug.Log("machine gun created");
                     break;
@@ -509,7 +512,7 @@ namespace Player
 
             if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hit, interactionDistance, InteractLayers))
             {
-                Debug.Log(hit + " | " + hit.collider.gameObject);
+                //Debug.Log(hit + " | " + hit.collider.gameObject);
                 switch (hit.collider.tag)
                 {
                     case "generator":
@@ -540,7 +543,7 @@ namespace Player
                                 break;
 
                             case TurretType.mahineGun:
-                                inventory.AddItem(turretSniper);
+                                inventory.AddItem(turretMachineGun);
                                 break;
 
                             default:
@@ -552,6 +555,7 @@ namespace Player
 
                     case "fragment":
                         fragment = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
+                        interacting = true;
                         minning = true;
                         canMove = false;
                         canRotate = false;
@@ -576,17 +580,23 @@ namespace Player
 
         private void Minning()
         {
+            print("1");
             if (fragment == null)
             {
+                print("2");
                 minning = false;
                 return;
             }
             fragment.Hit(minningStrenght);
+            print("3");
             if (fragment.GetHealth() <= 0)
             {
+                print("4");
                 //Gain crystal
                 inventory.AddFragment(fragment.GetQuantity());
+                minning = false;
             }
+            print("5");
         }
 
         private void Crafting()
@@ -600,12 +610,12 @@ namespace Player
             {
                 switch (desktop.turretType)
                 {
-                    case "Sniper":
+                    case TurretType.sniper:
                         inventory.AddItem(turretSniper);
                         break;
 
-                    case "Mitraillette":
-                        inventory.AddItem(turretSniper);
+                    case TurretType.mahineGun:
+                        inventory.AddItem(turretMachineGun);
                         break;
 
                     default:
@@ -629,6 +639,8 @@ namespace Player
             // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
             Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
         }
+
+        #region Health
 
         public void TakeDamage(float damage)
         {
@@ -658,5 +670,7 @@ namespace Player
         {
             return maxHealth;
         }
+
+        #endregion
     }
 }

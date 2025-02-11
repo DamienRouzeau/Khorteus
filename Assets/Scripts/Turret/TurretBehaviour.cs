@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TurretBehaviour : MonoBehaviour
@@ -20,19 +19,29 @@ public class TurretBehaviour : MonoBehaviour
     private int shotIndex = 0;
     [SerializeField]
     private Animator[] turretAnim;
+    [SerializeField]
+    private TurretType turretType;
+    private PoolTurret pool;
 
     [Header("In range")]
     private EnemyBehaviour target;
     private List<EnemyBehaviour> enemiesInRange = new List<EnemyBehaviour>();
 
-    private void Start()
+    public void Init()
     {
-        //timeSinceLastShot = couldownShot;
-        //generator.SubOutOfPower(RanOutOfPower);
+        generator = GeneratorBehaviour.instance;
+        timeSinceLastShot = couldownShot;
+        generator.SubOutOfPower(RanOutOfPower);
 
-        //if (generator.GetEnergy() > 0) isActive = true;
-        //generator.AddDrain(additionnalDrain);
+        if (generator.GetEnergy() > 0) isActive = true;
+        generator.AddDrain(additionnalDrain);
     }
+
+    public void SetPool(PoolTurret poolRef)
+    {
+        pool = poolRef;
+    }
+
     private void Update()
     {
         timeSinceLastShot += Time.deltaTime;
@@ -95,6 +104,7 @@ public class TurretBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        print("Enter in area");
         if (other.CompareTag("monster"))
         {
             enemiesInRange.Add(other.gameObject.GetComponent<EnemyBehaviour>());
@@ -116,6 +126,16 @@ public class TurretBehaviour : MonoBehaviour
     public void RanOutOfPower()
     {
         isActive = false;
+    }
+
+    public TurretType GetType()
+    {
+        return turretType;
+    }
+
+    public float GetDrain()
+    {
+        return additionnalDrain;
     }
 }
 

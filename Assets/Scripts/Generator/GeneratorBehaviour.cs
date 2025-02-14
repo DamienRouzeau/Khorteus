@@ -51,6 +51,10 @@ public class GeneratorBehaviour : MonoBehaviour
     {
         currentEnergy = maxEnergy;
         outOfPowerEvent = new UnityEvent();
+        foreach (Animator light in lights)
+        {
+            light.SetBool("Power", true);
+        }
     }
 
     private void FixedUpdate()

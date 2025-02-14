@@ -123,7 +123,7 @@ namespace Player
 
         [Header("UI")]
         [SerializeField]
-        private GameObject notEnoughtMessage;
+        private Animator notEnoughtMessage;
 
         // cinemachine
         private float _cinemachineTargetPitch;
@@ -219,13 +219,13 @@ namespace Player
                 {
                     if (inventory.GetFragmentQuantity() <= 0)
                     {
-                        notEnoughtMessage.SetActive(true);
+                        //notEnoughtMessage.SetActive(true);
                     }
-                    else notEnoughtMessage.SetActive(false);
+                    //else notEnoughtMessage.SetActive(false);
                 }
-                else notEnoughtMessage.SetActive(false);
+                //else notEnoughtMessage.SetActive(false);
             }
-            else notEnoughtMessage.SetActive(false);
+            //else notEnoughtMessage.SetActive(false);
 
             #endregion
 
@@ -523,14 +523,19 @@ namespace Player
                             {
                                 generator.AddFragment(1);
                             }
+                            else { notEnoughtMessage.SetTrigger("Show"); }
                         }
                         break;
 
                     case "desktop":
                         desktop = hit.collider.gameObject.GetComponentInParent<DesktopType>();
-                        crafting = true;
-                        canMove = false;
-                        canRotate = false;
+                        if (inventory.GetFragmentQuantity() > desktop.GetFragmentNeeded())
+                        {
+                            crafting = true;
+                            canMove = false;
+                            canRotate = false;
+                        }
+                        else { notEnoughtMessage.SetTrigger("Show"); }
                         break;
 
                     case "turret":
@@ -561,6 +566,18 @@ namespace Player
                         canRotate = false;
                         break;
 
+                    case "FragmentTransfert":
+                        if(inventory.GetFragmentQuantity() > 0)
+                        {
+                            int crystalQTT = SaveSystem.Load().crystalQuantity;
+                            crystalQTT += 1;
+                            inventory.RemoveFragment(1);
+                            SaveSystem.SetCrystalQuantity(crystalQTT);
+                            FragmentTransfert.instance.AddCrystalSaved(1);
+                        }
+                        else { notEnoughtMessage.SetTrigger("Show"); }
+                        break;
+
                     default:
                         break;
                 }
@@ -580,23 +597,18 @@ namespace Player
 
         private void Minning()
         {
-            print("1");
             if (fragment == null)
             {
-                print("2");
                 minning = false;
                 return;
             }
             fragment.Hit(minningStrenght);
-            print("3");
             if (fragment.GetHealth() <= 0)
             {
-                print("4");
                 //Gain crystal
                 inventory.AddFragment(fragment.GetQuantity());
                 minning = false;
             }
-            print("5");
         }
 
         private void Crafting()

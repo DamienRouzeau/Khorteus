@@ -13,6 +13,7 @@ TagManager:
   - fragment
   - desktop
   - Ground
+  - FragmentTransfert
   layers:
   - Default
   - TransparentFX

@@ -42,4 +42,6 @@ public class DesktopType : MonoBehaviour
         }
         return false;
     }
+
+    public int GetFragmentNeeded() { return fragmentNeeded; }
 }

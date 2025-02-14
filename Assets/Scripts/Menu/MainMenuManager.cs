@@ -19,6 +19,10 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera settingsCam;
     [SerializeField] private CinemachineVirtualCamera creditsCam;
 
+    [Header("Animations")]
+    [SerializeField] private Animator tutoAnim;
+
+
     private void Start()
     {
         OnMainMenu();
@@ -45,11 +49,18 @@ public class MainMenuManager : MonoBehaviour
         creditsCam.Priority = 0;
         playCam.Priority = 1;
         mainMenuSection.SetActive(false);
-        StartCoroutine(StartGame());
+        StartCoroutine(StartTuto());
     }
-    private IEnumerator StartGame()
+    private IEnumerator StartTuto()
     {
         yield return new WaitForSeconds(1.5f);
+        tutoAnim.SetTrigger("Tuto");
+        StartCoroutine(StartGame());
+    }
+
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(10f);
         SceneManager.LoadScene(0);
     }
 

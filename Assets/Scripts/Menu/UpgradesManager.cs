@@ -12,11 +12,36 @@ public class UpgradesManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateCrystalQuantity();
-        foreach(UpgradeData data in upgrades)
+        GameData gameData = SaveSystem.Load();
+        foreach (UpgradeData data in upgrades)
         {
-            data.isUnlocked = false; // Rmove this line for avoid reset of upgrades
+            data.isUnlocked = false;
         }
+        if (gameData == null)
+        {
+            Debug.LogError("Can't load save data");
+        }
+        else
+        {
+            foreach (UpgradeDataSave upgradeSaved in gameData.upgradesUnlocked)
+            {
+                UpgradeData upgrade = null;
+                foreach(UpgradeData upgdata in upgrades)
+                {
+                    if (upgdata.upgradeID == upgradeSaved.upgradeID) upgrade = upgdata;
+                }
+                upgrade.isUnlocked = upgradeSaved.isUnlocked;
+            }
+            crystalsQuantity = gameData.crystalQuantity;
+        }
+        UpdateCrystalQuantity();
+    }
+
+    public void AddACrystal()
+    {
+        crystalsQuantity++;
+        UpdateCrystalQuantity();
+        SaveSystem.SetCrystalQuantity(crystalsQuantity);
     }
 
     private void UpdateCrystalQuantity()
@@ -34,7 +59,9 @@ public class UpgradesManager : MonoBehaviour
                 print("Buy succeed");
                 data.isUnlocked = true;
                 crystalsQuantity -= data.cost;
+                SaveSystem.SetCrystalQuantity(crystalsQuantity);
                 UpdateCrystalQuantity();
+                SaveSystem.AddUpgrade(data);
             }
         }
     }

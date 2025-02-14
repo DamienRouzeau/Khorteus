@@ -8,5 +8,5 @@ public class UpgradeData : ScriptableObject
     public int cost;
     public int upgradeID; // should be the same number as the index in UpgradeManager List
     public bool isUnlocked;
-    public int previousUpgradeID; 
+    public int previousUpgradeID;
 }

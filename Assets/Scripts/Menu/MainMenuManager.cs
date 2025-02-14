@@ -13,6 +13,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private GameObject settingsSection;
 
     [Header("Cameras")]
+    [SerializeField] private CinemachineVirtualCamera playCam;
     [SerializeField] private CinemachineVirtualCamera mainMenuCam;
     [SerializeField] private CinemachineVirtualCamera upgradeCam;
     [SerializeField] private CinemachineVirtualCamera settingsCam;
@@ -38,9 +39,20 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnPlay()
     {
+        mainMenuCam.Priority = 0;
+        upgradeCam.Priority = 0;
+        settingsCam.Priority = 0;
+        creditsCam.Priority = 0;
+        playCam.Priority = 1;
         mainMenuSection.SetActive(false);
+        StartCoroutine(StartGame());
+    }
+    private IEnumerator StartGame()
+    {
+        yield return new WaitForSeconds(1.5f);
         SceneManager.LoadScene(0);
     }
+
 
     public void OnUpdate()
     {

@@ -126,7 +126,7 @@ public class GeneratorBehaviour : MonoBehaviour
         }
     }
 
-    private void RemoveEnergie(float energieToRemove)
+    public void RemoveEnergie(float energieToRemove)
     {
         currentEnergy -= energieToRemove;
         if (currentEnergy <= 0)

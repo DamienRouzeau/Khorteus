@@ -27,5 +27,7 @@ public class FragmentTransfert : MonoBehaviour
         crystalsSavedTxt.text = fragmentsSaved.ToString();
     }
 
+    public int GetFragmentsSaved() { return fragmentsSaved; }
+
 
 }

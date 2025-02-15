@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139d64849203c0646a5012a5f6ccd9cd, type: 3}
   m_Name: BigFragment
   m_EditorClassIdentifier: 
-  maxHealth: 85
-  health: 85
+  maxHealth: 60
+  health: 60
   probability: 2
   minTime: 90
   maxTime: 180
   visual: {fileID: 9088329289290233548, guid: 8e1c71b690be21046896aa9503b699c9, type: 3}
   nextEvolution: {fileID: 0}
-  quantity: 4
+  quantity: 8

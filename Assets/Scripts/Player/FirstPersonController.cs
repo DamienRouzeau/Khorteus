@@ -3,6 +3,8 @@ using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
+using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace Player
 {
@@ -95,6 +97,10 @@ namespace Player
         private float maxHealth = 100;
         [SerializeField]
         private float currentHealth;
+        [SerializeField]
+        private Animator anim;
+        [SerializeField]
+        private float deathAnimationDuration = 6;
 
         [Header("Inventory")]
         [SerializeField]
@@ -121,6 +127,15 @@ namespace Player
         [Header("UI")]
         [SerializeField]
         private Animator notEnoughtMessage;
+
+        [Header("Stats On Death")]
+        [SerializeField]
+        private TextMeshProUGUI timeOnDeathTxt;
+        [SerializeField]
+        private TextMeshProUGUI waveOnDeathTxt;
+        [SerializeField]
+        private TextMeshProUGUI crystalOnDeathTxt;
+        private float startTime;
 
         // cinemachine
         private float _cinemachineTargetPitch;
@@ -169,6 +184,9 @@ namespace Player
 
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            Debug.Log("Cursor Visible: " + Cursor.visible + " | LockState: " + Cursor.lockState);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -183,6 +201,7 @@ namespace Player
             timeSinceLastBullet = shotCouldown;
             currentHealth = maxHealth;
             playerInput.actions["Interact"].canceled += StopInteract;
+            startTime = Time.time;
         }
 
         private void Update()
@@ -398,15 +417,13 @@ namespace Player
             }
         }
 
-        #endregion
-
         private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
             if (lfAngle < -360f) lfAngle += 360f;
             if (lfAngle > 360f) lfAngle -= 360f;
             return Mathf.Clamp(lfAngle, lfMin, lfMax);
         }
-
+        #endregion
 
         #region Weapon
 
@@ -662,7 +679,37 @@ namespace Player
 
         public void Die()
         {
-            //throw new System.NotImplementedException();
+            crystalOnDeathTxt.text = FragmentTransfert.instance.GetFragmentsSaved().ToString();
+            waveOnDeathTxt.text = (WaveManager.instance.currentWave - 1).ToString();
+            System.DateTime dieTime = System.DateTime.Now;
+            float gameDuration = Time.time - startTime;
+
+            //calcul minutes left
+            int minutes = (int)(gameDuration / 60);
+            int secondes = (int)(gameDuration - (minutes * 60));
+
+            // write time in XX:XX format
+            if (minutes < 10)
+            {
+                if (secondes < 10) timeOnDeathTxt.text = new string("0" + minutes + ":0" + secondes);
+                else timeOnDeathTxt.text = new string("0" + minutes + ":" + secondes);
+            }
+            else
+            {
+                if (secondes < 10) timeOnDeathTxt.text = new string(minutes + ":0" + secondes);
+                else timeOnDeathTxt.text = new string(minutes + ":" + secondes);
+            }
+
+            canMove = false;
+            canRotate = false;
+            anim.SetTrigger("Die");
+            StartCoroutine(WaitDeathAnim());
+        }
+
+        private IEnumerator WaitDeathAnim()
+        {
+            yield return new WaitForSeconds(deathAnimationDuration);
+            SceneManager.LoadScene(0);
         }
 
         public void SetHealth(float _health)

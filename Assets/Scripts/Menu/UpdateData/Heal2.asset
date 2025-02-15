@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 2
   upgradeID: 1
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 0

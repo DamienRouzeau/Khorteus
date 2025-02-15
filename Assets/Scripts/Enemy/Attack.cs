@@ -15,6 +15,10 @@ public class Attack : MonoBehaviour
             enemy.SetTarget(target);
             enemy.DealDamage();
         }
+        if (collision.collider.CompareTag("generator"))
+        {
+            GeneratorBehaviour.instance.RemoveEnergie(enemy.damage/20);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -33,6 +37,10 @@ public class Attack : MonoBehaviour
             Health target = other.gameObject.GetComponent<Health>();
             enemy.SetTarget(target);
             enemy.DealDamage();
+        }
+        if (other.CompareTag("generator"))
+        {
+            GeneratorBehaviour.instance.RemoveEnergie(enemy.damage);
         }
     }
 

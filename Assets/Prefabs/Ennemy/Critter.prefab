@@ -5602,6 +5602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   generator: {fileID: 0}
+  generatorAttackPos: {fileID: 0}
   currentHealth: 0
   maxHealth: 50
   damage: 10
@@ -5679,10 +5680,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 8.731417
+  m_Radius: 11.535605
   m_Height: 23.147415
   m_Direction: 1
-  m_Center: {x: 0, y: 11.968025, z: 6.9504294}
+  m_Center: {x: 0, y: 11.968025, z: 9.754612}
 --- !u!136 &5612870455130334814
 CapsuleCollider:
   m_ObjectHideFlags: 0

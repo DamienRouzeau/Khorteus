@@ -28,6 +28,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField]
     private Transform generatorRef;
     [SerializeField]
+    private Transform generatorAttackPosition;
+    [SerializeField]
     private List<Transform> hidingSpots = new List<Transform>();
 
 
@@ -69,7 +71,7 @@ public class WaveManager : MonoBehaviour
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
         var enemy = Instantiate(pair.enemyType, whereSpawn);
         enemy.SetPlayerRef(playerRef);
-        enemy.SetGeneratorRef(generatorRef);
+        enemy.SetGeneratorRef(generatorRef, generatorAttackPosition);
         enemy.SetHidingSpots(hidingSpots);
         ennemies.Add(enemy.gameObject);
     }

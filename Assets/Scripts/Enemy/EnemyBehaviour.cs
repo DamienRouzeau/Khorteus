@@ -13,8 +13,10 @@ public class EnemyBehaviour : MonoBehaviour, Health
     private NavMeshAgent agent;
     public Transform player;
     public Transform generator;
+    public Transform generatorAttackPos;
     private List<Transform> hidingSpots = new List<Transform>();
     private Transform target;
+    private bool destinationSet;
 
     [Header("HEALTH")]
     public float currentHealth;
@@ -22,8 +24,7 @@ public class EnemyBehaviour : MonoBehaviour, Health
     private float maxHealth;
 
     [Header("ATTACK")]
-    [SerializeField]
-    private float damage;
+    public float damage;
     [SerializeField]
     private float hitCouldown;
     private float timeSinceLastAttack;
@@ -55,9 +56,10 @@ public class EnemyBehaviour : MonoBehaviour, Health
         player = _player;
     }
 
-    public void SetGeneratorRef(Transform _generator)
+    public void SetGeneratorRef(Transform _generator, Transform _attackPos)
     {
         generator = _generator;
+        generatorAttackPos = _attackPos;
     }
     #endregion
 
@@ -67,28 +69,34 @@ public class EnemyBehaviour : MonoBehaviour, Health
         {
             case monsterStats.chase:
                 target = player;
+                destinationSet = false;
                 break;
 
             case monsterStats.hiding:
                 Transform _closest = hidingSpots[0];
-                foreach(Transform pos in hidingSpots)
+                foreach (Transform pos in hidingSpots)
                 {
-                    if(Vector3.Distance(pos.position, player.position) < Vector3.Distance(_closest.position, player.position))
+                    if (Vector3.Distance(pos.position, player.position) < Vector3.Distance(_closest.position, player.position))
                         _closest = pos;
                 }
                 target = _closest;
+                destinationSet = false;
                 break;
 
-            case monsterStats.destructor: 
-                target = generator;
+            case monsterStats.destructor:
+                target = generatorAttackPos;
+                destinationSet = false;
                 break;
         }
 
-        if (target != null)
+        if (target != null && !destinationSet)
         {
             agent.SetDestination(target.position);
+            destinationSet = true;
+
         }
         timeSinceLastAttack += Time.deltaTime;
+
         anim.SetFloat("Speed", agent.velocity.magnitude);
     }
 
@@ -101,6 +109,7 @@ public class EnemyBehaviour : MonoBehaviour, Health
     private IEnumerator LoseTarget()
     {
         yield return new WaitForSeconds(1);
+
         targetDMG = null;
     }
 
@@ -139,11 +148,19 @@ public class EnemyBehaviour : MonoBehaviour, Health
         {
             Attack();
         }
+        else if (collision.collider.CompareTag("generator") && target == generatorAttackPos)
+        {
+            Attack();
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
+            Attack();
+        }
+        else if (other.CompareTag("generator") && target == generatorAttackPos)
         {
             Attack();
         }

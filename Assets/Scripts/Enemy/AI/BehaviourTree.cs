@@ -74,6 +74,11 @@ public class BehaviourTree : MonoBehaviour
 
         // destruct factors : player far, generator health low 
         attackGeneratorInfluence = (100 / generatorEnergy) * attackGeneratorChoiceMultiplicator * _distPlayer;
+
+        if(generatorEnergy == 0)
+        {
+            attackGeneratorInfluence = 0;
+        }
     }
 
     private void SetAllStats()

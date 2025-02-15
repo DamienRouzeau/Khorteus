@@ -2,12 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class UpgradesManager : MonoBehaviour
 {
+    private static UpgradesManager Instance { get; set; }
+    public static UpgradesManager instance => Instance;
+
     [SerializeField] private int crystalsQuantity;
     [SerializeField] private TextMeshProUGUI crystalsQuantityTxt;
     [SerializeField] private List<UpgradeData> upgrades = new();
+    [SerializeField] private List<ButtonData> upgradeButton;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this) Destroy(this);
+        else Instance = this;
+    }
 
     private void Start()
     {
@@ -33,6 +44,17 @@ public class UpgradesManager : MonoBehaviour
             }
             crystalsQuantity = gameData.crystalQuantity;
         }
+
+        foreach(ButtonData button in upgradeButton)
+        {
+            if(button.data.isUnlocked)
+            {
+                Button background = button.GetComponent<Button>();
+                background.image.color = new Color(background.image.color.r, background.image.color.g, background.image.color.b, 1);
+                button.Unlocked();
+            }
+        }
+
         UpdateCrystalQuantity();
     }
 
@@ -48,19 +70,20 @@ public class UpgradesManager : MonoBehaviour
         crystalsQuantityTxt.text = crystalsQuantity.ToString();
     }
 
-    public void BuyUpgrade(UpgradeData data)
+    public void BuyUpgrade(UpgradeData data, ButtonData button)
     {
         if(crystalsQuantity >= data.cost && !data.isUnlocked) // check if player have enought crystals and not already unlock this upgrade
         {
-            print("enought crystals");
             if (upgrades[data.previousUpgradeID].isUnlocked || data.upgradeID == 0) // avoid the player buy the last upgrade first
             {
-                print("Buy succeed");
                 data.isUnlocked = true;
                 crystalsQuantity -= data.cost;
                 SaveSystem.SetCrystalQuantity(crystalsQuantity);
                 UpdateCrystalQuantity();
                 SaveSystem.AddUpgrade(data);
+                Button background = button.GetComponent<Button>();
+                background.image.color = new Color(background.image.color.r, background.image.color.g, background.image.color.b, 1);
+                button.Unlocked();
             }
         }
     }

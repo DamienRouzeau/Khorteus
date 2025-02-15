@@ -134,6 +134,7 @@ public class EnemyBehaviour : MonoBehaviour, Health
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        player.GetComponentInChildren<Player.FirstPersonController>().BulletTouch();
         if (currentHealth <= 0)
         {
             Die();

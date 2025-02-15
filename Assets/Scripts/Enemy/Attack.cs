@@ -40,7 +40,7 @@ public class Attack : MonoBehaviour
         }
         if (other.CompareTag("generator"))
         {
-            GeneratorBehaviour.instance.RemoveEnergie(enemy.damage);
+            GeneratorBehaviour.instance.RemoveEnergie(enemy.damage/20);
         }
     }
 

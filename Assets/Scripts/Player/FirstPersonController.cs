@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 #endif
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -100,7 +101,11 @@ namespace Player
         [SerializeField]
         private Animator anim;
         [SerializeField]
+        private Animator getHit;
+        [SerializeField]
         private float deathAnimationDuration = 6;
+        [SerializeField]
+        private Image healthFilter;
 
         [Header("Inventory")]
         [SerializeField]
@@ -127,6 +132,14 @@ namespace Player
         [Header("UI")]
         [SerializeField]
         private Animator notEnoughtMessage;
+        [SerializeField]
+        private Animator notEnoughtCrystal;
+        [SerializeField]
+        private Animator crosshairAnim;
+        [SerializeField]
+        private GameObject redCrosshair;
+        [SerializeField]
+        private Slider minningSlider;
 
         [Header("Stats On Death")]
         [SerializeField]
@@ -285,6 +298,9 @@ namespace Player
                 turretProjection.transform.parent.rotation = new Quaternion(0, turretProjection.transform.parent.rotation.y, 0, turretProjection.transform.parent.rotation.w);
             }
             #endregion
+
+            if (currentHealth != maxHealth) healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0.5f-(currentHealth/100));
+            else healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0);
         }
 
         private void LateUpdate()
@@ -434,6 +450,7 @@ namespace Player
             {
                 isAiming = _input.aim;
                 weaponAnim.SetBool("Aim", isAiming);
+                crosshairAnim.SetBool("Aiming", isAiming);
             }
         }
 
@@ -461,6 +478,11 @@ namespace Player
             }
         }
 
+        public void BulletTouch()
+        {
+            redCrosshair.SetActive(true);
+            crosshairAnim.SetTrigger("Touch");
+        }
 
         private void OnReload()
         {
@@ -537,7 +559,11 @@ namespace Player
                             {
                                 generator.AddFragment(1);
                             }
-                            else { notEnoughtMessage.SetTrigger("Show"); }
+                            else 
+                            { 
+                                notEnoughtMessage.SetTrigger("Show");
+                                notEnoughtCrystal.SetTrigger("NotEnought");
+                            }
                         }
                         break;
 
@@ -549,7 +575,11 @@ namespace Player
                             canMove = false;
                             canRotate = false;
                         }
-                        else { notEnoughtMessage.SetTrigger("Show"); }
+                        else 
+                        { 
+                            notEnoughtMessage.SetTrigger("Show");
+                            notEnoughtCrystal.SetTrigger("NotEnought");
+                        }
                         break;
 
                     case "turret":
@@ -589,7 +619,11 @@ namespace Player
                             SaveSystem.SetCrystalQuantity(crystalQTT);
                             FragmentTransfert.instance.AddCrystalSaved(1);
                         }
-                        else { notEnoughtMessage.SetTrigger("Show"); }
+                        else 
+                        { 
+                            notEnoughtMessage.SetTrigger("Show");
+                            notEnoughtCrystal.SetTrigger("NotEnought");
+                        }
                         break;
 
                     default:
@@ -617,10 +651,13 @@ namespace Player
                 return;
             }
             fragment.Hit(minningStrenght);
+            minningSlider.gameObject.SetActive(true);
+            minningSlider.value = fragment.GetHealthValue();
             if (fragment.GetHealth() <= 0)
             {
                 //Gain crystal
                 inventory.AddFragment(fragment.GetQuantity());
+                minningSlider.gameObject.SetActive(false);
                 minning = false;
             }
         }
@@ -675,6 +712,7 @@ namespace Player
             {
                 Die();
             }
+            getHit.SetTrigger("Hit");
         }
 
         public void Die()

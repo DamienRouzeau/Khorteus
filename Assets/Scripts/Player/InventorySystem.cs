@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class InventorySystem : MonoBehaviour
 {
@@ -9,10 +10,18 @@ public class InventorySystem : MonoBehaviour
     [SerializeField]
     private List<GameObject> items = new();
     private int itemInHand;
+    [SerializeField]
+    private TextMeshProUGUI crystalQuantityTxt;
 
+
+    private void Start()
+    {
+        UpdateTextCrystal();
+    }
     public void AddFragment(int nb)
     {
         fragmentNB += nb;
+        UpdateTextCrystal();
     }
 
     public bool RemoveFragment(int nb)
@@ -20,9 +29,15 @@ public class InventorySystem : MonoBehaviour
         if (fragmentNB >= nb)
         {
             fragmentNB -= nb;
+            UpdateTextCrystal();
             return true;
         }
         else return false;
+    }
+
+    private void UpdateTextCrystal()
+    {
+        crystalQuantityTxt.text = fragmentNB.ToString();
     }
 
     public void Scroll(float value)

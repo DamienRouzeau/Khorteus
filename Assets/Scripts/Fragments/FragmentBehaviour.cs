@@ -10,7 +10,7 @@ public class FragmentBehaviour : MonoBehaviour
     private GameObject visual;
     private FragmentManager manager;
     [SerializeField]
-    private Slider healthBar;
+    //private Slider healthBar;
     private float health;
 
     public void Init(FragmentManager manag)
@@ -71,16 +71,16 @@ public class FragmentBehaviour : MonoBehaviour
         {
             DestroyFragment();
         }
-        else if(!healthBar.gameObject.activeInHierarchy)
-        {
-            healthBar.gameObject.SetActive(true);
-        }
-        UpdateHealth();
+        //else if(!healthBar.gameObject.activeInHierarchy)
+        //{
+        //    healthBar.gameObject.SetActive(true);
+        //}
     }
 
-    private void UpdateHealth()
+    public float GetHealthValue()
     {
-        healthBar.value = health / type.maxHealth;
+        float value = health / type.maxHealth;
+        return value;
     }
 
     public int GetQuantity() { return type.quantity; }

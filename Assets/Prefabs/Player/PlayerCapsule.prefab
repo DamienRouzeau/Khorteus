@@ -3094,6 +3094,7 @@ MonoBehaviour:
   shotCouldown: 0.75
   maxBulletInMagazine: 12
   reloadTime: 1.75
+  bulletLauncher: {fileID: 388358507225467465}
   turretProjection: {fileID: 1189349098327682127}
   turretPlacementDistance: 5
   sniper: {fileID: 0}

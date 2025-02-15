@@ -82,6 +82,8 @@ namespace Player
         private int bulletLeftInMagazine;
         [SerializeField] private float reloadTime;
         private float reloadTimeLeft;
+        [SerializeField]
+        private Transform bulletLauncher;
 
         [Header("Turret")]
         [SerializeField]
@@ -461,6 +463,7 @@ namespace Player
                 if (bulletLeftInMagazine > 0)
                 {
                     BulletBehaviour bullet = poolBullets.GetBullet();
+                    AudioManager.instance.PlayAudio(transform, "Shot", 0.8f, Random.Range(0.9f, 1.1f));
                     weaponAnim.SetTrigger("Shot");
                     timeSinceLastBullet = 0;
                     bullet.Launch();
@@ -495,6 +498,7 @@ namespace Player
 
         private IEnumerator WaitReloadTimer()
         {
+            AudioManager.instance.PlayAudio(transform, "Reload");
             yield return new WaitForSeconds(shotCouldown);
             weaponAnim.SetTrigger("Reload");
             yield return new WaitForSeconds(reloadTime);

@@ -41,6 +41,10 @@ public class GeneratorBehaviour : MonoBehaviour
     private List<Animator> lights = new List<Animator>();
     private List<float> intensities = new List<float>();
 
+    [Header("Audio")]
+    private Audio ambiantAudio;
+    private Audio alarmAudio;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
@@ -49,6 +53,7 @@ public class GeneratorBehaviour : MonoBehaviour
 
     private void Start()
     {
+        ambiantAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAmbiant");
         currentEnergy = maxEnergy;
         outOfPowerEvent = new UnityEvent();
         foreach (Animator light in lights)
@@ -91,7 +96,11 @@ public class GeneratorBehaviour : MonoBehaviour
 
     private void OutOfEnergy()
     {
+        ambiantAudio.Stop();
+        AudioManager.instance.PlayAudio(transform, "ShutDown");
+        ambiantAudio = null;
         outOfEnergy = true;
+        alarmAudio.Stop();
         outOfPowerEvent.Invoke();
         foreach(Animator light in lights)
         {
@@ -106,6 +115,7 @@ public class GeneratorBehaviour : MonoBehaviour
         {
             light.SetBool("Power", true);
         }
+        ambiantAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAmbiant");
     }
 
     #region change energy
@@ -123,6 +133,10 @@ public class GeneratorBehaviour : MonoBehaviour
         if(currentEnergy > energyCriticalThreshold)
         {
             lightAlarm.SetBool("LowEnergy", false);
+            if(alarmAudio != null)
+            {
+                alarmAudio.Stop();
+            }
         }
     }
 
@@ -137,6 +151,7 @@ public class GeneratorBehaviour : MonoBehaviour
         else if(currentEnergy < energyCriticalThreshold)
         {
             lightAlarm.SetBool("LowEnergy", true);
+            if(alarmAudio == null)alarmAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAlarm", 1);
         }
     }
     #endregion

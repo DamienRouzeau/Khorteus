@@ -24,8 +24,9 @@ public class PoolBullet : MonoBehaviour
         if(bulletsBank.Count > 0)
         {
             BulletBehaviour bullet = bulletsBank[0];
+            bullet.transform.parent = transform;
             bullet.transform.localPosition = Vector3.zero;
-            bullet.transform.rotation = transform.rotation;
+            bullet.transform.localRotation = Quaternion.Euler(0,0,0);
             bullet.gameObject.SetActive(true);
             bullet.gameObject.transform.parent = null;
             BulletBehaviour behaviour = bullet.GetComponent<BulletBehaviour>();

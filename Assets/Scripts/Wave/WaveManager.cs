@@ -31,6 +31,7 @@ public class WaveManager : MonoBehaviour
     private Transform generatorAttackPosition;
     [SerializeField]
     private List<Transform> hidingSpots = new List<Transform>();
+    private List<Audio> alarmsAudio = new();
 
 
     private List<Transform> doorToSpawn = new List<Transform>();
@@ -48,6 +49,7 @@ public class WaveManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(PreparationPhase());
+        GeneratorBehaviour.instance.SubOutOfPower(ShutDownAlarms);
     }
 
     public void StartNewWave()
@@ -86,6 +88,15 @@ public class WaveManager : MonoBehaviour
         }
     }
 
+    public void ShutDownAlarms()
+    {
+        foreach(Audio audio in alarmsAudio)
+        {
+            audio.Stop();
+        }
+        alarmsAudio.Clear();
+    }
+
     private IEnumerator PreparationPhase()
     {
         yield return new WaitForSecondsRealtime(preparationPhaseDuration);
@@ -100,13 +111,17 @@ public class WaveManager : MonoBehaviour
             Transform _door = door[Random.Range(0, door.Count)];
             doorToSpawn.Add(_door);
             doorAlerte[door.IndexOf(_door)].SetBool("Alerte", true);
-            StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)]));
+            Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlerte[door.IndexOf(_door)].gameObject.transform, "DoorAlarm", 0.5f);
+            alarmsAudio.Add(doorAlarmAudio);
+            StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)], doorAlarmAudio));
         }
     }
 
-    private IEnumerator StopAlarme(Animator doorToStop)
+    private IEnumerator StopAlarme(Animator doorToStop, Audio audio)
     {
         yield return new WaitForSeconds(alarmeDuration);
         doorToStop.SetBool("Alerte", false);
+        alarmsAudio.Remove(audio);
+        if(audio != null)audio.Stop();
     }
 }

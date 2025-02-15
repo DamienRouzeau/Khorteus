@@ -27,7 +27,7 @@ public class MainMenuManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Debug.Log("Cursor Visible: " + Cursor.visible + " | LockState: " + Cursor.lockState);
+        Audio audio = AudioManager.instance.PlayAudio(transform, "MenuAmbiant", 0.05f);
         OnMainMenu();
     }
 

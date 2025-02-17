@@ -17,29 +17,25 @@ public class SaveSystem
             return;
         }
 
-        // On ne convertit plus UpgradeData en UpgradeDataSave ici
-        // La liste est déjà de type UpgradeDataSave dans data.upgradesUnlocked
         List<UpgradeDataSave> upgradeDataSaves = new List<UpgradeDataSave>();
 
-        // Si tu souhaites manipuler cette liste avant la sauvegarde, tu peux le faire ici
         foreach (UpgradeDataSave upgrade in data.upgradesUnlocked)
         {
-            // Aucune conversion nécessaire, on garde les objets UpgradeDataSave tels quels
             upgradeDataSaves.Add(upgrade);
         }
 
-        // Créer un objet GameData avec les données mises à jour
         GameData saveData = new GameData(data.crystalQuantity)
         {
-            upgradesUnlocked = upgradeDataSaves  // Liste d'UpgradeDataSave est directement assignée
+            upgradesUnlocked = upgradeDataSaves  
         };
+        saveData.sinnerNB = data.sinnerNB;
 
-        // Sérialiser et sauvegarder les données
+        
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/save.dat";
         using (FileStream stream = new FileStream(path, FileMode.Create))
         {
-            formatter.Serialize(stream, saveData);  // Sauvegarder l'objet GameData
+            formatter.Serialize(stream, saveData); 
         }
         Debug.Log("Save success");
     }

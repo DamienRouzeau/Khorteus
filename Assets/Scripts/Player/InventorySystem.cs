@@ -47,7 +47,6 @@ public class InventorySystem : MonoBehaviour
             items[itemInHand].SetActive(false);
             itemInHand--;
             if (itemInHand < 0) itemInHand = items.Count - 1;
-            print(itemInHand);
             items[itemInHand].SetActive(true);
         }
         else if (value < 0)
@@ -55,7 +54,6 @@ public class InventorySystem : MonoBehaviour
             items[itemInHand].SetActive(false);
             itemInHand++;
             if (itemInHand > items.Count - 1) itemInHand = 0;
-            print(itemInHand);
             items[itemInHand].SetActive(true);
         }
     }

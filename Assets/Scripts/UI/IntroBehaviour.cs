@@ -16,9 +16,11 @@ public class IntroBehaviour : MonoBehaviour
     [SerializeField] private float timeShow;
     private int letterIndex;
     public int sinnerNumber;
+    private AudioManager audio;
 
     private void Start()
     {
+        audio = AudioManager.instance;
         GameData data = SaveSystem.Load();
         data.sinnerNB++;
         SaveSystem.Save(data);
@@ -70,6 +72,7 @@ public class IntroBehaviour : MonoBehaviour
         uiTextBuggedY.text = uiText.text;
         uiTextBuggedO.text = uiText.text;
         letterIndex++;
+        audio.PlayAudio(transform,"UITxt", 1, Random.Range(0.95f, 1.05f));
         if (letterIndex < text.Length)
         {
             StartCoroutine(AddLettre(text[letterIndex]));

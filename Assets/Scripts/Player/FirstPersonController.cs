@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace Player
 {
@@ -84,6 +85,7 @@ namespace Player
         private float reloadTimeLeft;
         [SerializeField]
         private Transform bulletLauncher;
+        private Coroutine reloadCoroutine;
 
         [Header("Turret")]
         [SerializeField]
@@ -125,6 +127,9 @@ namespace Player
         private bool interacting;
         private bool minning;
         private bool crafting;
+        [SerializeField]
+        private float audioInterval;
+        private Coroutine audioCoroutine;
         FragmentBehaviour fragment;
         DesktopType desktop;
         [SerializeField]
@@ -151,6 +156,10 @@ namespace Player
         [SerializeField]
         private TextMeshProUGUI crystalOnDeathTxt;
         private float startTime;
+
+        [Header("Audio")]
+        [SerializeField]
+        private bool playAudioGlitch;
 
         // cinemachine
         private float _cinemachineTargetPitch;
@@ -221,6 +230,12 @@ namespace Player
 
         private void Update()
         {
+            if (playAudioGlitch)
+            {
+                playAudioGlitch = false;
+                print("Glitch");
+                AudioManager.instance.PlayAudio(transform, "Glitch", 0.25f, Random.Range(0.95f, 1.05f));
+            }
             JumpAndGravity();
             GroundedCheck();
             if (canMove) Move();
@@ -228,7 +243,6 @@ namespace Player
             if (canRotate) Aim();
             if (interacting && minning) { Minning();}
             else if (interacting && crafting) { Crafting();}
-
 
             #region Reset all actions
             else // No action
@@ -458,7 +472,7 @@ namespace Player
 
         private void OnShot()
         {
-            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun")
+            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth >0)
             {
                 if (bulletLeftInMagazine > 0)
                 {
@@ -478,6 +492,7 @@ namespace Player
             else if (inventory.GetItemInHand().name == "Sniper" || inventory.GetItemInHand().name == "MachineGun")
             {
                 OnTurretPlacement();
+                AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
             }
         }
 
@@ -489,10 +504,11 @@ namespace Player
 
         private void OnReload()
         {
-            if (bulletLeftInMagazine < maxBulletInMagazine)
+            if (reloadCoroutine != null) return;
+            if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth >0)
             {
                 bulletLeftInMagazine = 0;
-                StartCoroutine(WaitReloadTimer());
+                reloadCoroutine = StartCoroutine(WaitReloadTimer());
             }
         }
 
@@ -503,6 +519,7 @@ namespace Player
             weaponAnim.SetTrigger("Reload");
             yield return new WaitForSeconds(reloadTime);
             bulletLeftInMagazine = maxBulletInMagazine;
+            reloadCoroutine = null;
         }
 
         #endregion
@@ -655,6 +672,14 @@ namespace Player
                 return;
             }
             fragment.Hit(minningStrenght);
+            string[] name = { 
+                "Minning1",
+                "Minning2",
+                "Minning3",
+                "Minning4",
+                "Minning5"
+            };
+            if (audioCoroutine == null) audioCoroutine = StartCoroutine(WaitForAudio(name));
             minningSlider.gameObject.SetActive(true);
             minningSlider.value = fragment.GetHealthValue();
             if (fragment.GetHealth() <= 0)
@@ -665,6 +690,13 @@ namespace Player
                 minning = false;
             }
         }
+        private IEnumerator WaitForAudio(string[] name)
+        {
+            if(name.Length == 1) AudioManager.instance.PlayAudio(transform, name[0], 0.5f, Random.Range(0.9f, 1.1f));
+            else AudioManager.instance.PlayRandomAudio(transform, name, 0.5f, Random.Range(0.9f, 1.1f));
+            yield return new WaitForSeconds(audioInterval);
+            audioCoroutine = null;
+        }
 
         private void Crafting()
         {
@@ -673,6 +705,8 @@ namespace Player
                 crafting = false;
                 return;
             }
+            string[] name = { "Crafting" };
+            if (audioCoroutine == null) audioCoroutine = StartCoroutine(WaitForAudio(name));
             if (desktop.Craft(inventory))
             {
                 switch (desktop.turretType)
@@ -717,6 +751,18 @@ namespace Player
                 Die();
             }
             getHit.SetTrigger("Hit");
+            string[] names = {
+                "Hit1",
+                "Hit2",
+                "Hit3",
+                "Hit4",
+                "Hit5",
+                "Hit6",
+                "Hit7",
+                "Hit8",
+                "Hit9",
+            };
+            AudioManager.instance.PlayRandomAudio(transform, names, 0.5f, Random.Range(0.98f, 1.02f));
         }
 
         public void Die()

@@ -60,7 +60,7 @@ public class WaveManager : MonoBehaviour
         foreach (PairEnemyNB pair in wave[currentWave].waveComposition)
         {
             for (int i = pair.numberToSpawn; i > 0; i--)
-            {                
+            {
                 StartCoroutine(SpawnWithDelay(pair, i));
             }
         }
@@ -82,7 +82,7 @@ public class WaveManager : MonoBehaviour
     public void EnemyDied(GameObject enemy)
     {
         ennemies.Remove(enemy);
-        if(ennemies.Count == 0 && spawnFinished)
+        if (ennemies.Count == 0 && spawnFinished)
         {
             StartCoroutine(PreparationPhase());
         }
@@ -90,7 +90,7 @@ public class WaveManager : MonoBehaviour
 
     public void ShutDownAlarms()
     {
-        foreach(Audio audio in alarmsAudio)
+        foreach (Audio audio in alarmsAudio)
         {
             audio.Stop();
         }
@@ -105,15 +105,18 @@ public class WaveManager : MonoBehaviour
 
     public void ChooseRandomDoor(int nbDoor)
     {
-        if(doorToSpawn.Count > 0) doorToSpawn.Clear();
+        if (doorToSpawn.Count > 0) doorToSpawn.Clear();
         for (int i = nbDoor; i > 0; i--)
         {
             Transform _door = door[Random.Range(0, door.Count)];
             doorToSpawn.Add(_door);
             doorAlerte[door.IndexOf(_door)].SetBool("Alerte", true);
-            Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlerte[door.IndexOf(_door)].gameObject.transform, "DoorAlarm", 0.5f);
-            alarmsAudio.Add(doorAlarmAudio);
-            StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)], doorAlarmAudio));
+            if (GeneratorBehaviour.instance.GetEnergy() > 0)
+            { 
+                Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlerte[door.IndexOf(_door)].gameObject.transform, "DoorAlarm", 0.5f);
+                alarmsAudio.Add(doorAlarmAudio);
+                StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)], doorAlarmAudio));
+            }
         }
     }
 
@@ -122,6 +125,6 @@ public class WaveManager : MonoBehaviour
         yield return new WaitForSeconds(alarmeDuration);
         doorToStop.SetBool("Alerte", false);
         alarmsAudio.Remove(audio);
-        if(audio != null)audio.Stop();
+        if (audio != null) audio.Stop();
     }
 }

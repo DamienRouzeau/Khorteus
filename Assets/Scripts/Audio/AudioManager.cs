@@ -68,6 +68,58 @@ public class AudioManager : MonoBehaviour
         return null;
     }
 
+    public Audio PlayRandomAudio(Transform parent, string[] _name)
+    {
+        string choosedName = _name[Random.Range(0, _name.Length)];
+        foreach (Audio _audio in audios)
+        {
+            if (_audio.audioName == choosedName)
+            {
+                var audioObject = Instantiate(_audio, parent);
+                audioObject.audioSource.Play();
+                return audioObject;
+            }
+            else
+            {
+                print("Audio : " + _name + " not found");
+            }
+        }
+        return null;
+    }
+
+    public Audio PlayRandomAudio(Transform parent, string[] _name, float _volume)
+    {
+        string choosedName = _name[Random.Range(0, _name.Length)];
+        foreach (Audio _audio in audios)
+        {
+            if (_audio.audioName == choosedName)
+            {
+                var audioObject = Instantiate(_audio, parent);
+                audioObject.audioSource.volume = _volume;
+                audioObject.audioSource.Play();
+                return audioObject;
+            }
+        }
+        return null;
+    }
+
+    public Audio PlayRandomAudio(Transform parent, string[] _name, float _volume, float _pitch)
+    {
+        string choosedName = _name[Random.Range(0, _name.Length)];
+        foreach (Audio _audio in audios)
+        {
+            if (_audio.audioName == choosedName)
+            {
+                var audioObject = Instantiate(_audio, parent);
+                audioObject.audioSource.volume = _volume;
+                audioObject.audioSource.pitch = _pitch;
+                audioObject.audioSource.Play();
+                return audioObject;
+            }
+        }
+        return null;
+    }
+
     public Audio PlayAudioAtSecond(Transform parent, string _name, float _time)
     {
         foreach (Audio _audio in audios)

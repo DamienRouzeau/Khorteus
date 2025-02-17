@@ -19,6 +19,7 @@ public class GeneratorBehaviour : MonoBehaviour
     [SerializeField]
     private float fragmentConvertion = 10;
     UnityEvent outOfPowerEvent;
+    UnityEvent powerBack;
 
     [Header("UI")]
     [SerializeField]
@@ -116,6 +117,7 @@ public class GeneratorBehaviour : MonoBehaviour
             light.SetBool("Power", true);
         }
         ambiantAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAmbiant");
+        powerBack.Invoke();
     }
 
     #region change energy
@@ -178,6 +180,7 @@ public class GeneratorBehaviour : MonoBehaviour
     public void SubOutOfPower(UnityAction action)
     {
         outOfPowerEvent.AddListener(action);
+        powerBack.AddListener(action);
     }
     public void UnsubOutOfPower(UnityAction action)
     {

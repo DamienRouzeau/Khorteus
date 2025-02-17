@@ -32,6 +32,7 @@ public class TurretBehaviour : MonoBehaviour
         generator = GeneratorBehaviour.instance;
         timeSinceLastShot = couldownShot;
         generator.SubOutOfPower(RanOutOfPower);
+        
 
         if (generator.GetEnergy() > 0) isActive = true;
         generator.AddDrain(additionnalDrain);
@@ -74,6 +75,7 @@ public class TurretBehaviour : MonoBehaviour
             if (shotIndex > poolBullets.Length - 1) shotIndex = 0;
             bullet.Launch();
             turretAnim[shotIndex].SetTrigger("Shot");
+            AudioManager.instance.PlayAudio(transform, "TurretShot", 0.5f);
             timeSinceLastShot = 0;
         }
     }
@@ -126,6 +128,11 @@ public class TurretBehaviour : MonoBehaviour
     public void RanOutOfPower()
     {
         isActive = false;
+    }
+
+    public void PowerBack()
+    {
+        isActive = true;
     }
 
     public TurretType GetType()

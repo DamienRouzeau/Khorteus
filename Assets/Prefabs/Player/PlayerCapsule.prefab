@@ -3103,6 +3103,7 @@ MonoBehaviour:
   currentHealth: 0
   anim: {fileID: 5824029465601037893}
   getHit: {fileID: 89484812515407916}
+  hitAudioCouldown: 0.9
   deathAnimationDuration: 6
   healthFilter: {fileID: 2275719413919733923}
   inventory: {fileID: 6032091769562269369}

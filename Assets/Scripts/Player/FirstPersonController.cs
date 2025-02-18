@@ -108,6 +108,9 @@ namespace Player
         [SerializeField]
         private Animator getHit;
         [SerializeField]
+        private float hitAudioCouldown;
+        private Coroutine hitCoroutine;
+        [SerializeField]
         private float deathAnimationDuration = 6;
         [SerializeField]
         private Image healthFilter;
@@ -771,6 +774,11 @@ namespace Player
                 Die();
             }
             getHit.SetTrigger("Hit");
+            if (hitCoroutine == null) hitCoroutine = StartCoroutine(TakeDamageCouldown());
+        }
+
+        private IEnumerator TakeDamageCouldown()
+        {
             string[] names = {
                 "Hit1",
                 "Hit2",
@@ -783,10 +791,14 @@ namespace Player
                 "Hit9",
             };
             AudioManager.instance.PlayRandomAudio(transform, names, 0.5f, Random.Range(0.98f, 1.02f));
+            yield return new WaitForSeconds(hitAudioCouldown);
+            hitCoroutine = null;
         }
+
 
         public void Die()
         {
+            AudioManager.instance.PlayAudio(transform, "GameOver", 0.3f);
             crystalOnDeathTxt.text = FragmentTransfert.instance.GetFragmentsSaved().ToString();
             waveOnDeathTxt.text = (WaveManager.instance.currentWave - 1).ToString();
             System.DateTime dieTime = System.DateTime.Now;

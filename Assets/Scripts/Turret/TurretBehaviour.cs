@@ -32,6 +32,7 @@ public class TurretBehaviour : MonoBehaviour
         generator = GeneratorBehaviour.instance;
         timeSinceLastShot = couldownShot;
         generator.SubOutOfPower(RanOutOfPower);
+        generator.SubPowerBack(PowerBack);
         
 
         if (generator.GetEnergy() > 0) isActive = true;

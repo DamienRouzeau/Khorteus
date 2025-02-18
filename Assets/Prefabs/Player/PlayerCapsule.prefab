@@ -3110,6 +3110,7 @@ MonoBehaviour:
   turretMachineGun: {fileID: 0}
   interactionDistance: 5
   minningStrenght: 0
+  audioInterval: 0
   interactAction:
     m_Name: Interact
     m_Type: 0
@@ -3127,6 +3128,9 @@ MonoBehaviour:
   timeOnDeathTxt: {fileID: 8859666801658326230}
   waveOnDeathTxt: {fileID: 1936087357912325492}
   crystalOnDeathTxt: {fileID: 354891463876760135}
+  playAudioGlitch: 0
+  stepCouldownWalk: 0.7
+  stepCouldownSprint: 0.35
 --- !u!114 &6032091769562269369
 MonoBehaviour:
   m_ObjectHideFlags: 0

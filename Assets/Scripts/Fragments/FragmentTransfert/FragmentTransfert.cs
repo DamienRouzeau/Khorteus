@@ -25,6 +25,7 @@ public class FragmentTransfert : MonoBehaviour
     {
         fragmentsSaved += nb;
         crystalsSavedTxt.text = fragmentsSaved.ToString();
+        AudioManager.instance.PlayAudio(transform, "CrystalSave");
     }
 
     public int GetFragmentsSaved() { return fragmentsSaved; }

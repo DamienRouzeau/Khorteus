@@ -57,6 +57,7 @@ public class GeneratorBehaviour : MonoBehaviour
         ambiantAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAmbiant");
         currentEnergy = maxEnergy;
         outOfPowerEvent = new UnityEvent();
+        powerBack = new UnityEvent();
         foreach (Animator light in lights)
         {
             light.SetBool("Power", true);
@@ -180,8 +181,12 @@ public class GeneratorBehaviour : MonoBehaviour
     public void SubOutOfPower(UnityAction action)
     {
         outOfPowerEvent.AddListener(action);
+    }
+    public void SubPowerBack(UnityAction action)
+    {
         powerBack.AddListener(action);
     }
+
     public void UnsubOutOfPower(UnityAction action)
     {
         outOfPowerEvent.RemoveListener(action);

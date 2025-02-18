@@ -33,6 +33,7 @@ namespace Player
         private bool canRotate = true;
         [SerializeField]
         private PlayerInput playerInput;
+        private bool isInCenter;
 
 
         [Space(10)]
@@ -160,6 +161,12 @@ namespace Player
         [Header("Audio")]
         [SerializeField]
         private bool playAudioGlitch;
+        [SerializeField]
+        private float stepCouldownWalk;
+        [SerializeField]
+        private float stepCouldownSprint;
+        private float stepCouldown;
+        private Coroutine stepCoroutine;
 
         // cinemachine
         private float _cinemachineTargetPitch;
@@ -356,49 +363,61 @@ namespace Player
 
         private void Move()
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+            if (targetSpeed == SprintSpeed)
+            {
+                stepCouldown = stepCouldownSprint;
+            }
+            else stepCouldown = stepCouldownWalk;
 
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
             if (_input.move == Vector2.zero) targetSpeed = 0.0f;
 
-            // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
             float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
-            // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
             {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
                 _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
-
-                // round speed to 3 decimal places
                 _speed = Mathf.Round(_speed * 1000f) / 1000f;
             }
             else
             {
                 _speed = targetSpeed;
             }
-
-            // normalise input direction
             Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
 
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
             if (_input.move != Vector2.zero)
             {
                 // move
                 inputDirection = transform.right * _input.move.x + transform.forward * _input.move.y;
+                if (stepCoroutine == null && Grounded) stepCoroutine = StartCoroutine(PlayStepAudio());
             }
 
             // move the player
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+        }
+
+        private IEnumerator PlayStepAudio()
+        {
+            if(isInCenter)
+            {
+                string[] step =
+                {
+                    "StepCenter1",
+                    "StepCenter2",
+                    "StepCenter3",
+                    "StepCenter4",
+                    "StepCenter5",
+                    "StepCenter6"
+                };
+                AudioManager.instance.PlayRandomAudio(transform, step, 0.8f, Random.Range(0.8f, 0.9f));
+            }
+            else AudioManager.instance.PlayAudio(transform, "StepMine", 0.8f, Random.Range(0.7f, 0.9f));
+            yield return new WaitForSeconds(stepCouldown);
+            stepCoroutine = null;
         }
 
         private void JumpAndGravity()
@@ -485,7 +504,8 @@ namespace Player
                     Debug.Log(bulletLeftInMagazine);
                     if (bulletLeftInMagazine <= 0)
                     {
-                        StartCoroutine(WaitReloadTimer());
+                        
+                        reloadCoroutine = StartCoroutine(WaitReloadTimer());
                     }
                 }
             }
@@ -816,5 +836,15 @@ namespace Player
         }
 
         #endregion
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Center")) isInCenter = true;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("Center")) isInCenter = false;
+        }
     }
 }

@@ -72,7 +72,8 @@ public class UpgradesManager : MonoBehaviour
 
     public void BuyUpgrade(UpgradeData data, ButtonData button)
     {
-        if(crystalsQuantity >= data.cost && !data.isUnlocked) // check if player have enought crystals and not already unlock this upgrade
+        AudioManager.instance.PlayAudio(transform, "Clic", 0.2f);
+        if (crystalsQuantity >= data.cost && !data.isUnlocked) // check if player have enought crystals and not already unlock this upgrade
         {
             if (upgrades[data.previousUpgradeID].isUnlocked || data.upgradeID == 0) // avoid the player buy the last upgrade first
             {

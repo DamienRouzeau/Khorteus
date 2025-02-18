@@ -14,6 +14,8 @@ TagManager:
   - desktop
   - Ground
   - FragmentTransfert
+  - SF_Door
+  - Center
   layers:
   - Default
   - TransparentFX

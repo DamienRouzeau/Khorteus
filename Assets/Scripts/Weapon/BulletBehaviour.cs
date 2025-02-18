@@ -72,4 +72,9 @@ public class BulletBehaviour : MonoBehaviour
         rb.velocity = Vector3.zero;
         pool.AddBulletToPool(this);
     }
+
+    public void AddDamage(float dmg)
+    {
+        damage += dmg;
+    }
 }

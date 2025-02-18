@@ -124,7 +124,8 @@ public class GeneratorBehaviour : MonoBehaviour
     #region change energy
     public void AddFragment(float nbFragment)
     {
-        if(currentEnergy <= 0)
+        AudioManager.instance.PlayAudio(transform, "CrystalSave");
+        if (currentEnergy <= 0)
         {
             EnergyBack();
         }

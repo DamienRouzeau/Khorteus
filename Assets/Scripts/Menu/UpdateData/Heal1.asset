@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9336bb99c10cec479248aa3eccb83a4, type: 3}
   m_Name: Heal1
   m_EditorClassIdentifier: 
+  type: 0
   cost: 1
   upgradeID: 0
   isUnlocked: 0
   previousUpgradeID: 0
+  incrementValue: 10

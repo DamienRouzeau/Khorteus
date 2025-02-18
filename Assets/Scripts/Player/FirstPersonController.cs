@@ -221,6 +221,39 @@ namespace Player
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Debug.Log("Cursor Visible: " + Cursor.visible + " | LockState: " + Cursor.lockState);
+
+            GameData gameData = SaveSystem.Load();
+            if (gameData == null)
+            {
+                Debug.LogError("Can't load save data");
+            }
+            else
+            {
+                print(gameData.upgradesUnlocked.Count + " upgrades");
+                foreach (UpgradeDataSave upgradeSaved in gameData.upgradesUnlocked)
+                {
+                    switch (upgradeSaved.type)
+                    {
+                        case UpgradeType.Heal:
+                            maxHealth += upgradeSaved.incrementValue;
+                            Debug.Log("Health upgrade detected with the value of " + upgradeSaved.incrementValue);
+                            break;
+
+
+                        case UpgradeType.Damage:
+                            poolBullets.bulletPrefab.AddDamage(upgradeSaved.incrementValue);
+                            Debug.Log("Damage upgrade detected with the value of " + upgradeSaved.incrementValue);
+                            break;
+
+
+                        case UpgradeType.Speed:
+                            _speed += upgradeSaved.incrementValue;
+                            Debug.Log("Speed upgrade detected with the value of " + upgradeSaved.incrementValue);
+                            break;
+                    }
+                }
+            }
+
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -251,8 +284,8 @@ namespace Player
             if (canMove) Move();
 
             if (canRotate) Aim();
-            if (interacting && minning) { Minning();}
-            else if (interacting && crafting) { Crafting();}
+            if (interacting && minning) { Minning(); }
+            else if (interacting && crafting) { Crafting(); }
 
             #region Reset all actions
             else // No action
@@ -325,7 +358,7 @@ namespace Player
             }
             #endregion
 
-            if (currentHealth != maxHealth) healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0.5f-(currentHealth/100));
+            if (currentHealth != maxHealth) healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0.5f - (currentHealth / 100));
             else healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0);
         }
 
@@ -405,7 +438,7 @@ namespace Player
 
         private IEnumerator PlayStepAudio()
         {
-            if(isInCenter)
+            if (isInCenter)
             {
                 string[] step =
                 {
@@ -494,12 +527,12 @@ namespace Player
 
         private void OnShot()
         {
-            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth >0)
+            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth > 0)
             {
                 if (bulletLeftInMagazine > 0)
                 {
                     BulletBehaviour bullet = poolBullets.GetBullet();
-                    AudioManager.instance.PlayAudio(transform, "Shot", 0.8f, Random.Range(0.9f, 1.1f));
+                    AudioManager.instance.PlayAudio(transform, "Shot", 0.5f, Random.Range(0.9f, 1.1f));
                     weaponAnim.SetTrigger("Shot");
                     timeSinceLastBullet = 0;
                     bullet.Launch();
@@ -507,7 +540,7 @@ namespace Player
                     Debug.Log(bulletLeftInMagazine);
                     if (bulletLeftInMagazine <= 0)
                     {
-                        
+
                         reloadCoroutine = StartCoroutine(WaitReloadTimer());
                     }
                 }
@@ -528,7 +561,7 @@ namespace Player
         private void OnReload()
         {
             if (reloadCoroutine != null) return;
-            if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth >0)
+            if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth > 0)
             {
                 bulletLeftInMagazine = 0;
                 reloadCoroutine = StartCoroutine(WaitReloadTimer());
@@ -554,7 +587,7 @@ namespace Player
             switch (inventory.GetItemInHand().gameObject.name)
             {
                 case "Sniper":
-                    TurretBehaviour sniper =  PoolTurret.instance.GetTurret(turretProjection.transform.position, TurretType.sniper);
+                    TurretBehaviour sniper = PoolTurret.instance.GetTurret(turretProjection.transform.position, TurretType.sniper);
                     sniper.transform.position = turretProjection.transform.position;
                     inventory.RemoveItem(inventory.GetItemInHand());
                     Debug.Log("sniper created");
@@ -603,8 +636,8 @@ namespace Player
                             {
                                 generator.AddFragment(1);
                             }
-                            else 
-                            { 
+                            else
+                            {
                                 notEnoughtMessage.SetTrigger("Show");
                                 notEnoughtCrystal.SetTrigger("NotEnought");
                             }
@@ -613,14 +646,14 @@ namespace Player
 
                     case "desktop":
                         desktop = hit.collider.gameObject.GetComponentInParent<DesktopType>();
-                        if (inventory.GetFragmentQuantity() > desktop.GetFragmentNeeded())
+                        if (inventory.GetFragmentQuantity() >= desktop.GetFragmentNeeded())
                         {
                             crafting = true;
                             canMove = false;
                             canRotate = false;
                         }
-                        else 
-                        { 
+                        else
+                        {
                             notEnoughtMessage.SetTrigger("Show");
                             notEnoughtCrystal.SetTrigger("NotEnought");
                         }
@@ -655,7 +688,7 @@ namespace Player
                         break;
 
                     case "FragmentTransfert":
-                        if(inventory.GetFragmentQuantity() > 0)
+                        if (inventory.GetFragmentQuantity() > 0)
                         {
                             int crystalQTT = SaveSystem.Load().crystalQuantity;
                             crystalQTT += 1;
@@ -663,10 +696,43 @@ namespace Player
                             SaveSystem.SetCrystalQuantity(crystalQTT);
                             FragmentTransfert.instance.AddCrystalSaved(1);
                         }
-                        else 
-                        { 
+                        else
+                        {
                             notEnoughtMessage.SetTrigger("Show");
                             notEnoughtCrystal.SetTrigger("NotEnought");
+                        }
+                        break;
+
+                    case "HealMachine":
+                        HealMachine healMachine = hit.collider.gameObject.GetComponent<HealMachine>();
+                        if (healMachine != null)
+                        {
+                            switch (healMachine.GetStat())
+                            {
+                                case HealMachineStats.Empty:
+                                    if (inventory.RemoveFragment(1))
+                                    {
+                                        healMachine.Crafting();
+                                    }
+                                    else
+                                    {
+                                        notEnoughtMessage.SetTrigger("Show");
+                                        notEnoughtCrystal.SetTrigger("NotEnought");
+                                    }
+                                    break;
+
+
+                                case HealMachineStats.Crafting:
+
+                                    break;
+
+
+                                case HealMachineStats.Done:
+                                    getHit.SetTrigger("Hit");
+                                    AddHealth(healMachine.TakeHeal());
+                                    AudioManager.instance.PlayAudio(transform, "Heal", 0.6f);
+                                    break;
+                            }
                         }
                         break;
 
@@ -695,7 +761,7 @@ namespace Player
                 return;
             }
             fragment.Hit(minningStrenght);
-            string[] name = { 
+            string[] name = {
                 "Minning1",
                 "Minning2",
                 "Minning3",
@@ -715,7 +781,7 @@ namespace Player
         }
         private IEnumerator WaitForAudio(string[] name)
         {
-            if(name.Length == 1) AudioManager.instance.PlayAudio(transform, name[0], 0.5f, Random.Range(0.9f, 1.1f));
+            if (name.Length == 1) AudioManager.instance.PlayAudio(transform, name[0], 0.5f, Random.Range(0.9f, 1.1f));
             else AudioManager.instance.PlayRandomAudio(transform, name, 0.5f, Random.Range(0.9f, 1.1f));
             yield return new WaitForSeconds(audioInterval);
             audioCoroutine = null;
@@ -830,6 +896,12 @@ namespace Player
         {
             yield return new WaitForSeconds(deathAnimationDuration);
             SceneManager.LoadScene(0);
+        }
+
+        public void AddHealth(float _health)
+        {
+            currentHealth += _health;
+            if (currentHealth > maxHealth) currentHealth = maxHealth;
         }
 
         public void SetHealth(float _health)

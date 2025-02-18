@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9336bb99c10cec479248aa3eccb83a4, type: 3}
   m_Name: Damage1
   m_EditorClassIdentifier: 
-  cost: 1
+  type: 1
+  cost: 5
   upgradeID: 4
-  isUnlocked: 0
+  isUnlocked: 1
   previousUpgradeID: 0
+  incrementValue: 4

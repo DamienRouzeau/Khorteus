@@ -16,6 +16,7 @@ TagManager:
   - FragmentTransfert
   - SF_Door
   - Center
+  - HealMachine
   layers:
   - Default
   - TransparentFX

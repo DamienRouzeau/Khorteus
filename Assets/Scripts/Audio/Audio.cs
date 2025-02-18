@@ -14,7 +14,7 @@ public class Audio : MonoBehaviour
 
     private void Start()
     {
-        if(transform.parent.name == "AudioManager") { return; }
+        if (transform.parent != null) { if (transform.parent.name == "AudioManager") { return; } }
         if (!audioSource.loop) StartCoroutine(StopAudio());
     }
     private void Update()

@@ -192,6 +192,8 @@ public class EnemyBehaviour : MonoBehaviour, Health
 
     public void Die()
     {
+        Audio deathAudio = AudioManager.instance.PlayAudio(transform, "MonsterDie", 3, UnityEngine.Random.Range(0.95f, 1.05f));
+        deathAudio.transform.parent = null;
         dieEvent.Invoke();
         WaveManager.instance.EnemyDied(this.gameObject);
         Destroy(this.gameObject);

@@ -9,7 +9,7 @@ public class PoolBullet : MonoBehaviour
 
     private List<BulletBehaviour> bulletsBank = new List<BulletBehaviour>();
     [SerializeField]
-    private BulletBehaviour bulletPrefab;
+    public BulletBehaviour bulletPrefab;
     [SerializeField]
     private Transform bulletLauncher;
 

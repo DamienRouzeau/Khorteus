@@ -63,7 +63,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnMainMenu()
     {
-        if(!isBeggining)AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        if (!isBeggining)
+        {
+            AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+            AudioManager.instance.PlayAudio(transform, "Whoosh");
+        }
         isBeggining = false;
         mainMenuSection.SetActive(true);
         upgradeSection.SetActive(false);
@@ -79,6 +83,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnPlay()
     {
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         upgradeCam.Priority = 0;
         settingsCam.Priority = 0;
@@ -104,6 +109,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnUpdate()
     {
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         upgradeCam.Priority = 1;
         mainMenuSection.SetActive(false);
@@ -113,6 +119,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnSettings()
     {
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         settingsCam.Priority = 1;
         mainMenuSection.SetActive(false);
@@ -122,6 +129,7 @@ public class MainMenuManager : MonoBehaviour
     public void OnCredits()
     {
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         creditsCam.Priority = 1;
         mainMenuSection.SetActive(false);

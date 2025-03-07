@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Events;
 
 namespace Player
 {
@@ -114,6 +115,8 @@ namespace Player
         private float deathAnimationDuration = 6;
         [SerializeField]
         private Image healthFilter;
+        [SerializeField] private Slider healthBar;
+        [SerializeField] private Animator healthBarAnim;
 
         [Header("Inventory")]
         [SerializeField]
@@ -139,6 +142,7 @@ namespace Player
         [SerializeField]
         private InputAction interactAction;
         private bool turretInHand;
+        UnityEvent getCrystal;
 
         [Header("UI")]
         [SerializeField]
@@ -213,15 +217,17 @@ namespace Player
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
-            bulletLeftInMagazine = maxBulletInMagazine;
         }
 
         private void Start()
         {
+            #region Cursor + Window
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Debug.Log("Cursor Visible: " + Cursor.visible + " | LockState: " + Cursor.lockState);
+            #endregion
 
+            #region Save/Load Data
             GameData gameData = SaveSystem.Load();
             if (gameData == null)
             {
@@ -253,7 +259,9 @@ namespace Player
                     }
                 }
             }
+            #endregion
 
+            #region Get Component
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -261,14 +269,29 @@ namespace Player
 #else
 			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
 #endif
+            #endregion
 
+            #region Set data
             // reset our timeouts on start
             _jumpTimeoutDelta = JumpTimeout;
             _fallTimeoutDelta = FallTimeout;
             timeSinceLastBullet = shotCouldown;
             currentHealth = maxHealth;
+            UpdateHealthBar();
             playerInput.actions["Interact"].canceled += StopInteract;
             startTime = Time.time;
+            bulletLeftInMagazine = maxBulletInMagazine;
+            getCrystal = new UnityEvent();
+            #endregion
+
+            #region OOP
+            GeneratorBehaviour.instance.SubOutOfPower(OutOfPower);
+            GeneratorBehaviour.instance.SubPowerBack(PowerBack);
+            crosshairAnim.SetBool("Power", true);
+            notEnoughtCrystal.SetBool("PowerOn", true);
+            healthBarAnim.SetBool("PowerOn", true);
+            #endregion
+
         }
 
         private void Update()
@@ -276,9 +299,10 @@ namespace Player
             if (playAudioGlitch)
             {
                 playAudioGlitch = false;
-                print("Glitch");
                 AudioManager.instance.PlayAudio(transform, "Glitch", 0.25f, Random.Range(0.95f, 1.05f));
             }
+
+            #region Player Actions
             JumpAndGravity();
             GroundedCheck();
             if (canMove) Move();
@@ -286,6 +310,7 @@ namespace Player
             if (canRotate) Aim();
             if (interacting && minning) { Minning(); }
             else if (interacting && crafting) { Crafting(); }
+            #endregion
 
             #region Reset all actions
             else // No action
@@ -774,6 +799,7 @@ namespace Player
             if (fragment.GetHealth() <= 0)
             {
                 //Gain crystal
+                getCrystal.Invoke();
                 inventory.AddFragment(fragment.GetQuantity());
                 minningSlider.gameObject.SetActive(false);
                 minning = false;
@@ -835,11 +861,13 @@ namespace Player
         public void TakeDamage(float damage)
         {
             currentHealth -= damage;
+            UpdateHealthBar();
             if (currentHealth <= 0)
             {
                 Die();
             }
             getHit.SetTrigger("Hit");
+            if(GeneratorBehaviour.instance.GetEnergy() > 0) healthBarAnim.SetTrigger("GetHit");
             if (hitCoroutine == null) hitCoroutine = StartCoroutine(TakeDamageCouldown());
         }
 
@@ -902,11 +930,13 @@ namespace Player
         {
             currentHealth += _health;
             if (currentHealth > maxHealth) currentHealth = maxHealth;
+            UpdateHealthBar();
         }
 
         public void SetHealth(float _health)
         {
             currentHealth = _health;
+            UpdateHealthBar();
         }
 
         public float GetHealth()
@@ -919,7 +949,40 @@ namespace Player
             return maxHealth;
         }
 
+        private void UpdateHealthBar()
+        {
+            healthBar.value = currentHealth / maxHealth;
+        }
+
         #endregion
+
+        #region OOP Gestion
+        public void OutOfPower()
+        {
+            healthBarAnim.SetBool("PowerOn", false);
+            if (!isAiming)
+            {
+                crosshairAnim.SetTrigger("PowerOff");
+            }
+            crosshairAnim.SetBool("Power", false);
+            notEnoughtCrystal.SetTrigger("OOP");
+            notEnoughtCrystal.SetBool("PowerOn", false);
+        }
+
+        public void PowerBack()
+        {
+            healthBarAnim.SetBool("PowerOn", true);
+            if (!isAiming)
+            {
+                crosshairAnim.SetTrigger("PowerBack");
+            }
+            crosshairAnim.SetBool("Power", true);
+            notEnoughtCrystal.SetTrigger("PowerBack");
+            notEnoughtCrystal.SetBool("PowerOn", true);
+        }
+        #endregion
+
+        #region Trigger
 
         private void OnTriggerEnter(Collider other)
         {
@@ -930,5 +993,18 @@ namespace Player
         {
             if (other.CompareTag("Center")) isInCenter = false;
         }
+        #endregion
+
+        #region Sub events
+        public void SubGetCrystal(UnityAction action)
+        {
+            getCrystal.AddListener(action);
+        }
+        public void UnsubGetCrystal(UnityAction action)
+        {
+            getCrystal.RemoveListener(action);
+        }
+
+        #endregion
     }
 }

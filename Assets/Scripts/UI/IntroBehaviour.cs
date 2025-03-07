@@ -6,6 +6,7 @@ using TMPro;
 public class IntroBehaviour : MonoBehaviour
 {
     private string text;
+    [SerializeField] List<string> tutoTexts;
     private string textWrote = "";
     private Stack<char> chars = new Stack<char>();
     [SerializeField] private TextMeshProUGUI uiText;
@@ -17,6 +18,7 @@ public class IntroBehaviour : MonoBehaviour
     private int letterIndex;
     public int sinnerNumber;
     private AudioManager audio;
+    [SerializeField] bool PlayOnStart = true;
 
     private void Start()
     {
@@ -26,8 +28,11 @@ public class IntroBehaviour : MonoBehaviour
         SaveSystem.Save(data);
         sinnerNumber = data.sinnerNB;
         text = "Sinner n°" + sinnerNumber + "\nSurvive as long as possible\nCollect khorteus and send it to the company\nRemember, your sacrifice is a good thing for this world";
-        anim.SetTrigger("Show");
-        StartCoroutine(AddLettre(text[0]));
+        if (PlayOnStart)
+        {
+            anim.SetTrigger("Show");
+            StartCoroutine(AddLettre(text[0]));
+        }
     }
 
     private IEnumerator AddLettre(char letter)
@@ -42,7 +47,7 @@ public class IntroBehaviour : MonoBehaviour
         else
         {
 
-            if(letter == '\n')
+            if (letter == '\n')
             {
                 chars.Push('\n');
                 chars.Push('<');
@@ -64,7 +69,7 @@ public class IntroBehaviour : MonoBehaviour
             reversedList.Add(letterInText);
         }
         reversedList.Reverse();
-        foreach(char newLetter in reversedList)
+        foreach (char newLetter in reversedList)
         {
             textWrote = textWrote + newLetter;
         }
@@ -72,10 +77,17 @@ public class IntroBehaviour : MonoBehaviour
         uiTextBuggedY.text = uiText.text;
         uiTextBuggedO.text = uiText.text;
         letterIndex++;
-        audio.PlayAudio(transform,"UITxt", 1, Random.Range(0.95f, 1.05f));
+        audio.PlayAudio(transform, "UITxt", 1, Random.Range(0.95f, 1.05f));
         if (letterIndex < text.Length)
         {
             StartCoroutine(AddLettre(text[letterIndex]));
         }
     }
+    public void SetText(string txt)
+    {
+        text = "Sinner n°" + sinnerNumber + "\n" + txt;
+        anim.SetTrigger("Show");
+        StartCoroutine(AddLettre(text[0]));
+    }
+
 }

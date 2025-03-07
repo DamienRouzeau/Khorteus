@@ -20,6 +20,7 @@ public class GeneratorBehaviour : MonoBehaviour
     private float fragmentConvertion = 10;
     UnityEvent outOfPowerEvent;
     UnityEvent powerBack;
+    UnityEvent criticalPower;
 
     [Header("UI")]
     [SerializeField]
@@ -58,6 +59,7 @@ public class GeneratorBehaviour : MonoBehaviour
         currentEnergy = maxEnergy;
         outOfPowerEvent = new UnityEvent();
         powerBack = new UnityEvent();
+        criticalPower = new UnityEvent();
         foreach (Animator light in lights)
         {
             light.SetBool("Power", true);
@@ -154,6 +156,8 @@ public class GeneratorBehaviour : MonoBehaviour
         }
         else if(currentEnergy < energyCriticalThreshold)
         {
+            // Event Critical Energy
+            criticalPower.Invoke();
             lightAlarm.SetBool("LowEnergy", true);
             if(alarmAudio == null)alarmAudio = AudioManager.instance.PlayAudio(transform, "GeneratorAlarm", 1);
         }
@@ -186,6 +190,15 @@ public class GeneratorBehaviour : MonoBehaviour
     public void SubPowerBack(UnityAction action)
     {
         powerBack.AddListener(action);
+    }
+    public void SubCriticalEnergy(UnityAction action)
+    {
+        criticalPower.AddListener(action);
+    }
+
+    public void UnsubCriticalEnergy(UnityAction action)
+    {
+        criticalPower.RemoveListener(action);
     }
 
     public void UnsubOutOfPower(UnityAction action)

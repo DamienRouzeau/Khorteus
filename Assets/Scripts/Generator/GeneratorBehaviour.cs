@@ -21,6 +21,7 @@ public class GeneratorBehaviour : MonoBehaviour
     UnityEvent outOfPowerEvent;
     UnityEvent powerBack;
     UnityEvent criticalPower;
+    UnityEvent addPower;
 
     [Header("UI")]
     [SerializeField]
@@ -60,6 +61,7 @@ public class GeneratorBehaviour : MonoBehaviour
         outOfPowerEvent = new UnityEvent();
         powerBack = new UnityEvent();
         criticalPower = new UnityEvent();
+        addPower = new UnityEvent();
         foreach (Animator light in lights)
         {
             light.SetBool("Power", true);
@@ -126,6 +128,7 @@ public class GeneratorBehaviour : MonoBehaviour
     #region change energy
     public void AddFragment(float nbFragment)
     {
+        addPower.Invoke();
         AudioManager.instance.PlayAudio(transform, "CrystalSave");
         if (currentEnergy <= 0)
         {
@@ -200,6 +203,16 @@ public class GeneratorBehaviour : MonoBehaviour
     {
         criticalPower.RemoveListener(action);
     }
+    public void SubAddEnergy(UnityAction action)
+    {
+        criticalPower.AddListener(action);
+    }
+
+    public void UnsubAddEnergy(UnityAction action)
+    {
+        criticalPower.RemoveListener(action);
+    }
+
 
     public void UnsubOutOfPower(UnityAction action)
     {

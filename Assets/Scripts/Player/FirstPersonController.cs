@@ -143,6 +143,7 @@ namespace Player
         private InputAction interactAction;
         private bool turretInHand;
         UnityEvent getCrystal;
+        public bool canInteractWithGenerator = true, canInteractWithTransfert = true, canInteractWithDesktop = true;
 
         [Header("UI")]
         [SerializeField]
@@ -654,6 +655,7 @@ namespace Player
                 switch (hit.collider.tag)
                 {
                     case "generator":
+                        if (!canInteractWithGenerator) return;
                         GeneratorBehaviour generator = hit.collider.gameObject.GetComponent<GeneratorBehaviour>();
                         if (generator != null)
                         {
@@ -670,6 +672,7 @@ namespace Player
                         break;
 
                     case "desktop":
+                        if (!canInteractWithDesktop) return;
                         desktop = hit.collider.gameObject.GetComponentInParent<DesktopType>();
                         if (inventory.GetFragmentQuantity() >= desktop.GetFragmentNeeded())
                         {
@@ -713,6 +716,7 @@ namespace Player
                         break;
 
                     case "FragmentTransfert":
+                        if (!canInteractWithTransfert) return;
                         if (inventory.GetFragmentQuantity() > 0)
                         {
                             int crystalQTT = SaveSystem.Load().crystalQuantity;

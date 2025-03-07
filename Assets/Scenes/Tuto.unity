@@ -5800,7 +5800,7 @@ PrefabInstance:
     - target: {fileID: 8625180603137635943, guid: 64b261b9f6f2a8443a47ba980bc422bd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.42
+      value: -0.569
       objectReference: {fileID: 0}
     - target: {fileID: 8625180603137635951, guid: 64b261b9f6f2a8443a47ba980bc422bd,
         type: 3}
@@ -6715,8 +6715,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<Sinner n\xB0x>\n<Survive as long as possible>\n<Collect khorteus and
-    send it to the company>\n<Remember, your sacrifice is a good thing for this world>"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e170bc2da0461ef4498fb5688538c665, type: 2}
   m_sharedMaterial: {fileID: 5479581577187740000, guid: e170bc2da0461ef4498fb5688538c665,
@@ -11448,8 +11447,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<Sinner n\xB0x>\n<Survive as long as possible>\n<Collect khorteus and
-    send it to the company>\n<Remember, your sacrifice is a good thing for this world>"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e170bc2da0461ef4498fb5688538c665, type: 2}
   m_sharedMaterial: {fileID: 5479581577187740000, guid: e170bc2da0461ef4498fb5688538c665,
@@ -15215,8 +15213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "<Sinner n\xB0x>\n<Survive as long as possible>\n<Collect khorteus and
-    send it to the company>\n<Remember, your sacrifice is a good thing for this world>"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e170bc2da0461ef4498fb5688538c665, type: 2}
   m_sharedMaterial: {fileID: 5479581577187740000, guid: e170bc2da0461ef4498fb5688538c665,

@@ -12,6 +12,8 @@ public class TutorielManager : MonoBehaviour
     [SerializeField] private List<string> tutoTxt;
     [SerializeField] private List<TutoTrigger> tutoTriggers;
     [SerializeField] private Player.FirstPersonController player;
+    [Header("Alarm")]
+    [SerializeField] private Animator doorAlarmAnim;
 
     private void Awake()
     {
@@ -27,8 +29,13 @@ public class TutorielManager : MonoBehaviour
             tutoTxt[i] = tutoTxt[i].Replace("\\n", "\n");
         }
         generator.SubCriticalEnergy(TriggerOOPActivation);
-        generator.RemoveEnergie(78.25f);
+        generator.RemoveEnergie(78.75f);
         player.SubGetCrystal(TriggerCrystalActivation);
+        player.canInteractWithDesktop = false;
+        player.canInteractWithGenerator = false;
+        player.canInteractWithTransfert = false;
+        generator.SubAddEnergy(TriggerAddEnergyActivation);
+
     }
 
     // Update is called once per frame
@@ -52,5 +59,23 @@ public class TutorielManager : MonoBehaviour
     {
         tutoTriggers[1].ActiveTrigger();
         player.UnsubGetCrystal(TriggerCrystalActivation);
+        player.canInteractWithGenerator = true;
+    }
+
+    private void TriggerAddEnergyActivation()
+    {
+        tutoTriggers[1].ActiveTrigger();
+        player.UnsubGetCrystal(TriggerCrystalActivation);
+        player.canInteractWithGenerator = false;
+        player.canInteractWithDesktop = true;
+        generator.UnsubAddEnergy(TriggerAddEnergyActivation);
+        StartCoroutine(StartAlarm());
+    }
+
+    private IEnumerator StartAlarm()
+    {
+        yield return new WaitForSeconds(2.5f);
+        doorAlarmAnim.SetBool("Alerte", true);
+        Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlarmAnim.gameObject.transform, "DoorAlarm", 0.5f);
     }
 }

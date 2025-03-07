@@ -42,7 +42,7 @@ public class IntroBehaviour : MonoBehaviour
             chars.Push('<');
             chars.Push(letter);
             chars.Push('>');
-            yield return new WaitForSeconds(timeBetweenTwoLetters);
+            yield return new WaitForSeconds(timeBetweenTwoLetters); // <-----------------
         }
         else
         {
@@ -57,7 +57,7 @@ public class IntroBehaviour : MonoBehaviour
             else
             {
                 chars.Pop();
-                chars.Push(letter);
+                chars.Push(letter); // <-------------
                 chars.Push('>');
                 yield return new WaitForSeconds(timeBetweenTwoLetters);
             }
@@ -85,9 +85,13 @@ public class IntroBehaviour : MonoBehaviour
     }
     public void SetText(string txt)
     {
+        StopAllCoroutines();
+        chars.Clear();
+        textWrote = "";
+        letterIndex = 0;
         text = "Sinner n°" + sinnerNumber + "\n" + txt;
-        anim.SetTrigger("Show");
         StartCoroutine(AddLettre(text[0]));
+        anim.SetTrigger("Show");
     }
 
 }

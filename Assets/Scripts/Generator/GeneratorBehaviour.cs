@@ -205,12 +205,12 @@ public class GeneratorBehaviour : MonoBehaviour
     }
     public void SubAddEnergy(UnityAction action)
     {
-        criticalPower.AddListener(action);
+        addPower.AddListener(action);
     }
 
     public void UnsubAddEnergy(UnityAction action)
     {
-        criticalPower.RemoveListener(action);
+        addPower.RemoveListener(action);
     }
 
 

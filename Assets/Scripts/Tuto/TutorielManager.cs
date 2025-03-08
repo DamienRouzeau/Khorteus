@@ -7,13 +7,21 @@ public class TutorielManager : MonoBehaviour
     private static TutorielManager Instance { get; set; }
     public static TutorielManager instance => Instance;
 
-    [SerializeField] private GeneratorBehaviour generator;
+    [Header("Tuto")]
     [SerializeField] private IntroBehaviour intro;
     [SerializeField] private List<string> tutoTxt;
     [SerializeField] private List<TutoTrigger> tutoTriggers;
+
+    [Header("Miscelaneous")]
+    [SerializeField] private GeneratorBehaviour generator;
     [SerializeField] private Player.FirstPersonController player;
-    [Header("Alarm")]
     [SerializeField] private Animator doorAlarmAnim;
+    private Audio alarmSound;
+    private InventorySystem inventory;
+
+    [Header("Enemy")]
+    [SerializeField] PairEnemyNB enemy;
+    [SerializeField] Transform enemySpawn;
 
     private void Awake()
     {
@@ -21,12 +29,11 @@ public class TutorielManager : MonoBehaviour
         else Instance = this;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         for(int i = 0; i< tutoTxt.Count; i++)
         {
-            tutoTxt[i] = tutoTxt[i].Replace("\\n", "\n");
+            tutoTxt[i] = tutoTxt[i].Replace("\\n", "\n"); // Allow back to line
         }
         generator.SubCriticalEnergy(TriggerOOPActivation);
         generator.RemoveEnergie(78.75f);
@@ -35,14 +42,12 @@ public class TutorielManager : MonoBehaviour
         player.canInteractWithGenerator = false;
         player.canInteractWithTransfert = false;
         generator.SubAddEnergy(TriggerAddEnergyActivation);
+        inventory = player.GetInventory();
+        inventory.SubAddItem(TriggerCraftTurret);
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #region Triggers
 
     public void TriggerDetected(TutoTrigger trigger)
     {
@@ -51,12 +56,14 @@ public class TutorielManager : MonoBehaviour
 
     private void TriggerOOPActivation()
     {
+        Debug.Log("[TUTO] Trigger POO");
         tutoTriggers[0].ActiveTrigger();
         generator.UnsubCriticalEnergy(TriggerOOPActivation);
     }
 
     private void TriggerCrystalActivation()
     {
+        Debug.Log("[TUTO] Trigger Crystal");
         tutoTriggers[1].ActiveTrigger();
         player.UnsubGetCrystal(TriggerCrystalActivation);
         player.canInteractWithGenerator = true;
@@ -64,7 +71,7 @@ public class TutorielManager : MonoBehaviour
 
     private void TriggerAddEnergyActivation()
     {
-        tutoTriggers[1].ActiveTrigger();
+        Debug.Log("[TUTO] Trigger Add energy");
         player.UnsubGetCrystal(TriggerCrystalActivation);
         player.canInteractWithGenerator = false;
         player.canInteractWithDesktop = true;
@@ -76,6 +83,38 @@ public class TutorielManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
         doorAlarmAnim.SetBool("Alerte", true);
-        Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlarmAnim.gameObject.transform, "DoorAlarm", 0.5f);
+        alarmSound = AudioManager.instance.PlayAudio(doorAlarmAnim.gameObject.transform, "DoorAlarm", 0.5f);
+        yield return new WaitForSeconds(1.25f);
+        tutoTriggers[2].ActiveTrigger();
     }
+
+    private void TriggerCraftTurret()
+    {
+        Debug.Log("[TUTO] Trigger Turret crafted");
+        inventory.UnsubAddItem(TriggerCraftTurret);
+        player.canInteractWithDesktop = false;
+        inventory.SubRemoveItem(TriggerPlaceTurret);
+        tutoTriggers[3].ActiveTrigger();
+    }
+
+    private void TriggerPlaceTurret()
+    {
+        Debug.Log("[TUTO] Trigger Turret placed");
+        inventory.UnsubRemoveItem(TriggerPlaceTurret);
+        player.canInteractWithDesktop = false;
+        var monster = Instantiate(enemy.enemyType, enemySpawn);
+        monster.SetPlayerRef(player.transform);
+        monster.SetGeneratorRef(generator.transform, player.transform);
+        monster.SetHidingSpots(new List<Transform>{player.transform});
+        StartCoroutine(StopAlarm());
+    }
+
+    private IEnumerator StopAlarm()
+    {
+        yield return new WaitForSeconds(2.5f);
+        doorAlarmAnim.SetBool("Alerte", false);
+        alarmSound.Stop();
+    }
+
+    #endregion
 }

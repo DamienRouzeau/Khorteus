@@ -90,6 +90,7 @@ public class IntroBehaviour : MonoBehaviour
         textWrote = "";
         letterIndex = 0;
         text = "Sinner n°" + sinnerNumber + "\n" + txt;
+        Debug.Log(text);
         StartCoroutine(AddLettre(text[0]));
         anim.SetTrigger("Show");
     }

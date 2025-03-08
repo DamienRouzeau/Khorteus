@@ -1010,5 +1010,10 @@ namespace Player
         }
 
         #endregion
+
+        #region Getter
+        public InventorySystem GetInventory() { return inventory; }
+
+        #endregion
     }
 }

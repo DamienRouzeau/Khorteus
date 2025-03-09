@@ -35,6 +35,7 @@ namespace Player
         [SerializeField]
         private PlayerInput playerInput;
         private bool isInCenter;
+        [SerializeField] private bool tuto;
 
 
         [Space(10)]
@@ -117,6 +118,7 @@ namespace Player
         private Image healthFilter;
         [SerializeField] private Slider healthBar;
         [SerializeField] private Animator healthBarAnim;
+        UnityEvent getHealed;
 
         [Header("Inventory")]
         [SerializeField]
@@ -142,8 +144,8 @@ namespace Player
         [SerializeField]
         private InputAction interactAction;
         private bool turretInHand;
-        UnityEvent getCrystal;
-        public bool canInteractWithGenerator = true, canInteractWithTransfert = true, canInteractWithDesktop = true;
+        UnityEvent getCrystal, saveCrystal;
+        public bool canInteractWithGenerator = true, canInteractWithTransfert = true, canInteractWithDesktop = true, canInteractWithHeal = true;
 
         [Header("UI")]
         [SerializeField]
@@ -283,6 +285,8 @@ namespace Player
             startTime = Time.time;
             bulletLeftInMagazine = maxBulletInMagazine;
             getCrystal = new UnityEvent();
+            getHealed = new UnityEvent();
+            saveCrystal = new UnityEvent();
             #endregion
 
             #region OOP
@@ -719,6 +723,7 @@ namespace Player
                         if (!canInteractWithTransfert) return;
                         if (inventory.GetFragmentQuantity() > 0)
                         {
+                            saveCrystal.Invoke();
                             int crystalQTT = SaveSystem.Load().crystalQuantity;
                             crystalQTT += 1;
                             inventory.RemoveFragment(1);
@@ -733,6 +738,7 @@ namespace Player
                         break;
 
                     case "HealMachine":
+                        if (!canInteractWithHeal) return;
                         HealMachine healMachine = hit.collider.gameObject.GetComponent<HealMachine>();
                         if (healMachine != null)
                         {
@@ -864,6 +870,7 @@ namespace Player
 
         public void TakeDamage(float damage)
         {
+            if (currentHealth <= 0) return;
             currentHealth -= damage;
             UpdateHealthBar();
             if (currentHealth <= 0)
@@ -898,7 +905,8 @@ namespace Player
         {
             AudioManager.instance.PlayAudio(transform, "GameOver", 0.3f);
             crystalOnDeathTxt.text = FragmentTransfert.instance.GetFragmentsSaved().ToString();
-            waveOnDeathTxt.text = (WaveManager.instance.currentWave - 1).ToString();
+            if (tuto) waveOnDeathTxt.text = "Tutorial";
+            else waveOnDeathTxt.text = (WaveManager.instance.currentWave - 1).ToString();
             System.DateTime dieTime = System.DateTime.Now;
             float gameDuration = Time.time - startTime;
 
@@ -932,6 +940,7 @@ namespace Player
 
         public void AddHealth(float _health)
         {
+            getHealed.Invoke();
             currentHealth += _health;
             if (currentHealth > maxHealth) currentHealth = maxHealth;
             UpdateHealthBar();
@@ -1007,6 +1016,23 @@ namespace Player
         public void UnsubGetCrystal(UnityAction action)
         {
             getCrystal.RemoveListener(action);
+        }
+
+        public void SubGetHealed(UnityAction action)
+        {
+            getHealed.AddListener(action);
+        }
+        public void UnsubGetHealed(UnityAction action)
+        {
+            getHealed.RemoveListener(action);
+        }
+        public void SubSaveCrystal(UnityAction action)
+        {
+            saveCrystal.AddListener(action);
+        }
+        public void UnsubSaveCrystal(UnityAction action)
+        {
+            saveCrystal.RemoveListener(action);
         }
 
         #endregion

@@ -46,7 +46,8 @@ public class EnemyBehaviour : MonoBehaviour, Health
     #region START
     void Start()
     {
-        if (dieEvent == null) dieEvent = new UnityEvent();
+        if(dieEvent == null)
+        dieEvent = new UnityEvent();
         agent = GetComponent<NavMeshAgent>();
         timeSinceLastAttack = hitCouldown;
         currentHealth = maxHealth;
@@ -182,6 +183,8 @@ public class EnemyBehaviour : MonoBehaviour, Health
 
     public void SubDie(UnityAction subscriber)
     {
+        if (dieEvent == null)
+            dieEvent = new UnityEvent();
         dieEvent.AddListener(subscriber);
     }
     public void UnsubDie(UnityAction subscriber)
@@ -194,6 +197,8 @@ public class EnemyBehaviour : MonoBehaviour, Health
     {
         Audio deathAudio = AudioManager.instance.PlayAudio(transform, "MonsterDie", 3, UnityEngine.Random.Range(0.95f, 1.05f));
         deathAudio.transform.parent = null;
+        if (dieEvent == null)
+            dieEvent = new UnityEvent();
         dieEvent.Invoke();
         if (WaveManager.instance == null)
         {

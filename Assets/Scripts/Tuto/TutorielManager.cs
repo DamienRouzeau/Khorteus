@@ -181,10 +181,10 @@ public class TutorielManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         doorAlarmAnim.SetBool("Alerte", true);
+        spriteCommand.sprite = I2S.InputToImage(MouseButton.Left);
         alarmSound = AudioManager.instance.PlayAudio(doorAlarmAnim.gameObject.transform, "DoorAlarm", 0.5f);
         yield return new WaitForSeconds(1);
         tutoTriggers[6].ActiveTrigger();
-        spriteCommand.sprite = I2S.InputToImage(MouseButton.Left);
         yield return new WaitForSeconds(1);
         StartCoroutine(StopAlarm());
         for(int i = 0; i<100; i++)

@@ -85,6 +85,7 @@ public class IntroBehaviour : MonoBehaviour
     }
     public void SetText(string txt)
     {
+        anim.SetTrigger("Hide");
         StopAllCoroutines();
         chars.Clear();
         textWrote = "";
@@ -93,6 +94,11 @@ public class IntroBehaviour : MonoBehaviour
         Debug.Log(text);
         StartCoroutine(AddLettre(text[0]));
         anim.SetTrigger("Show");
+    }
+
+    public void Hide()
+    {
+        anim.SetTrigger("Hide");
     }
 
 }

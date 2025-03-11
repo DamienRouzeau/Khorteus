@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
 
 public class TutorielManager : MonoBehaviour
 {
@@ -14,6 +17,8 @@ public class TutorielManager : MonoBehaviour
     [SerializeField] private Light[] lights;
     [SerializeField] private MeshRenderer[] lightGO;
     [SerializeField] private Material noEmission, yellowEmission, whiteEmission;
+    [SerializeField] private InputToString I2S;
+    [SerializeField] private Image spriteCommand;
 
 
     [Header("Miscelaneous")]
@@ -65,6 +70,7 @@ public class TutorielManager : MonoBehaviour
         Debug.Log("[TUTO] Trigger POO");
         tutoTriggers[0].ActiveTrigger();
         generator.UnsubCriticalEnergy(TriggerOOPActivation);
+        spriteCommand.sprite = I2S.InputToImage(Key.E);
     }
 
     private void TriggerCrystalActivation()
@@ -103,6 +109,7 @@ public class TutorielManager : MonoBehaviour
         inventory.UnsubAddItem(TriggerCraftTurret);
         player.canInteractWithDesktop = false;
         inventory.SubRemoveItem(TriggerPlaceTurret);
+        spriteCommand.sprite = I2S.InputToImage(MouseButton.Left);
         tutoTriggers[3].ActiveTrigger();
     }
 
@@ -138,6 +145,7 @@ public class TutorielManager : MonoBehaviour
         lights[1].intensity = 1.5f;
         lights[1].color = Color.yellow;
         lightGO[1].material = yellowEmission;
+        spriteCommand.sprite = I2S.InputToImage(Key.E);
         player.SubGetHealed(TriggerHeal);
     }
 
@@ -176,6 +184,7 @@ public class TutorielManager : MonoBehaviour
         alarmSound = AudioManager.instance.PlayAudio(doorAlarmAnim.gameObject.transform, "DoorAlarm", 0.5f);
         yield return new WaitForSeconds(1);
         tutoTriggers[6].ActiveTrigger();
+        spriteCommand.sprite = I2S.InputToImage(MouseButton.Left);
         yield return new WaitForSeconds(1);
         StartCoroutine(StopAlarm());
         for(int i = 0; i<100; i++)

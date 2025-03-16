@@ -90,19 +90,26 @@ public class MainMenuManager : MonoBehaviour
         creditsCam.Priority = 0;
         playCam.Priority = 1;
         mainMenuSection.SetActive(false);
-        StartCoroutine(StartTuto());
-    }
-    private IEnumerator StartTuto()
-    {
-        yield return new WaitForSeconds(1.5f);
-        tutoAnim.SetTrigger("Tuto");
-        StartCoroutine(StartGame());
+        StartCoroutine(StartGame(1));
     }
 
-    private IEnumerator StartGame()
+    public void OnPlayTuto()
     {
-        yield return new WaitForSeconds(10f);
-        SceneManager.LoadScene(1);
+        AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
+        AudioManager.instance.PlayAudio(transform, "Whoosh");
+        mainMenuCam.Priority = 0;
+        upgradeCam.Priority = 0;
+        settingsCam.Priority = 0;
+        creditsCam.Priority = 0;
+        playCam.Priority = 1;
+        mainMenuSection.SetActive(false);
+        StartCoroutine(StartGame(2));
+    }
+
+    private IEnumerator StartGame(int sceneID)
+    {
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene(sceneID);
     }
 
 

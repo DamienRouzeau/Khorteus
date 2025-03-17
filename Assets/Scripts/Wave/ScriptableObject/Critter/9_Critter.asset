@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86c551a33548905479907b9b8c9ee363, type: 3}
   m_Name: 9_Critter
   m_EditorClassIdentifier: 
-  enemyType: {fileID: 5485168322681099585, guid: 5c15ea13679479d4eb78fc8b804364d5,
+  enemyType: {fileID: 3939093331506790332, guid: 5c15ea13679479d4eb78fc8b804364d5,
     type: 3}
   numberToSpawn: 9
   intervalSpawn: 1

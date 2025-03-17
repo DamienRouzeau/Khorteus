@@ -31,7 +31,7 @@ public class TutorielManager : MonoBehaviour
     [Header("Enemy")]
     [SerializeField] PairEnemyNB enemy;
     [SerializeField] Transform enemySpawn;
-    private EnemyBehaviour monster;
+    private Enemy monster;
 
     private void Awake()
     {

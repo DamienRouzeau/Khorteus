@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class BehaviourTree : MonoBehaviour
 {
-    EnemyBehaviour owner;
+    Enemy owner;
     FirstPersonController player;
 
     [Header("Changers")]
@@ -34,7 +34,7 @@ public class BehaviourTree : MonoBehaviour
 
     private void Start()
     {
-        owner = GetComponent<EnemyBehaviour>();
+        owner = GetComponent<Enemy>();
         player = owner.player.GetComponent<FirstPersonController>();
     }
 

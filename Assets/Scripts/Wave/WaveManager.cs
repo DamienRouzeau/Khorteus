@@ -22,6 +22,10 @@ public class WaveManager : MonoBehaviour
     [SerializeField]
     private float alarmeDuration;
 
+    [Header("Enemies prefabs")]
+    [SerializeField] private GameObject critter;
+    [SerializeField] private GameObject howler;
+
     [Header("References")]
     [SerializeField]
     private Transform playerRef;
@@ -32,6 +36,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField]
     private List<Transform> hidingSpots = new List<Transform>();
     private List<Audio> alarmsAudio = new();
+    public Transform howlerTarget;
+    
 
 
     private List<Transform> doorToSpawn = new List<Transform>();
@@ -59,9 +65,27 @@ public class WaveManager : MonoBehaviour
         spawnFinished = false;
         foreach (PairEnemyNB pair in wave[currentWave].waveComposition)
         {
+            print(pair.enemyType.type);
             for (int i = pair.numberToSpawn; i > 0; i--)
             {
                 StartCoroutine(SpawnWithDelay(pair, i));
+            }
+        }
+        spawnFinished = true;
+    }
+
+    public void RestartCurrentWave()
+    {
+        ChooseRandomDoor(10);
+        spawnFinished = false;
+        foreach (PairEnemyNB pair in wave[currentWave].waveComposition)
+        {
+            if (pair.enemyType.type == monsterTypes.critter)
+            {
+                for (int i = pair.numberToSpawn; i > 0; i--)
+                {
+                    StartCoroutine(SpawnWithDelay(pair, i));
+                }
             }
         }
         spawnFinished = true;
@@ -71,11 +95,24 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds((pair.numberToSpawn - delay) * pair.intervalSpawn);
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
+        //switch(pair.enemyType.type)
+        //{
+        //    case monsterTypes.critter:
+        //        Enemy enemy = Instantiate(critter, whereSpawn);
+        //        break;
+
+        //    case monsterTypes.howler:
+        //        break;
+        //}
         var enemy = Instantiate(pair.enemyType, whereSpawn);
         enemy.SetPlayerRef(playerRef);
         enemy.SetGeneratorRef(generatorRef, generatorAttackPosition);
         enemy.SetHidingSpots(hidingSpots);
         ennemies.Add(enemy.gameObject);
+        if(enemy.type == monsterTypes.howler)
+        {
+            enemy.priorityTarget = howlerTarget;
+        }
     }
 
 
@@ -112,7 +149,7 @@ public class WaveManager : MonoBehaviour
             doorToSpawn.Add(_door);
             doorAlerte[door.IndexOf(_door)].SetBool("Alerte", true);
             if (GeneratorBehaviour.instance.GetEnergy() > 0)
-            { 
+            {
                 Audio doorAlarmAudio = AudioManager.instance.PlayAudio(doorAlerte[door.IndexOf(_door)].gameObject.transform, "DoorAlarm", 0.5f);
                 alarmsAudio.Add(doorAlarmAudio);
                 StartCoroutine(StopAlarme(doorAlerte[door.IndexOf(_door)], doorAlarmAudio));

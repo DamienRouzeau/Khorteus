@@ -9,3 +9,9 @@ public enum monsterStats
     destructor = 1,
     hiding = 2,
 };
+
+public enum monsterTypes
+{
+    critter = 0,
+    howler = 1
+};

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     [SerializeField]
-    private EnemyBehaviour enemy;
+    private Enemy enemy;
 
     private void OnCollisionEnter(Collision collision)
     {

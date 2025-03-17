@@ -13,6 +13,7 @@ public class EnemyBehaviour : MonoBehaviour, Health
     private NavMeshAgent agent;
     public Transform player;
     public Transform generator;
+    public Transform priorityTarget;
     public Transform generatorAttackPos;
     private List<Transform> hidingSpots = new List<Transform>();
     private Transform target;
@@ -66,28 +67,38 @@ public class EnemyBehaviour : MonoBehaviour, Health
 
     void Update()
     {
-        switch (state) // Set target destination
+        if (priorityTarget != null)
         {
-            case monsterStats.chase:
-                target = player;
-                destinationSet = false;
-                break;
+            target = priorityTarget;
+            destinationSet = false;
+        }
+        else
+        {
 
-            case monsterStats.hiding:
-                Transform _closest = hidingSpots[0];
-                foreach (Transform pos in hidingSpots)
-                {
-                    if (Vector3.Distance(pos.position, player.position) < Vector3.Distance(_closest.position, player.position))
-                        _closest = pos;
-                }
-                target = _closest;
-                destinationSet = false;
-                break;
 
-            case monsterStats.destructor:
-                target = generatorAttackPos;
-                destinationSet = false;
-                break;
+            switch (state) // Set target destination
+            {
+                case monsterStats.chase:
+                    target = player;
+                    destinationSet = false;
+                    break;
+
+                case monsterStats.hiding:
+                    Transform _closest = hidingSpots[0];
+                    foreach (Transform pos in hidingSpots)
+                    {
+                        if (Vector3.Distance(pos.position, player.position) < Vector3.Distance(_closest.position, player.position))
+                            _closest = pos;
+                    }
+                    target = _closest;
+                    destinationSet = false;
+                    break;
+
+                case monsterStats.destructor:
+                    target = generatorAttackPos;
+                    destinationSet = false;
+                    break;
+            }
         }
 
         if (target != null && !destinationSet)

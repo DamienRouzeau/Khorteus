@@ -3927,6 +3927,7 @@ MonoBehaviour:
   RotationSpeed: 1
   SpeedChangeRate: 10
   playerInput: {fileID: 8616685848737228376}
+  tuto: 0
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.1
@@ -3965,7 +3966,7 @@ MonoBehaviour:
   inventory: {fileID: 6032091769562269369}
   turretSniper: {fileID: 1189349098327682127}
   turretMachineGun: {fileID: 0}
-  interactionDistance: 5
+  interactionDistance: 7.5
   minningStrenght: 0
   audioInterval: 0
   interactAction:
@@ -3977,6 +3978,10 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  canInteractWithGenerator: 1
+  canInteractWithTransfert: 1
+  canInteractWithDesktop: 1
+  canInteractWithHeal: 1
   notEnoughtMessage: {fileID: 1163014123549578085}
   notEnoughtCrystal: {fileID: 5643536452234000827}
   crosshairAnim: {fileID: 7646079168159908108}

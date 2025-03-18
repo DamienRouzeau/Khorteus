@@ -24,8 +24,8 @@ public class TurretBehaviour : MonoBehaviour
     private PoolTurret pool;
 
     [Header("In range")]
-    private EnemyBehaviour target;
-    private List<EnemyBehaviour> enemiesInRange = new List<EnemyBehaviour>();
+    private Enemy target;
+    private List<Enemy> enemiesInRange = new List<Enemy>();
 
     public void Init()
     {
@@ -87,13 +87,13 @@ public class TurretBehaviour : MonoBehaviour
         target = GetClosestEnemy();
     }
 
-    private EnemyBehaviour GetClosestEnemy()
+    private Enemy GetClosestEnemy()
     {
         enemiesInRange.RemoveAll(item => item == null);
         if (target != null) target.UnsubDie(RemoveDeadEnnemy);
         if (enemiesInRange == null || enemiesInRange.Count <= 0) return null;
-        EnemyBehaviour _closest = enemiesInRange[0];
-        foreach (EnemyBehaviour _enemy in enemiesInRange)
+        Enemy _closest = enemiesInRange[0];
+        foreach (Enemy _enemy in enemiesInRange)
         {
             if (Vector3.Distance(_enemy.transform.position, transform.position) < Vector3.Distance(_closest.transform.position, transform.position))
             {
@@ -107,10 +107,9 @@ public class TurretBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Enter in area");
         if (other.CompareTag("monster"))
         {
-            enemiesInRange.Add(other.gameObject.GetComponent<EnemyBehaviour>());
+            enemiesInRange.Add(other.gameObject.GetComponent<Enemy>());
             target = GetClosestEnemy();
         }
     }
@@ -119,7 +118,7 @@ public class TurretBehaviour : MonoBehaviour
     {
         if (other.CompareTag("monster"))
         {
-            enemiesInRange.Remove(other.gameObject.GetComponent<EnemyBehaviour>());
+            enemiesInRange.Remove(other.gameObject.GetComponent<Enemy>());
             if (enemiesInRange.Count > 0) target = GetClosestEnemy();
         }
     }

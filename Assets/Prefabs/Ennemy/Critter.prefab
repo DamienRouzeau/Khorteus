@@ -5611,6 +5611,7 @@ MonoBehaviour:
   anim: {fileID: 2321896062327094812}
   attackCollider: {fileID: 3817747806457539776}
   range: 3
+  type: 0
   state: 0
   rb: {fileID: 8009277623974899541}
 --- !u!195 &8959669139001996945
@@ -5672,7 +5673,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 262145
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0

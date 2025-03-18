@@ -43,6 +43,7 @@ public class BulletBehaviour : MonoBehaviour
     {
         if (collision.collider.CompareTag("monster"))
         {
+            print("Touched C");
             Health health = collision.gameObject.GetComponent<Health>();
             Hit(health);
         }
@@ -53,6 +54,7 @@ public class BulletBehaviour : MonoBehaviour
     {
         if (other.CompareTag("monster"))
         {
+            print("Touched T");
             Health health = other.gameObject.GetComponent<Health>();
             Hit(health);
         }

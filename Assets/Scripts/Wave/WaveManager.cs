@@ -61,11 +61,12 @@ public class WaveManager : MonoBehaviour
     public void StartNewWave()
     {
         currentWave++;
+        if (wave.Count < currentWave)
+            currentWave = wave.Count;
         ChooseRandomDoor(wave[currentWave].doorsOpen);
         spawnFinished = false;
         foreach (PairEnemyNB pair in wave[currentWave].waveComposition)
         {
-            print(pair.enemyType.type);
             for (int i = pair.numberToSpawn; i > 0; i--)
             {
                 StartCoroutine(SpawnWithDelay(pair, i));
@@ -95,15 +96,6 @@ public class WaveManager : MonoBehaviour
     {
         yield return new WaitForSeconds((pair.numberToSpawn - delay) * pair.intervalSpawn);
         Transform whereSpawn = doorToSpawn[Random.Range(0, doorToSpawn.Count)];
-        //switch(pair.enemyType.type)
-        //{
-        //    case monsterTypes.critter:
-        //        Enemy enemy = Instantiate(critter, whereSpawn);
-        //        break;
-
-        //    case monsterTypes.howler:
-        //        break;
-        //}
         var enemy = Instantiate(pair.enemyType, whereSpawn);
         enemy.SetPlayerRef(playerRef);
         enemy.SetGeneratorRef(generatorRef, generatorAttackPosition);

@@ -6,11 +6,12 @@ public class HowlerBehaviour : Enemy
 {
     private bool haveScream;
     [SerializeField] float dieDelay;
+    [SerializeField] private float alarmDelayAfterScream;
 
     protected override void Start()
     {
         base.Start();
-        //Play incomming sound
+        AudioManager.instance.PlayAudio(transform, "HowlerSpawn");
     }
 
     protected override void Update()
@@ -40,11 +41,17 @@ public class HowlerBehaviour : Enemy
     private void Scream()
     {
         haveScream = true;
-        WaveManager.instance.RestartCurrentWave();
         agent.SetDestination(transform.position);
         anim.SetTrigger("Scream");
-        //Play scream sound
+        AudioManager.instance.PlayAudio(transform, "HowlerScream");
+        StartCoroutine(ReactionTime());
         StartCoroutine(DieWithDelay());
+    }
+
+    private IEnumerator ReactionTime()
+    {
+        yield return new WaitForSeconds(alarmDelayAfterScream);
+        WaveManager.instance.RestartCurrentWave();
     }
 
     private IEnumerator DieWithDelay()

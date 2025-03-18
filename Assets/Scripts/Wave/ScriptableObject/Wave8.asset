@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wave8
   m_EditorClassIdentifier: 
   waveComposition:
-  - {fileID: 11400000, guid: fda5c16dc309c6344aa911660aa4c880, type: 2}
+  - {fileID: 11400000, guid: e450d95e25c30f44ba290586472f243a, type: 2}
   doorsOpen: 4

@@ -15,4 +15,4 @@ MonoBehaviour:
   waveComposition:
   - {fileID: 11400000, guid: ca5003be5dc880d448a5dd6c14407a34, type: 2}
   - {fileID: 11400000, guid: 6ff6f1f2d2e1e704f878e4234a831450, type: 2}
-  doorsOpen: 2
+  doorsOpen: 1

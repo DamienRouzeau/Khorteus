@@ -822,7 +822,8 @@ MonoBehaviour:
   type: 1
   state: 0
   rb: {fileID: 8487479791874936950}
-  dieDelay: 1
+  dieDelay: 2.5
+  alarmDelayAfterScream: 0.75
 --- !u!54 &8487479791874936950
 Rigidbody:
   m_ObjectHideFlags: 0

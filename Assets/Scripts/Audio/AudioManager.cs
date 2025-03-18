@@ -29,11 +29,8 @@ public class AudioManager : MonoBehaviour
                 audioObject.audioSource.Play();
                 return audioObject;
             }
-            else
-            {
-                print("Audio : " + _name + " not found");
-            }
         }
+        print("Audio : " + _name + " not found");
         return null;
     }
 

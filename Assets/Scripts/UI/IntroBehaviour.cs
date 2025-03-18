@@ -31,6 +31,8 @@ public class IntroBehaviour : MonoBehaviour
         if (PlayOnStart)
         {
             anim.SetTrigger("Show");
+            if (timeShow > 0)
+                StartCoroutine(Hide());
             StartCoroutine(AddLettre(text[0]));
         }
     }
@@ -96,8 +98,9 @@ public class IntroBehaviour : MonoBehaviour
         anim.SetTrigger("Show");
     }
 
-    public void Hide()
+    public IEnumerator Hide()
     {
+        yield return new WaitForSeconds(timeShow);
         anim.SetTrigger("Hide");
     }
 

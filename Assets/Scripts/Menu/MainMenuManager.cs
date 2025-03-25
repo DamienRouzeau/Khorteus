@@ -131,6 +131,7 @@ public class MainMenuManager : MonoBehaviour
         settingsCam.Priority = 1;
         mainMenuSection.SetActive(false);
         settingsSection.SetActive(true);
+        settingsSection.GetComponent<SettingBehaviour>().ActiveSettingsWindow();
     }
 
     public void OnCredits()

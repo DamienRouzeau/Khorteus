@@ -45,6 +45,12 @@ public class TutorielManager : MonoBehaviour
         {
             tutoTxt[i] = tutoTxt[i].Replace("\\n", "\n"); // Allow back to line
         }
+        StartCoroutine(DelayedStart());
+    }
+
+    private IEnumerator DelayedStart()
+    {
+        yield return new WaitForEndOfFrame();
         generator.SubCriticalEnergy(TriggerOOPActivation);
         generator.RemoveEnergie(78.75f);
         player.SubGetCrystal(TriggerCrystalActivation);

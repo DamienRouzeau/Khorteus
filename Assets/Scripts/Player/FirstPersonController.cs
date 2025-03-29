@@ -315,15 +315,17 @@ namespace Player
             if (canRotate) Aim();
             if (interacting && minning) { Minning(); }
             else if (interacting && crafting) { Crafting(); }
+
             #endregion
 
-            #region Reset all actions
+                #region Reset all actions
             else // No action
             {
                 interacting = false;
                 minning = false;
                 canMove = true;
                 canRotate = true;
+                minningSlider.gameObject.SetActive(false);
             }
             timeSinceLastBullet += Time.deltaTime;
             #endregion

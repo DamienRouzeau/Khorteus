@@ -310,8 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5737a926c1173ed49b4c355c40b690e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionnalDrain: 0.015
-  couldownShot: 1
+  additionnalDrain: 0.0165
+  couldownShot: 1.2
   poolBullets:
   - {fileID: 5167021922535375971}
   turretAnim:
@@ -351,7 +351,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 15
+  m_Radius: 17
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &795558284482488981
 Animator:

@@ -4391,7 +4391,7 @@ Animator:
   m_GameObject: {fileID: 440418538}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8f001085c102b5d4db145be6e2f59fe9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 7b4c95b2b9dca4a44af398772c402aba, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -15447,7 +15447,7 @@ PrefabInstance:
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.size
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
@@ -15468,17 +15468,17 @@ PrefabInstance:
         type: 3}
       propertyPath: lights.Array.data[3]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1754843822}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[4]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1243027445}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[5]
       value: 
-      objectReference: {fileID: 1754843822}
+      objectReference: {fileID: 1243027445}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[6]

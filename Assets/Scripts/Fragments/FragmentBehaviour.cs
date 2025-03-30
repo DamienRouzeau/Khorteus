@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class FragmentBehaviour : MonoBehaviour
 {
-    private FragmentType type;
+    public FragmentType type;
     private float timeBeforeEvolution;
     private GameObject visual;
     private FragmentManager manager;
     [SerializeField]
     //private Slider healthBar;
     private float health;
+    private int qttleft;
+    [SerializeField] private float healthStep = -1;
+    bool canEvolve = true;
 
     public void Init(FragmentManager manag)
     {
@@ -21,12 +24,14 @@ public class FragmentBehaviour : MonoBehaviour
     private void Start()
     {
         health = type.health;
+        if(healthStep == -1) healthStep = health / type.quantity;
+        qttleft = type.quantity;
     }
 
     private void FixedUpdate()
     {
         timeBeforeEvolution -= Time.fixedDeltaTime;
-        if(timeBeforeEvolution <= 0)
+        if (timeBeforeEvolution <= 0 && canEvolve)
         {
             Evolve();
         }
@@ -34,7 +39,7 @@ public class FragmentBehaviour : MonoBehaviour
 
     private void Evolve()
     {
-        if(type.nextEvolution != null)
+        if (type.nextEvolution != null)
         {
             SetEvolution(type.nextEvolution);
         }
@@ -46,7 +51,7 @@ public class FragmentBehaviour : MonoBehaviour
 
     public void SetEvolution(FragmentType newType)
     {
-        if(type == null)
+        if (type == null)
         {
             type = newType;
             health = type.maxHealth;
@@ -63,17 +68,22 @@ public class FragmentBehaviour : MonoBehaviour
         visual = newVisu;
     }
 
-    public void Hit(float dmg)
+    public int Hit(float dmg)
     {
+        canEvolve = false;
         health -= dmg;
-        if(health <= 0)
+        if (health <= 0)
         {
             DestroyFragment();
+            return qttleft;
         }
-        //else if(!healthBar.gameObject.activeInHierarchy)
-        //{
-        //    healthBar.gameObject.SetActive(true);
-        //}
+        print("step : " + (type.maxHealth - (healthStep * qttleft)));
+        if (health < type.maxHealth - (healthStep * (type.quantity - qttleft + 1)) && qttleft > 0)
+        {
+            qttleft--;
+            return 1;
+        }
+        return 0;
     }
 
     public float GetHealthValue()
@@ -82,7 +92,7 @@ public class FragmentBehaviour : MonoBehaviour
         return value;
     }
 
-    public int GetQuantity() { return type.quantity; }
+    public int GetQuantity() { return qttleft; }
 
     public float GetHealth() { return health; }
 

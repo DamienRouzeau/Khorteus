@@ -47,7 +47,11 @@ public class BulletBehaviour : MonoBehaviour
             Health health = collision.gameObject.GetComponent<Health>();
             Hit(health);
         }
-        //else Hit();
+        else
+        {
+            Debug.Log(collision.collider.name + " hitted with tag : " + collision.collider.tag);
+            Hit();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -58,7 +62,6 @@ public class BulletBehaviour : MonoBehaviour
             Health health = other.gameObject.GetComponent<Health>();
             Hit(health);
         }
-        //else Hit();
     }
 
 

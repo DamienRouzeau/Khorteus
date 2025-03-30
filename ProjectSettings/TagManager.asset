@@ -17,6 +17,7 @@ TagManager:
   - SF_Door
   - Center
   - HealMachine
+  - DeathArea
   layers:
   - Default
   - TransparentFX

@@ -158,6 +158,12 @@ namespace Player
         private GameObject redCrosshair;
         [SerializeField]
         private Slider minningSlider;
+        [SerializeField]
+        private GameObject littleFragSteps;
+        [SerializeField]
+        private GameObject mediumFragSteps;
+        [SerializeField]
+        private GameObject bigFragSteps;
 
         [Header("Stats On Death")]
         [SerializeField]
@@ -287,6 +293,9 @@ namespace Player
             getCrystal = new UnityEvent();
             getHealed = new UnityEvent();
             saveCrystal = new UnityEvent();
+            littleFragSteps.gameObject.SetActive(false);
+            mediumFragSteps.gameObject.SetActive(false);
+            bigFragSteps.gameObject.SetActive(false);
             #endregion
 
             #region OOP
@@ -318,7 +327,7 @@ namespace Player
 
             #endregion
 
-                #region Reset all actions
+            #region Reset all actions
             else // No action
             {
                 interacting = false;
@@ -326,6 +335,9 @@ namespace Player
                 canMove = true;
                 canRotate = true;
                 minningSlider.gameObject.SetActive(false);
+                littleFragSteps.gameObject.SetActive(false);
+                mediumFragSteps.gameObject.SetActive(false);
+                bigFragSteps.gameObject.SetActive(false);
             }
             timeSinceLastBullet += Time.deltaTime;
             #endregion
@@ -396,6 +408,7 @@ namespace Player
 
         private void LateUpdate()
         {
+            if (!canRotate) return;
             CameraRotation();
         }
 
@@ -466,6 +479,7 @@ namespace Player
 
             // move the player
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
         }
 
         private IEnumerator PlayStepAudio()
@@ -657,7 +671,7 @@ namespace Player
 
             if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hit, interactionDistance, InteractLayers))
             {
-                //Debug.Log(hit + " | " + hit.collider.gameObject);
+                // Action depending on raycast data
                 switch (hit.collider.tag)
                 {
                     case "generator":
@@ -795,9 +809,27 @@ namespace Player
             if (fragment == null)
             {
                 minning = false;
+                littleFragSteps.gameObject.SetActive(false);
+                mediumFragSteps.gameObject.SetActive(false);
+                bigFragSteps.gameObject.SetActive(false);
                 return;
             }
-            fragment.Hit(minningStrenght);
+            switch (fragment.type.quantity)
+            {
+                case 2: // Little crystal
+                    littleFragSteps.gameObject.SetActive(true);
+                    break;
+                case 4: // Medium crystal
+                    mediumFragSteps.gameObject.SetActive(true);
+                    break;
+                case 8: // Big crystal
+                    bigFragSteps.gameObject.SetActive(true);
+                    break;
+                default: // None
+                    Debug.LogWarning("Crystal with " + fragment.type.quantity + " crystals aren't adapted !");
+                    break;
+            }
+            inventory.AddFragment(fragment.Hit(minningStrenght));
             string[] name = {
                 "Minning1",
                 "Minning2",
@@ -812,9 +844,11 @@ namespace Player
             {
                 //Gain crystal
                 getCrystal.Invoke();
-                inventory.AddFragment(fragment.GetQuantity());
                 minningSlider.gameObject.SetActive(false);
                 minning = false;
+                littleFragSteps.gameObject.SetActive(false);
+                mediumFragSteps.gameObject.SetActive(false);
+                bigFragSteps.gameObject.SetActive(false);
             }
         }
         private IEnumerator WaitForAudio(string[] name)
@@ -880,7 +914,7 @@ namespace Player
                 Die();
             }
             getHit.SetTrigger("Hit");
-            if(GeneratorBehaviour.instance.GetEnergy() > 0) healthBarAnim.SetTrigger("GetHit");
+            if (GeneratorBehaviour.instance.GetEnergy() > 0) healthBarAnim.SetTrigger("GetHit");
             if (hitCoroutine == null) hitCoroutine = StartCoroutine(TakeDamageCouldown());
         }
 
@@ -1002,6 +1036,7 @@ namespace Player
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Center")) isInCenter = true;
+            if ((other.CompareTag("DeathArea"))) TakeDamage(9999);
         }
 
         private void OnTriggerExit(Collider other)

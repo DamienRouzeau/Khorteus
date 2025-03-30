@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139d64849203c0646a5012a5f6ccd9cd, type: 3}
   m_Name: MediumFragment
   m_EditorClassIdentifier: 
-  maxHealth: 30
-  health: 30
+  maxHealth: 40
+  health: 40
   probability: 20
   minTime: 120
   maxTime: 240

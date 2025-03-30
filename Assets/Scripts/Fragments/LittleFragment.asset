@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 139d64849203c0646a5012a5f6ccd9cd, type: 3}
   m_Name: LittleFragment
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  health: 10
-  probability: 75
+  maxHealth: 15
+  health: 15
+  probability: 20
   minTime: 60
   maxTime: 120
   visual: {fileID: 3380772109527769220, guid: 76c84a160ac076148ba3bed7c6b45493, type: 3}

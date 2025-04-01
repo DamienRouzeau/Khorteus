@@ -146,6 +146,7 @@ public class SpitterBehaviour : Enemy
     private IEnumerator Spit()
     {
         yield return new WaitForSeconds(0.25f);
+        AudioManager.instance.PlayAudio(transform, "Spit", 1, UnityEngine.Random.Range(0.94f, 1.2f));
         var _spit = Instantiate(spit, spitLauncher.transform);
         _spit.Spit(player, 5);
     }

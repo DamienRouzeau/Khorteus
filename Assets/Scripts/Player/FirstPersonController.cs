@@ -30,8 +30,8 @@ namespace Player
         public float RotationSpeed = 1.0f;
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
-        private bool canMove = true;
-        private bool canRotate = true;
+        public bool canMove = true;
+        public bool canRotate = true;
         [SerializeField]
         private PlayerInput playerInput;
         private bool isInCenter;
@@ -164,6 +164,10 @@ namespace Player
         private GameObject mediumFragSteps;
         [SerializeField]
         private GameObject bigFragSteps;
+        [SerializeField]
+        private MenuInGame menuInGame;
+        [HideInInspector]
+        public bool inMenu = false;
 
         [Header("Stats On Death")]
         [SerializeField]
@@ -338,7 +342,7 @@ namespace Player
                 interacting = false;
                 minning = false;
                 if(!isSpitted)canMove = true;
-                canRotate = true;
+                if(!inMenu) canRotate = true;
                 minningSlider.gameObject.SetActive(false);
                 littleFragSteps.gameObject.SetActive(false);
                 mediumFragSteps.gameObject.SetActive(false);
@@ -414,6 +418,7 @@ namespace Player
         private void LateUpdate()
         {
             if (!canRotate) return;
+            print(canRotate);
             CameraRotation();
         }
 
@@ -449,6 +454,7 @@ namespace Player
 
         private void Move()
         {
+            if (inMenu) return;
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
             if (targetSpeed == SprintSpeed)
@@ -509,6 +515,7 @@ namespace Player
 
         private void JumpAndGravity()
         {
+            if (inMenu) return;
             if (Grounded)
             {
                 // reset the fall timeout timer
@@ -566,8 +573,8 @@ namespace Player
         #region Weapon
 
         private void Aim()
-
         {
+            if (inMenu) return;
             if (isAiming != _input.aim && inventory.GetItemInHand().name == "Gun")
             {
                 isAiming = _input.aim;
@@ -578,6 +585,7 @@ namespace Player
 
         private void OnShot()
         {
+            if (inMenu) return;
             if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth > 0)
             {
                 if (bulletLeftInMagazine > 0)
@@ -610,6 +618,7 @@ namespace Player
 
         private void OnReload()
         {
+            if (inMenu) return;
             if (reloadCoroutine != null) return;
             if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth > 0)
             {
@@ -660,6 +669,7 @@ namespace Player
 
         private void OnScroll()
         {
+            if (inMenu) return;
             inventory.Scroll(_input.newWeapon);
         }
 
@@ -669,6 +679,7 @@ namespace Player
 
         private void OnInteract()
         {
+            if (inMenu) return;
             RaycastHit hit;
             interacting = true;
             Debug.DrawRay(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) * interactionDistance, Color.green, 100);
@@ -810,6 +821,7 @@ namespace Player
 
         private void Minning()
         {
+            if (inMenu) return;
             if (fragment == null)
             {
                 minning = false;
@@ -865,6 +877,8 @@ namespace Player
 
         private void Crafting()
         {
+            if (inMenu) return;
+
             if (desktop == null)
             {
                 crafting = false;
@@ -890,6 +904,18 @@ namespace Player
                 }
                 crafting = false;
             }
+        }
+
+
+
+        #endregion
+
+        #region Menu
+
+        private void OnEscape()
+        {
+            if (inMenu) menuInGame.OnResume();
+            else menuInGame.Active();
         }
 
         #endregion

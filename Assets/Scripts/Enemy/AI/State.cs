@@ -13,5 +13,6 @@ public enum monsterStats
 public enum monsterTypes
 {
     critter = 0,
-    howler = 1
+    howler = 1,
+    spitter = 2
 };

@@ -30,6 +30,8 @@ public class GeneratorBehaviour : MonoBehaviour
     private TMPro.TextMeshProUGUI timerText;
     [SerializeField]
     private TMPro.TextMeshProUGUI energyText;
+    [SerializeField] 
+    private TMPro.TextMeshProUGUI drainText;
 
 
     [Header("Alarme")]
@@ -66,6 +68,7 @@ public class GeneratorBehaviour : MonoBehaviour
         {
             light.SetBool("Power", true);
         }
+        UpdateDrain();
     }
 
     private void FixedUpdate()
@@ -171,11 +174,23 @@ public class GeneratorBehaviour : MonoBehaviour
     public void AddDrain(float drain)
     {
         additionnalEnergyDrain += drain;
+        UpdateDrain();
+    }
+
+    private void UpdateDrain()
+    {
+        float drain = additionnalEnergyDrain + energyDrain;
+        drain *= 100;
+        int drainTrunc = (int)drain;
+        drain = drainTrunc;
+        drain /= 100;
+        drainText.text = drain.ToString();
     }
 
     public void RemoveDrain(float drain)
     {
         additionnalEnergyDrain -= drain;
+        UpdateDrain();
     }
     #endregion
 

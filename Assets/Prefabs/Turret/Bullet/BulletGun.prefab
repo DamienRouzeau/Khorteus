@@ -145,6 +145,7 @@ MonoBehaviour:
   speed: 100
   damage: 10
   rb: {fileID: 0}
+  maxTimeAlive: 1
 --- !u!4 &7963669934356291615 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8407911293704337566, guid: 91f0d252e3ee65c47af53d25269fa36c,
@@ -227,12 +228,17 @@ PrefabInstance:
     - target: {fileID: 9215832044977627684, guid: 91f0d252e3ee65c47af53d25269fa36c,
         type: 3}
       propertyPath: m_Name
-      value: Bullet Variant
+      value: BulletGun
       objectReference: {fileID: 0}
     - target: {fileID: 9215832044977627684, guid: 91f0d252e3ee65c47af53d25269fa36c,
         type: 3}
       propertyPath: m_Layer
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 9215832044977627684, guid: 91f0d252e3ee65c47af53d25269fa36c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Bullet
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4828207702380574523, guid: 91f0d252e3ee65c47af53d25269fa36c, type: 3}
@@ -277,7 +283,7 @@ CapsuleCollider:
     m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2092983
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -303,10 +309,10 @@ Rigidbody:
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2101248
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2092983
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
@@ -329,6 +335,7 @@ MonoBehaviour:
   speed: 100
   damage: 10
   rb: {fileID: 2574484298076101363}
+  maxTimeAlive: 10
 --- !u!4 &4247158324748526266 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8407911293704337566, guid: 91f0d252e3ee65c47af53d25269fa36c,

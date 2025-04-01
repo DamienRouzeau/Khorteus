@@ -184,6 +184,11 @@ namespace Player
         private float stepCouldown;
         private Coroutine stepCoroutine;
 
+        [Header("Spit")]
+        [SerializeField] SpitOnGroundBehaviour spit;
+        [SerializeField] Animator spitAnim;
+        bool isSpitted = false;
+
         // cinemachine
         private float _cinemachineTargetPitch;
 
@@ -332,7 +337,7 @@ namespace Player
             {
                 interacting = false;
                 minning = false;
-                canMove = true;
+                if(!isSpitted)canMove = true;
                 canRotate = true;
                 minningSlider.gameObject.SetActive(false);
                 littleFragSteps.gameObject.SetActive(false);
@@ -583,7 +588,6 @@ namespace Player
                     timeSinceLastBullet = 0;
                     bullet.Launch();
                     bulletLeftInMagazine--;
-                    Debug.Log(bulletLeftInMagazine);
                     if (bulletLeftInMagazine <= 0)
                     {
 
@@ -936,6 +940,21 @@ namespace Player
             hitCoroutine = null;
         }
 
+        public void GetSpitted()
+        {
+            spitAnim.SetBool("Spitted", true);
+            spit.gameObject.SetActive(true);
+            spit.Init(this);
+            isSpitted = true;
+            canMove = false;
+        }
+
+        public void UnSpitted()
+        {
+            canMove = true;
+            isSpitted = false;
+            spitAnim.SetBool("Spitted", false);
+        }
 
         public void Die()
         {

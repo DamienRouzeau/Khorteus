@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Wave12
   m_EditorClassIdentifier: 
   waveComposition:
-  - {fileID: 11400000, guid: e450d95e25c30f44ba290586472f243a, type: 2}
-  - {fileID: 11400000, guid: e450d95e25c30f44ba290586472f243a, type: 2}
-  doorsOpen: 4
+  - {fileID: 11400000, guid: 306fdb1ffb09ceb47891870633847ceb, type: 2}
+  - {fileID: 11400000, guid: 74b064b8d656912478cf1b01745ce183, type: 2}
+  doorsOpen: 1

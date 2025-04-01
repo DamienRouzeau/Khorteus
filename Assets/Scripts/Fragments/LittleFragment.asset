@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 15
   health: 15
-  probability: 20
+  probability: 75
   minTime: 60
   maxTime: 120
   visual: {fileID: 3380772109527769220, guid: 76c84a160ac076148ba3bed7c6b45493, type: 3}

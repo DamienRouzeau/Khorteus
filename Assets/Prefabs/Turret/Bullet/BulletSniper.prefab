@@ -235,6 +235,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 9215832044977627684, guid: 91f0d252e3ee65c47af53d25269fa36c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Bullet
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4828207702380574523, guid: 91f0d252e3ee65c47af53d25269fa36c, type: 3}
     - {fileID: 7270439390237819889, guid: 91f0d252e3ee65c47af53d25269fa36c, type: 3}

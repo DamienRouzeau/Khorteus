@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5737a926c1173ed49b4c355c40b690e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  additionnalDrain: 0.022
+  additionnalDrain: 0.12
   couldownShot: 0.3
   poolBullets:
   - {fileID: 7767042962503070567}

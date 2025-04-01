@@ -15,5 +15,5 @@ MonoBehaviour:
   waveComposition:
   - {fileID: 11400000, guid: e450d95e25c30f44ba290586472f243a, type: 2}
   - {fileID: 11400000, guid: e450d95e25c30f44ba290586472f243a, type: 2}
-  - {fileID: 11400000, guid: 6ff6f1f2d2e1e704f878e4234a831450, type: 2}
+  - {fileID: 11400000, guid: 39637b63265bc2647828382ad4f4e3bf, type: 2}
   doorsOpen: 4

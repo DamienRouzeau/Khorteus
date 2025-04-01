@@ -24,9 +24,13 @@ public class BulletBehaviour : MonoBehaviour
     private void Update()
     {
         //transform.position -= transform.right * speed * Time.deltaTime;
+        Debug.DrawRay(transform.position, transform.forward * 5f, Color.red);
+
         timeAlive -= Time.deltaTime;
         if (timeAlive <= 0) Hit();
     }
+
+
 
     public void Launch()
     {
@@ -41,6 +45,7 @@ public class BulletBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision.collider.name + " hitted with tag : " + collision.collider.tag + " and layer : " + collision.collider.gameObject.layer);
         if (collision.collider.CompareTag("monster"))
         {
             print("Touched C");
@@ -49,13 +54,13 @@ public class BulletBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log(collision.collider.name + " hitted with tag : " + collision.collider.tag);
             Hit();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name + " hitted with tag : " + other.tag + " and layer : " + other.gameObject.layer);
         if (other.CompareTag("monster"))
         {
             print("Touched T");
@@ -65,14 +70,14 @@ public class BulletBehaviour : MonoBehaviour
     }
 
 
-    private void Hit(Health health)
+    public void Hit(Health health)
     {
         rb.velocity = Vector3.zero;
         health.TakeDamage(damage);
         pool.AddBulletToPool(this);
     }
 
-    private void Hit()
+    public void Hit()
     {
         rb.velocity = Vector3.zero;
         pool.AddBulletToPool(this);
@@ -82,4 +87,6 @@ public class BulletBehaviour : MonoBehaviour
     {
         damage += dmg;
     }
+
+    public float GetDamage() { return damage; }
 }

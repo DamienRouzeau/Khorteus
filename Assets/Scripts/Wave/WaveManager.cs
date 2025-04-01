@@ -105,6 +105,10 @@ public class WaveManager : MonoBehaviour
         {
             enemy.priorityTarget = howlerTarget;
         }
+        if (enemy.type == monsterTypes.spitter)
+        {
+            enemy.priorityTarget = playerRef;
+        }
     }
 
 

@@ -773,7 +773,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: ac0128c3cdee57546b9e0dbca070f8dc, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -1610,7 +1610,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 452da3816efc6f94991f4388a9232337, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -3031,7 +3031,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 38140da9216439241a303ab8916529bc, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -7119,7 +7119,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4331686988837673053, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 3384276060104462693, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 3916074913465090206, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 9092713627250198960, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 2876227549283370086, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 138535318970949500, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 3705165162931818774, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 4889433599934003105, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 8320316016346652477, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 3584933787783034736, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 1785992185665784715, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
+    - {fileID: 3846345331903047370, guid: c5efc39a8aaf6e64ea40e9ad573e9b47, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4343087753704249328, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
@@ -7962,7 +7973,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 842b12330d0cb1645809ed5857d1ad24, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -8089,7 +8100,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: fc71ef90223b15d48a5b0520ae139ece, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -10683,7 +10694,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 4177fc13a5716a941bd7d91ea668837e, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -12115,33 +12126,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1298437438}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1243027440 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8583428674547282767, guid: 24f8e3fea5541ab44b4e31accf784468,
-    type: 3}
-  m_PrefabInstance: {fileID: 437338457518051977}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1243027445
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1243027440}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c7de854f431561d4987a32caf8db3797, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1298174667
 GameObject:
   m_ObjectHideFlags: 0
@@ -12992,7 +12976,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: ed07caff0cbbd0145b874521fe0fec77, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -13163,6 +13147,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ClearFlags
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74,
+        type: 3}
+      propertyPath: field of view
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9005220659476430821, guid: 2d3a85ecde41a8246a79669975912b74,
         type: 3}
@@ -15472,7 +15461,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 6230b3a8933f1fa4caae66732acd81d3, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -15661,18 +15650,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
+      propertyPath: energyText
+      value: 
+      objectReference: {fileID: 1687687552}
+    - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
+        type: 3}
       propertyPath: energyDrain
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: fragmentConvertion
-      value: 30
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
@@ -15693,22 +15687,22 @@ PrefabInstance:
         type: 3}
       propertyPath: lights.Array.data[4]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[5]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[6]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[7]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[8]
@@ -15748,12 +15742,12 @@ PrefabInstance:
         type: 3}
       propertyPath: lights.Array.data[15]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: lights.Array.data[16]
       value: 
-      objectReference: {fileID: 1243027445}
+      objectReference: {fileID: 0}
     - target: {fileID: 7833074680187887900, guid: 156a96f83efc66043ab0e2e7b9515317,
         type: 3}
       propertyPath: energyCriticalThreshold
@@ -15805,6 +15799,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ee11c7cbfaf1e1499ad753c150169ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1687687552 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8390926009356151479, guid: 156a96f83efc66043ab0e2e7b9515317,
+    type: 3}
+  m_PrefabInstance: {fileID: 1687687549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1704524899
@@ -20020,7 +20026,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 8300000, guid: 759a83fb3969e7d4b9d401f93564b995, type: 3}
+      objectReference: {fileID: 8300000, guid: 2deeb5a073887944bbf772b48a1736a0, type: 3}
     - target: {fileID: 236522102586641359, guid: 1f6f9103fc3de9947809604990c8e21e,
         type: 3}
       propertyPath: m_PlayOnAwake
@@ -20759,11 +20765,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8583428674547282767, guid: 24f8e3fea5541ab44b4e31accf784468,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1243027445}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24f8e3fea5541ab44b4e31accf784468, type: 3}
 --- !u!1001 &850854218366837206
 PrefabInstance:

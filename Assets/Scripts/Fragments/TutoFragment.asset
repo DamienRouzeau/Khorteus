@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   health: 10
-  probability: 1e+13
-  minTime: 9999999
-  maxTime: 100000000
+  probability: 99
+  minTime: 9999
+  maxTime: 9999
   visual: {fileID: 3380772109527769220, guid: 76c84a160ac076148ba3bed7c6b45493, type: 3}
   nextEvolution: {fileID: 11400000, guid: e1460d258f431f143b62e5d46bdaeb20, type: 2}
   quantity: 4

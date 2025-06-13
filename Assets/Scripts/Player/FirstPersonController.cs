@@ -25,6 +25,7 @@ namespace Player
         [Tooltip("Sprint speed of the character in m/s")]
         [Range(0, 20)]
         public float SprintSpeed = 6.0f;
+        private bool canSprint = true;
         [Tooltip("Rotation speed of the character")]
         [Range(0, 5)]
         public float RotationSpeed = 1.0f;
@@ -455,7 +456,9 @@ namespace Player
         private void Move()
         {
             if (inMenu) return;
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            float targetSpeed = MoveSpeed;
+            if (_input.sprint && canSprint)
+                targetSpeed = SprintSpeed;
 
             if (targetSpeed == SprintSpeed)
             {
@@ -598,7 +601,7 @@ namespace Player
                     bulletLeftInMagazine--;
                     if (bulletLeftInMagazine <= 0)
                     {
-
+                        canSprint = false;
                         reloadCoroutine = StartCoroutine(WaitReloadTimer());
                     }
                 }
@@ -623,6 +626,7 @@ namespace Player
             if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth > 0)
             {
                 bulletLeftInMagazine = 0;
+                canSprint = false;
                 reloadCoroutine = StartCoroutine(WaitReloadTimer());
             }
         }
@@ -634,6 +638,7 @@ namespace Player
             weaponAnim.SetTrigger("Reload");
             yield return new WaitForSeconds(reloadTime);
             bulletLeftInMagazine = maxBulletInMagazine;
+            canSprint = true;
             reloadCoroutine = null;
         }
 

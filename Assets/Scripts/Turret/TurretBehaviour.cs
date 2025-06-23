@@ -33,8 +33,57 @@ public class TurretBehaviour : MonoBehaviour
         timeSinceLastShot = couldownShot;
         generator.SubOutOfPower(RanOutOfPower);
         generator.SubPowerBack(PowerBack);
-        
 
+        GameData gameData = SaveSystem.Load();
+        if (gameData == null)
+        {
+            Debug.LogError("Can't load save data");
+        }
+        else
+        {
+            print(gameData.upgradesUnlocked.Count + " upgrades");
+            foreach (UpgradeDataSave upgradeSaved in gameData.upgradesUnlocked)
+            {
+                if (upgradeSaved.type == UpgradeType.Turret)
+                    switch (upgradeSaved.upgradeID)
+                    {
+                        case 13:
+                            float reduce = (upgradeSaved.incrementValue * couldownShot) / 100;
+                            couldownShot -= reduce;
+                            foreach (Animator anim in turretAnim)
+                            {
+                                anim.speed += reduce;
+                            }
+                            Debug.Log("Upgrade 1 of turret detected for " + turretType + " , shot couldown is now of " + couldownShot);
+                            break;
+
+
+                        case 14:
+                            float reduce1 = (upgradeSaved.incrementValue * additionnalDrain) / 100;
+                            additionnalDrain -= reduce1;
+                            Debug.Log("Upgrade 1 of turret detected for " + turretType + " , additionnal drain is now " + additionnalDrain);
+                            break;
+
+
+                        case 15:
+                            float reduce2 = (upgradeSaved.incrementValue * couldownShot) / 100;
+                            couldownShot -= reduce2;
+                            foreach (Animator anim in turretAnim)
+                            {
+                                anim.speed += reduce2;
+                            }
+                            Debug.Log("Upgrade 1 of turret detected for " + turretType + " , shot couldown is now of " + couldownShot);
+                            break;
+
+
+                        case 16:
+                            float reduce3 = (upgradeSaved.incrementValue * additionnalDrain) / 100;
+                            additionnalDrain -= reduce3;
+                            Debug.Log("Upgrade 1 of turret detected for " + turretType + " , additionnal drain is now " + additionnalDrain);
+                            break;
+                    }
+            }
+        }
         if (generator.GetEnergy() > 0) isActive = true;
         generator.AddDrain(additionnalDrain);
     }

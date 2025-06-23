@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 1
   title: Offensive
   description: Each bullet does 4 additional damage
-  cost: 5
+  cost: 25
   upgradeID: 4
   isUnlocked: 1
   previousUpgradeID: 0

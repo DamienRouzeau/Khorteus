@@ -15,6 +15,7 @@ public class FragmentBehaviour : MonoBehaviour
     private int qttleft;
     [SerializeField] private float healthStep = -1;
     bool canEvolve = true;
+    [SerializeField] ParticleSystem particles;
 
     public void Init(FragmentManager manag)
     {
@@ -80,6 +81,7 @@ public class FragmentBehaviour : MonoBehaviour
         print("step : " + (type.maxHealth - (healthStep * qttleft)));
         if (health < type.maxHealth - (healthStep * (type.quantity - qttleft + 1)) && qttleft > 0)
         {
+            particles.Play();
             qttleft--;
             return 1;
         }

@@ -23,6 +23,7 @@ public class UpgradesManager : MonoBehaviour
     [SerializeField] private Animator descriptionAnim;
 
     [Header("Description")]
+
     private float maxHealth = 100;
 
 
@@ -61,8 +62,6 @@ public class UpgradesManager : MonoBehaviour
         {
             if(button.data.isUnlocked)
             {
-                Button background = button.GetComponent<Button>();
-                background.image.color = new Color(background.image.color.r, background.image.color.g, background.image.color.b, 1);
                 button.Unlocked();
             }
         }

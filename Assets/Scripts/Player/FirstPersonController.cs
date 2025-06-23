@@ -154,6 +154,9 @@ namespace Player
         private InputAction interactAction;
         private bool turretInHand;
         UnityEvent getCrystal, saveCrystal;
+        private Coroutine keepSaving, tickToSave = null;
+        private bool saveALot;
+        [SerializeField] private float secondbetweenTwoSaves;
         public bool canInteractWithGenerator = true, canInteractWithTransfert = true, canInteractWithDesktop = true, canInteractWithHeal = true;
 
         [Header("UI")]
@@ -349,7 +352,7 @@ namespace Player
             #endregion
 
             #region Reset all actions
-            else // No action
+            else if(interacting && keepSaving == null) // No action
             {
                 interacting = false;
                 minning = false;
@@ -425,6 +428,38 @@ namespace Player
 
             if (currentHealth != maxHealth) healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0.5f - (currentHealth / 100));
             else healthFilter.color = new Color(healthFilter.color.r, healthFilter.color.g, healthFilter.color.b, 0);
+
+            if (keepSaving != null && !interacting)
+            { StopCoroutine(keepSaving); }
+            if(saveALot && tickToSave == null)
+            {
+                Debug.Log("[Save Debug] tick to save is null !!");
+                if (inventory.GetFragmentQuantity() > 0)
+                {
+                    Debug.Log("[Save Debug] enought fragments !!");
+
+                    saveCrystal.Invoke();
+                    int crystalQTT = SaveSystem.Load().crystalQuantity;
+                    crystalQTT += 1;
+                    inventory.RemoveFragment(1);
+                    SaveSystem.SetCrystalQuantity(crystalQTT);
+                    FragmentTransfert.instance.AddCrystalSaved(1);
+                    tickToSave = StartCoroutine(TickBetweenTwoSave());
+                }
+                else
+                {
+                    notEnoughtMessage.SetTrigger("Show");
+                    notEnoughtCrystal.SetTrigger("NotEnought");
+                    Debug.Log("[Save Debug] NOT enought fragments !!");
+
+                }
+            }
+        }
+
+        private IEnumerator TickBetweenTwoSave()
+        {
+            yield return new WaitForSeconds(secondbetweenTwoSaves);
+            tickToSave = null;
         }
 
         private void LateUpdate()
@@ -823,6 +858,10 @@ namespace Player
                             inventory.RemoveFragment(1);
                             SaveSystem.SetCrystalQuantity(crystalQTT);
                             FragmentTransfert.instance.AddCrystalSaved(1);
+                            Debug.Log("[Save Debug] save 1 frag");
+                            canRotate = false;
+                            canMove = false;
+                            if (inventory.GetFragmentQuantity() > 0) keepSaving = StartCoroutine(CheckKeepSaving());
                         }
                         else
                         {
@@ -870,6 +909,13 @@ namespace Player
                 }
             }
 
+        }
+
+        private IEnumerator CheckKeepSaving()
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log("[Save Debug] SAVE A LOT !!!");
+            saveALot = true;
         }
 
         private void OnInteractWithGamepad()
@@ -955,6 +1001,10 @@ namespace Player
                             inventory.RemoveFragment(1);
                             SaveSystem.SetCrystalQuantity(crystalQTT);
                             FragmentTransfert.instance.AddCrystalSaved(1);
+                            Debug.Log("[Save Debug] save 1 frag");
+                            canRotate = false;
+                            canMove = false;
+                            if (inventory.GetFragmentQuantity() > 0) keepSaving = StartCoroutine(CheckKeepSaving());
                         }
                         else
                         {
@@ -1011,10 +1061,12 @@ namespace Player
         {
             if (context.canceled)
             {
+                Debug.Log("[Save Debug] Interaction canceled");
                 interacting = false;
                 canMove = true;
                 canRotate = true;
                 fragment = null;
+                saveALot = false;
             }
         }
 

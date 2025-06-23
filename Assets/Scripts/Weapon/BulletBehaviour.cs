@@ -31,7 +31,6 @@ public class BulletBehaviour : MonoBehaviour
     }
 
 
-
     public void Launch()
     {
         timeAlive = maxTimeAlive; 
@@ -86,6 +85,11 @@ public class BulletBehaviour : MonoBehaviour
     public void AddDamage(float dmg)
     {
         damage += dmg;
+    }
+
+    public void SetDamage(float dmg)
+    {
+        damage = dmg;
     }
 
     public float GetDamage() { return damage; }

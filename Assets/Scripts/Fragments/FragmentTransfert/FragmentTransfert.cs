@@ -10,6 +10,8 @@ public class FragmentTransfert : MonoBehaviour
 
     private int fragmentsSaved = 0;
     [SerializeField] private TextMeshProUGUI crystalsSavedTxt;
+    private Coroutine keepSaving;
+    private bool saveALot;
 
     private void Awake()
     {
@@ -21,11 +23,25 @@ public class FragmentTransfert : MonoBehaviour
         crystalsSavedTxt.text = fragmentsSaved.ToString();
     }
 
+    private void Update()
+    {
+        if(saveALot)
+        {
+            AddCrystalSaved(1);
+        }
+    }
+
     public void AddCrystalSaved(int nb)
     {
         fragmentsSaved += nb;
         crystalsSavedTxt.text = fragmentsSaved.ToString();
         AudioManager.instance.PlayAudio(transform, "CrystalSave");
+    }
+
+    private IEnumerator CheckKeepSaving()
+    {
+        yield return new WaitForSeconds(1);
+        saveALot = true;
     }
 
     public int GetFragmentsSaved() { return fragmentsSaved; }

@@ -6,7 +6,8 @@ public enum UpgradeType
 {
     Heal,
     Damage,
-    Speed
+    Speed,
+    Turret
 }
 
 [CreateAssetMenu(fileName = "Upgrade", menuName = "ScriptableObject/Upgrade", order = 4)]

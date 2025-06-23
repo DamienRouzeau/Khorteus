@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9336bb99c10cec479248aa3eccb83a4, type: 3}
-  m_Name: Heal3
+  m_Name: Turret2
   m_EditorClassIdentifier: 
-  type: 0
-  title: Health
-  description: Add 10 to your maximum health
-  cost: 30
-  upgradeID: 2
+  type: 3
+  title: Turret
+  description: Decrease energy drain for each turret by 15 %
+  cost: 75
+  upgradeID: 14
   isUnlocked: 1
-  previousUpgradeID: 1
-  incrementValue: 10
+  previousUpgradeID: 13
+  incrementValue: 15

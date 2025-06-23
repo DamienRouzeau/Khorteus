@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9336bb99c10cec479248aa3eccb83a4, type: 3}
-  m_Name: Heal3
+  m_Name: Turret3
   m_EditorClassIdentifier: 
-  type: 0
-  title: Health
-  description: Add 10 to your maximum health
-  cost: 30
-  upgradeID: 2
+  type: 3
+  title: Turret
+  description: Decrease shot couldown for each turret by 10 %
+  cost: 100
+  upgradeID: 15
   isUnlocked: 1
-  previousUpgradeID: 1
+  previousUpgradeID: 14
   incrementValue: 10

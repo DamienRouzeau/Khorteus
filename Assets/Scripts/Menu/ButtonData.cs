@@ -9,6 +9,8 @@ public class ButtonData : MonoBehaviour
     public UpgradeData data;
     [SerializeField] private Animator anim;
     private bool shouldHide;
+    [SerializeField] TextMeshProUGUI level;
+    [SerializeField] Color unlockedColor;
 
     void Start()
     {
@@ -29,7 +31,8 @@ public class ButtonData : MonoBehaviour
 
     public void Unlocked()
     {
-        anim.SetBool("isUnlocked", true);
+        //anim.SetBool("isUnlocked", true);
+        level.color = unlockedColor;
     }
 
     public void Hover()
@@ -46,4 +49,5 @@ public class ButtonData : MonoBehaviour
             shouldHide = false;
         }
     }
+
 }

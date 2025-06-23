@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 2
   title: Speed
   description: Make you move 2% faster
-  cost: 25
+  cost: 50
   upgradeID: 12
   isUnlocked: 1
   previousUpgradeID: 11

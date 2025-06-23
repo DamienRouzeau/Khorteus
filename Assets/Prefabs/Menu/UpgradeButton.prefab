@@ -154,6 +154,8 @@ MonoBehaviour:
   cost: {fileID: 6896492296527229696}
   data: {fileID: 0}
   anim: {fileID: 5209378078292472034}
+  level: {fileID: 7639582225932599755}
+  unlockedColor: {r: 0.16862746, g: 0.47058824, b: 0.1882353, a: 1}
 --- !u!95 &5209378078292472034
 Animator:
   serializedVersion: 5
@@ -586,7 +588,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e25c6053a1aced546a980b5123c8bc81, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b789303223d50d44da9ab9a2ae334dcc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

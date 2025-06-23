@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Heal1
   m_EditorClassIdentifier: 
   type: 0
+  title: Health
+  description: Add 10 to your maximum health
   cost: 1
   upgradeID: 0
-  isUnlocked: 0
+  isUnlocked: 1
   previousUpgradeID: 0
   incrementValue: 10

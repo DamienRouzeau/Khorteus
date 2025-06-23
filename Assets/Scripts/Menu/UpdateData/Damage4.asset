@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Damage4
   m_EditorClassIdentifier: 
   type: 1
+  title: Offensive
+  description: Each bullet does 4 additional damage
   cost: 50
   upgradeID: 7
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 6
   incrementValue: 4

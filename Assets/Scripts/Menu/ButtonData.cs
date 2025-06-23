@@ -8,6 +8,7 @@ public class ButtonData : MonoBehaviour
     [SerializeField] private TextMeshProUGUI cost;
     public UpgradeData data;
     [SerializeField] private Animator anim;
+    private bool shouldHide;
 
     void Start()
     {
@@ -29,5 +30,20 @@ public class ButtonData : MonoBehaviour
     public void Unlocked()
     {
         anim.SetBool("isUnlocked", true);
+    }
+
+    public void Hover()
+    {
+        UpgradesManager.instance.ShowDescription(data.title, data.description, data.cost);
+        shouldHide = true;
+    }
+
+    public void Normal()
+    {
+        if (shouldHide)
+        {
+            UpgradesManager.instance.HideDescription();
+            shouldHide = false;
+        }
     }
 }

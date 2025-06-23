@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "InteractWithGamepad",
+                    "type": "Button",
+                    "id": "105b696e-1f75-4788-8367-cedff06e8521",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Scroll",
                     "type": "Value",
                     "id": "e361ef30-5aef-43ea-be10-4643ef0f5df7",
@@ -265,7 +274,7 @@
                 {
                     "name": "",
                     "id": "c8fcd86e-dcfd-4f88-8e93-b638cdbf3320",
-                    "path": "<Gamepad>/leftTrigger",
+                    "path": "<Gamepad>/leftStickPress",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -297,6 +306,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ef005453-8e6c-4894-aca9-31fd8db41f01",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "99d5dc21-ce45-4b0c-9011-46ac23c082ec",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -319,18 +339,18 @@
                 },
                 {
                     "name": "",
-                    "id": "4a157653-ec7c-400e-bb6c-d69dd7d359a8",
-                    "path": "<Keyboard>/e",
+                    "id": "9041ed81-21a9-461f-b319-da4c3bc0a700",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "Shot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "486decc8-2f1a-4573-9c28-7e87dedeff18",
+                    "id": "4a157653-ec7c-400e-bb6c-d69dd7d359a8",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
@@ -374,6 +394,17 @@
                 },
                 {
                     "name": "",
+                    "id": "8b7525b4-5413-4a28-acc2-982031ffd6b9",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Scroll",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3785e025-24ce-4ee7-8d6b-9a2704da046c",
                     "path": "<Keyboard>/r",
                     "interactions": "",
@@ -391,6 +422,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "983b7b83-81fa-4e15-b0de-8b1b694415fc",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0c485a57-03b0-45d9-99b4-0a3e57a57711",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1ebb7827-c9c4-4d91-a370-e45fec426344",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractWithGamepad",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

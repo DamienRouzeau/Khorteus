@@ -16,6 +16,16 @@ public class UpgradesManager : MonoBehaviour
     [SerializeField] private List<UpgradeData> upgrades = new();
     [SerializeField] private List<ButtonData> upgradeButton;
 
+    [Header("Description")]
+    [SerializeField] private TextMeshProUGUI upgradeTitle;
+    [SerializeField] private TextMeshProUGUI upgradeDescription;
+    [SerializeField] private TextMeshProUGUI upgradeCost;
+    [SerializeField] private Animator descriptionAnim;
+
+    [Header("Description")]
+    private float maxHealth = 100;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this) Destroy(this);
@@ -89,5 +99,19 @@ public class UpgradesManager : MonoBehaviour
                 button.Unlocked();
             }
         }
+    }
+
+    public void ShowDescription(string title, string description, int cost)
+    {
+        descriptionAnim.SetTrigger("show");
+        upgradeTitle.text = title;
+        upgradeDescription.text = description;
+        upgradeCost.text = cost.ToString();
+    }
+
+    public void HideDescription()
+    {
+        Debug.Log("Hide");
+        descriptionAnim.SetTrigger("hide");
     }
 }

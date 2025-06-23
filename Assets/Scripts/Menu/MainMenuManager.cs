@@ -69,6 +69,7 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.instance.PlayAudio(transform, "Whoosh");
         }
         isBeggining = false;
+        EventSystem.current.SetSelectedGameObject(null);
         mainMenuSection.SetActive(true);
         upgradeSection.SetActive(false);
         creditsSection.SetActive(false);
@@ -78,6 +79,7 @@ public class MainMenuManager : MonoBehaviour
         upgradeCam.Priority = 0;
         settingsCam.Priority = 0;
         creditsCam.Priority = 0;
+        EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
     }
 
     public void OnPlay()
@@ -115,33 +117,39 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnUpdate()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
         AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         upgradeCam.Priority = 1;
         mainMenuSection.SetActive(false);
         upgradeSection.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(buttons[6].gameObject);
     }
 
     public void OnSettings()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
         AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         settingsCam.Priority = 1;
         mainMenuSection.SetActive(false);
         settingsSection.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(buttons[21].gameObject);
         settingsSection.GetComponent<SettingBehaviour>().ActiveSettingsWindow();
     }
 
     public void OnCredits()
     {
+        EventSystem.current.SetSelectedGameObject(null);
         AudioManager.instance.PlayAudio(transform, "Clic", volumeClic);
         AudioManager.instance.PlayAudio(transform, "Whoosh");
         mainMenuCam.Priority = 0;
         creditsCam.Priority = 1;
         mainMenuSection.SetActive(false);
         creditsSection.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(buttons[15].gameObject);
     }
 
     public void OnQuit()

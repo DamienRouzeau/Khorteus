@@ -49,6 +49,7 @@ public class InventorySystem : MonoBehaviour
 
     public void Scroll(float value)
     {
+        print(value);
         if (value > 0)
         {
             items[itemInHand].SetActive(false);

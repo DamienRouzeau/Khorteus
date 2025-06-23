@@ -37,6 +37,12 @@ public class MenuInGame : MonoBehaviour
         StartCoroutine(FixButtonHover());
     }
 
+    public IEnumerator GamepadActivation()
+    {
+        yield return null;
+        EventSystem.current.SetSelectedGameObject(resume.gameObject);
+    }
+
     IEnumerator FixButtonHover()
     {
         yield return null;

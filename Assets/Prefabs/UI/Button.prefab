@@ -74,7 +74,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280821366
+    rgba: 4279637335
   m_fontColor: {r: 0.34117648, g: 0.08235294, b: 0.08627451, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -221,6 +221,7 @@ GameObject:
   - component: {fileID: 6982344583661980707}
   - component: {fileID: 8570323383795190789}
   - component: {fileID: 1714082232297048315}
+  - component: {fileID: 5740882338107508454}
   - component: {fileID: 7098896196198422027}
   m_Layer: 5
   m_Name: Button
@@ -344,6 +345,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5740882338107508454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7414128426420594736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6310b502f2de59745ae4b48b2e7298d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 823069795232220480}
+  normalColor: {r: 0.34117648, g: 0.08235294, b: 0.08627451, a: 1}
+  debug: 0
+  anim: {fileID: 0}
+  highlightedColor: {r: 0.4627451, g: 0.14901961, b: 0.15686275, a: 1}
 --- !u!95 &7098896196198422027
 Animator:
   serializedVersion: 5

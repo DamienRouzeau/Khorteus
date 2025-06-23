@@ -8,6 +8,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Events;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.InputSystem.LowLevel;
+
 
 namespace Player
 {
@@ -29,6 +32,8 @@ namespace Player
         [Tooltip("Rotation speed of the character")]
         [Range(0, 5)]
         public float RotationSpeed = 1.0f;
+        [SerializeField] private float MouseRotationSpeed = 1.0f;
+        [SerializeField] private float GamepadRotationSpeed = 0.4f;
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
         public bool canMove = true;
@@ -61,6 +66,8 @@ namespace Player
         [Tooltip("What layers the character uses as ground")]
         public LayerMask GroundLayers;
         public LayerMask InteractLayers;
+        private Vector2 lastMousePosition;
+        private const float joystickDeadzone = 0.1f;
 
 
 
@@ -72,6 +79,7 @@ namespace Player
         public float TopClamp = 90.0f;
         [Tooltip("How far in degrees can you move the camera down")]
         public float BottomClamp = -90.0f;
+        private bool isOnGamepad = false;
 
 
         [Header("Weapon")]
@@ -298,6 +306,9 @@ namespace Player
             currentHealth = maxHealth;
             UpdateHealthBar();
             playerInput.actions["Interact"].canceled += StopInteract;
+            playerInput.actions["InteractWithGamepad"].canceled += StopInteract;
+            InputSystem.onAnyButtonPress.Call(OnAnyInput);
+            InputSystem.onEvent += OnInputEvent;
             startTime = Time.time;
             bulletLeftInMagazine = maxBulletInMagazine;
             getCrystal = new UnityEvent();
@@ -342,8 +353,8 @@ namespace Player
             {
                 interacting = false;
                 minning = false;
-                if(!isSpitted)canMove = true;
-                if(!inMenu) canRotate = true;
+                if (!isSpitted) canMove = true;
+                if (!inMenu) canRotate = true;
                 minningSlider.gameObject.SetActive(false);
                 littleFragSteps.gameObject.SetActive(false);
                 mediumFragSteps.gameObject.SetActive(false);
@@ -419,7 +430,6 @@ namespace Player
         private void LateUpdate()
         {
             if (!canRotate) return;
-            print(canRotate);
             CameraRotation();
         }
 
@@ -494,6 +504,54 @@ namespace Player
             // move the player
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
+        }
+
+        private void OnAnyInput(InputControl control)
+        {
+            if (control.device is Gamepad && RotationSpeed != GamepadRotationSpeed)
+            {
+                SwitchToGamepad();
+            }
+            else if (!(control.device is Gamepad) && RotationSpeed != MouseRotationSpeed)
+            {
+                SwitchToKeyboardMouse();
+            }
+        }
+
+        private void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
+        {
+            if (device is Mouse mouse)
+            {
+                Vector2 currentMousePos = mouse.position.ReadValue();
+                if ((currentMousePos - lastMousePosition).sqrMagnitude > 0.01f)
+                {
+                    lastMousePosition = currentMousePos;
+                    SwitchToKeyboardMouse();
+                }
+            }
+            else if (device is Gamepad gamepad)
+            {
+                Vector2 leftStick = gamepad.leftStick.ReadValue();
+                Vector2 rightStick = gamepad.rightStick.ReadValue();
+
+                if (leftStick.sqrMagnitude > joystickDeadzone * joystickDeadzone ||
+                    rightStick.sqrMagnitude > joystickDeadzone * joystickDeadzone)
+                {
+                    SwitchToGamepad();
+                }
+            }
+        }
+
+        private void SwitchToKeyboardMouse()
+        {
+            RotationSpeed = MouseRotationSpeed;
+            isOnGamepad = false;
+        }
+
+        private void SwitchToGamepad()
+        {
+            RotationSpeed = GamepadRotationSpeed;
+            isOnGamepad = true;
         }
 
         private IEnumerator PlayStepAudio()
@@ -813,6 +871,142 @@ namespace Player
             }
 
         }
+
+        private void OnInteractWithGamepad()
+        {
+            if (inMenu) return;
+            RaycastHit hit;
+            interacting = true;
+            Debug.DrawRay(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward) * interactionDistance, Color.green, 100);
+
+            if (Physics.Raycast(CinemachineCameraTarget.transform.position, CinemachineCameraTarget.transform.TransformDirection(Vector3.forward), out hit, interactionDistance, InteractLayers))
+            {
+                // Action depending on raycast data
+                switch (hit.collider.tag)
+                {
+                    case "generator":
+                        if (!canInteractWithGenerator) return;
+                        GeneratorBehaviour generator = hit.collider.gameObject.GetComponent<GeneratorBehaviour>();
+                        if (generator != null)
+                        {
+                            if (inventory.RemoveFragment(1))
+                            {
+                                generator.AddFragment(1);
+                            }
+                            else
+                            {
+                                notEnoughtMessage.SetTrigger("Show");
+                                notEnoughtCrystal.SetTrigger("NotEnought");
+                            }
+                        }
+                        break;
+
+                    case "desktop":
+                        if (!canInteractWithDesktop) return;
+                        desktop = hit.collider.gameObject.GetComponentInParent<DesktopType>();
+                        if (inventory.GetFragmentQuantity() >= desktop.GetFragmentNeeded())
+                        {
+                            crafting = true;
+                            canMove = false;
+                            canRotate = false;
+                        }
+                        else
+                        {
+                            notEnoughtMessage.SetTrigger("Show");
+                            notEnoughtCrystal.SetTrigger("NotEnought");
+                        }
+                        break;
+
+                    case "turret":
+                        TurretBehaviour turret = hit.collider.gameObject.GetComponentInParent<TurretBehaviour>();
+
+                        switch (turret.GetType())
+                        {
+                            case TurretType.sniper:
+                                inventory.AddItem(turretSniper);
+                                break;
+
+                            case TurretType.mahineGun:
+                                inventory.AddItem(turretMachineGun);
+                                break;
+
+                            default:
+                                Debug.Log("Turret name not found");
+                                break;
+                        }
+                        PoolTurret.instance.AddTurretToPool(turret);
+                        break;
+
+                    case "fragment":
+                        fragment = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
+                        interacting = true;
+                        minning = true;
+                        canMove = false;
+                        canRotate = false;
+                        break;
+
+                    case "FragmentTransfert":
+                        if (!canInteractWithTransfert) return;
+                        if (inventory.GetFragmentQuantity() > 0)
+                        {
+                            saveCrystal.Invoke();
+                            int crystalQTT = SaveSystem.Load().crystalQuantity;
+                            crystalQTT += 1;
+                            inventory.RemoveFragment(1);
+                            SaveSystem.SetCrystalQuantity(crystalQTT);
+                            FragmentTransfert.instance.AddCrystalSaved(1);
+                        }
+                        else
+                        {
+                            notEnoughtMessage.SetTrigger("Show");
+                            notEnoughtCrystal.SetTrigger("NotEnought");
+                        }
+                        break;
+
+                    case "HealMachine":
+                        if (!canInteractWithHeal) return;
+                        HealMachine healMachine = hit.collider.gameObject.GetComponent<HealMachine>();
+                        if (healMachine != null)
+                        {
+                            switch (healMachine.GetStat())
+                            {
+                                case HealMachineStats.Empty:
+                                    if (inventory.RemoveFragment(1))
+                                    {
+                                        healMachine.Crafting();
+                                    }
+                                    else
+                                    {
+                                        notEnoughtMessage.SetTrigger("Show");
+                                        notEnoughtCrystal.SetTrigger("NotEnought");
+                                    }
+                                    break;
+
+
+                                case HealMachineStats.Crafting:
+
+                                    break;
+
+
+                                case HealMachineStats.Done:
+                                    getHit.SetTrigger("Hit");
+                                    AddHealth(healMachine.TakeHeal());
+                                    AudioManager.instance.PlayAudio(transform, "Heal", 0.6f);
+                                    break;
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                OnReload();
+            }
+        }
+
         private void StopInteract(InputAction.CallbackContext context)
         {
             if (context.canceled)
@@ -921,6 +1115,10 @@ namespace Player
         {
             if (inMenu) menuInGame.OnResume();
             else menuInGame.Active();
+            if(isOnGamepad)
+            {
+                StartCoroutine(menuInGame.GamepadActivation());
+            }
         }
 
         #endregion

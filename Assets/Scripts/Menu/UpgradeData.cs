@@ -13,6 +13,8 @@ public enum UpgradeType
 public class UpgradeData : ScriptableObject
 {
     public UpgradeType type;
+    public string title;
+    public string description;
     public int cost;
     public int upgradeID; // should be the same number as the index in UpgradeManager List
     public bool isUnlocked;

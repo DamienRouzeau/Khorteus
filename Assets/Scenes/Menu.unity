@@ -13923,7 +13923,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: 'This is a very long description that take some lines to write and i''m
-    not inspired anymore, just gonna write the basic thing "lorem ipsum" and i don''t
+    not inspired anymore, just gonna write the basic "lorem ipsum" thing but i don''t
     know what come next. cheat code to get unlimited khorteux : alt + f4'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -17706,6 +17706,10 @@ MonoBehaviour:
   - {fileID: 311219525}
   - {fileID: 1707017936}
   - {fileID: 1641918158}
+  - {fileID: 211807908}
+  - {fileID: 1161087486}
+  - {fileID: 753439926}
+  - {fileID: 1210422931}
   playCam: {fileID: 207471441}
   mainMenuCam: {fileID: 2038185485}
   upgradeCam: {fileID: 1834298117}

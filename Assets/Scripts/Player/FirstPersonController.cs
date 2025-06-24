@@ -98,6 +98,7 @@ namespace Player
         [SerializeField]
         private Transform bulletLauncher;
         private Coroutine reloadCoroutine;
+        private bool canShot = true;
 
         [Header("Turret")]
         [SerializeField]
@@ -682,7 +683,7 @@ namespace Player
         private void OnShot()
         {
             if (inMenu) return;
-            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth > 0)
+            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth > 0 && canShot)
             {
                 if (bulletLeftInMagazine > 0)
                 {
@@ -692,6 +693,7 @@ namespace Player
                     timeSinceLastBullet = 0;
                     bullet.Launch();
                     bulletLeftInMagazine--;
+                    inventory.UpdateQTT();
                     if (bulletLeftInMagazine <= 0)
                     {
                         canSprint = false;
@@ -714,11 +716,11 @@ namespace Player
 
         private void OnReload()
         {
-            if (inMenu) return;
+            if (inMenu || inventory.GetItemInHand().name != "Gun") return;
             if (reloadCoroutine != null) return;
             if (bulletLeftInMagazine < maxBulletInMagazine && currentHealth > 0)
             {
-                bulletLeftInMagazine = 0;
+                canShot = false;
                 canSprint = false;
                 reloadCoroutine = StartCoroutine(WaitReloadTimer());
             }
@@ -732,7 +734,9 @@ namespace Player
             yield return new WaitForSeconds(reloadTime);
             bulletLeftInMagazine = maxBulletInMagazine;
             canSprint = true;
+            canShot = true;
             reloadCoroutine = null;
+            inventory.UpdateQTT();
         }
 
         #endregion
@@ -768,7 +772,15 @@ namespace Player
         private void OnScroll()
         {
             if (inMenu) return;
-            inventory.Scroll(_input.newWeapon);
+            if (inventory.GetNbItem() > 1 && reloadCoroutine != null)
+            {
+                StopCoroutine(reloadCoroutine);
+                reloadCoroutine = null;
+                canShot = true;
+                canSprint = true;
+            }
+            if(inventory.GetNbItem() > 1)
+                inventory.Scroll(_input.newWeapon);
         }
 
 
@@ -1376,6 +1388,10 @@ namespace Player
 
         #region Getter
         public InventorySystem GetInventory() { return inventory; }
+
+        public int GetBulletLeft() { return bulletLeftInMagazine; }
+
+        public int GetMaxBullet() { return maxBulletInMagazine; }
 
         #endregion
     }

@@ -1312,6 +1312,7 @@ namespace Player
 
         private void UpdateHealthBar()
         {
+            if(healthBar != null)
             healthBar.value = currentHealth / maxHealth;
         }
 

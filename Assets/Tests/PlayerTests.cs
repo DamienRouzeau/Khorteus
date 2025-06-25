@@ -11,7 +11,7 @@ public class PlayerTests
     public void PlayerTakeDamage()
     {
         var player = new GameObject().AddComponent<FirstPersonController>();
-        player.SetHealth(player.GetMaxHealth());
+        player.SetHealth(100);
         player.TakeDamage(25);
         Assert.AreEqual(75, player.GetHealth(), "player health is : " + player.GetHealth());
 

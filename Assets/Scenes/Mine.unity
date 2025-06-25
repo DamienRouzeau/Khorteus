@@ -4427,7 +4427,7 @@ PrefabInstance:
     - target: {fileID: 6032091769562269369, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
       propertyPath: fragmentNB
-      value: 10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6032996380084781574, guid: c5efc39a8aaf6e64ea40e9ad573e9b47,
         type: 3}
@@ -11462,6 +11462,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261719039594067276, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0366666
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261719039594067276, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261719039594067276, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.055
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261719039594067276, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.074
+      objectReference: {fileID: 0}
+    - target: {fileID: 7261719039594067276, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7278016696029156756, guid: f76c1775fd4c46d47a0ca93f81a77b8d,
         type: 3}

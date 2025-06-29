@@ -683,28 +683,46 @@ namespace Player
         private void OnShot()
         {
             if (inMenu) return;
-            if (timeSinceLastBullet >= shotCouldown && inventory.GetItemInHand().name == "Gun" && currentHealth > 0 && canShot)
+            switch (inventory.GetItemInHand().name)
             {
-                if (bulletLeftInMagazine > 0)
-                {
-                    BulletBehaviour bullet = poolBullets.GetBullet();
-                    AudioManager.instance.PlayAudio(transform, "Shot", 0.5f, Random.Range(0.9f, 1.1f));
-                    weaponAnim.SetTrigger("Shot");
-                    timeSinceLastBullet = 0;
-                    bullet.Launch();
-                    bulletLeftInMagazine--;
-                    inventory.UpdateQTT();
-                    if (bulletLeftInMagazine <= 0)
+                case "Gun":
+                    if (timeSinceLastBullet >= shotCouldown && currentHealth > 0 && canShot) // gun in hand
                     {
-                        canSprint = false;
-                        reloadCoroutine = StartCoroutine(WaitReloadTimer());
+                        if (bulletLeftInMagazine > 0)
+                        {
+                            BulletBehaviour bullet = poolBullets.GetBullet();
+                            AudioManager.instance.PlayAudio(transform, "Shot", 0.5f, Random.Range(0.9f, 1.1f));
+                            weaponAnim.SetTrigger("Shot");
+                            timeSinceLastBullet = 0;
+                            bullet.Launch();
+                            bulletLeftInMagazine--;
+                            inventory.UpdateQTT();
+                            if (bulletLeftInMagazine <= 0)
+                            {
+                                canSprint = false;
+                                reloadCoroutine = StartCoroutine(WaitReloadTimer());
+                            }
+                        }
                     }
-                }
-            }
-            else if (inventory.GetItemInHand().name == "Sniper" || inventory.GetItemInHand().name == "MachineGun")
-            {
-                OnTurretPlacement();
-                AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
+                    break;
+
+                case "Sniper":
+                    OnTurretPlacement();
+                    AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
+                    break;
+
+                case "MachineGun":
+                    OnTurretPlacement();
+                    AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
+                    break;
+
+                case "Wrench":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                default:
+                    Debug.LogError("Item in hand not recognized");
+                    break;
             }
         }
 

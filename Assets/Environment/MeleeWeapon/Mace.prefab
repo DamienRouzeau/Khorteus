@@ -81,7 +81,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 53de6b001e8a3b147a69ccbfa9787f60,
         type: 3}
       propertyPath: m_Name
-      value: SM_Iron_Mace_01a
+      value: Mace
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 53de6b001e8a3b147a69ccbfa9787f60,
+        type: 3}
+      propertyPath: m_TagString
+      value: Melee
       objectReference: {fileID: 0}
     - target: {fileID: 4018187368804476864, guid: 53de6b001e8a3b147a69ccbfa9787f60,
         type: 3}
@@ -91,5 +96,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 53de6b001e8a3b147a69ccbfa9787f60,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2617840527675492358}
   m_SourcePrefab: {fileID: 100100000, guid: 53de6b001e8a3b147a69ccbfa9787f60, type: 3}
+--- !u!1 &3054742976991936247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 53de6b001e8a3b147a69ccbfa9787f60,
+    type: 3}
+  m_PrefabInstance: {fileID: 2784853343245435814}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &-2617840527675492358
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3054742976991936247}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.28702447, y: 1.4445593, z: 0.3289645}
+  m_Center: {x: -0.0041936454, y: 0.6458707, z: 0.0041941935}

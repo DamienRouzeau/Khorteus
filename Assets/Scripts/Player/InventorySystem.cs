@@ -24,7 +24,9 @@ public class InventorySystem : MonoBehaviour
 
     private void Start()
     {
-        nbItem.Add(1); //Add for the gun
+        nbItem.Add(1); //Add for Gun
+        nbItem.Add(1); //Add for Melee
+
         UpdateTextCrystal();
         newItemInInventory = new UnityEvent();
         removeItemInInventory = new UnityEvent();
@@ -178,7 +180,7 @@ public class InventorySystem : MonoBehaviour
 
     public void UpdateQTT()
     {
-        switch(items[itemInHand].name)
+        switch (items[itemInHand].name)
         {
             case "Gun":
                 textQTT.text = player.GetBulletLeft().ToString() + "/" + player.GetMaxBullet().ToString();
@@ -261,8 +263,10 @@ public class InventorySystem : MonoBehaviour
             case "MachineGun":
                 Debug.Log("From function : return 2 because name was " + name);
                 return 2;
+
+            default:
+                return 3;
         }
-        return 0;
     }
 
     #region Getter

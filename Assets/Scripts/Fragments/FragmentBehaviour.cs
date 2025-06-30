@@ -16,6 +16,7 @@ public class FragmentBehaviour : MonoBehaviour
     [SerializeField] private float healthStep = -1;
     bool canEvolve = true;
     [SerializeField] ParticleSystem particles;
+    private InventorySystem player;
 
     public void Init(FragmentManager manag)
     {
@@ -35,6 +36,14 @@ public class FragmentBehaviour : MonoBehaviour
         if (timeBeforeEvolution <= 0 && canEvolve)
         {
             Evolve();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Melee"))
+        {
+            Hit(other.GetComponent<MeleeBehaviour>().GetMinningDamage());
         }
     }
 
@@ -73,19 +82,25 @@ public class FragmentBehaviour : MonoBehaviour
     {
         canEvolve = false;
         health -= dmg;
+        particles.Play();
         if (health <= 0)
         {
             DestroyFragment();
-            return qttleft;
+            player.AddFragment(qttleft);
+            return 0;
         }
-        print("step : " + (type.maxHealth - (healthStep * qttleft)));
         if (health < type.maxHealth - (healthStep * (type.quantity - qttleft + 1)) && qttleft > 0)
         {
-            particles.Play();
             qttleft--;
-            return 1;
+            player.AddFragment(1);
         }
+        player = null;
         return 0;
+    }
+
+    public void GetPlayerRef(InventorySystem _player)
+    {
+        player = _player;
     }
 
     public float GetHealthValue()

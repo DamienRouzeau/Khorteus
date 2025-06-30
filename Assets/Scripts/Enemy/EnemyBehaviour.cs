@@ -179,6 +179,14 @@ public class EnemyBehaviour : MonoBehaviour, Health
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Melee"))
+        {
+            TakeDamage(other.GetComponent<MeleeBehaviour>().GetDamage());
+        }
+    }
+
     #region STATE
     public void ChangeState(monsterStats newState)
     {

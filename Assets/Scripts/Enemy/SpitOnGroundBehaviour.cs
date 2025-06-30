@@ -41,6 +41,13 @@ public class SpitOnGroundBehaviour : MonoBehaviour, Health
     {
         transform.rotation = initialRotation;
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Melee"))
+        {
+            TakeDamage(other.GetComponent<MeleeBehaviour>().GetDamage());
+        }
+    }
 
     public void Die()
     {

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 879840461358206371}
   - component: {fileID: 7994464309622012338}
   - component: {fileID: 4248933784982103025}
+  - component: {fileID: 838840923514588581}
   m_Layer: 15
   m_Name: crystalz_big
   m_TagString: fragment
@@ -106,6 +107,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 1723661194190463403, guid: 74bd3a7af6b99cd46a830238e2132571, type: 3}
+--- !u!114 &838840923514588581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898441095862227865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5aee5646045bf439cc6d7f8840348c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9088329289290233548
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8461115786929138806}
+  - component: {fileID: 3728686898820683609}
   m_Layer: 15
   m_Name: Big_Crystal
   m_TagString: fragment
@@ -138,3 +152,15 @@ Transform:
   - {fileID: 3055419634662862015}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3728686898820683609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9088329289290233548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5aee5646045bf439cc6d7f8840348c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

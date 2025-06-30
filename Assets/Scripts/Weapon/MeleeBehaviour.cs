@@ -16,7 +16,6 @@ public class MeleeBehaviour : MonoBehaviour
     public void Hit()
     {
         if (!canHit) return;
-        col.enabled = true;
         canHit = false;
         anim.SetTrigger("Hit");
     }
@@ -24,8 +23,19 @@ public class MeleeBehaviour : MonoBehaviour
     public void HitEnd()
     {
         canHit = true;
+    }
+
+    public void EnableCollision()
+    {
+        col.enabled = true;
+    }
+
+    public void DisableCollision()
+    {
         col.enabled = false;
     }
+
+    public void SetCanHit(bool _canHit) { canHit = _canHit; }
 
     #region Getter
     public bool GetCanHit() { return canHit; }

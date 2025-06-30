@@ -111,6 +111,7 @@ public class CritterBehaviour : Enemy
     }
     public override void TakeDamage(float damage)
     {
+        Debug.Log("[Damage] Get " + damage + " damages");
         currentHealth -= damage;
         player.GetComponentInChildren<Player.FirstPersonController>().BulletTouch();
         if (currentHealth <= 0)
@@ -142,6 +143,14 @@ public class CritterBehaviour : Enemy
         else if (other.CompareTag("generator") && target == generatorAttackPos)
         {
             Attack();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Melee"))
+        {
+            TakeDamage(other.GetComponent<MeleeBehaviour>().GetDamage());
         }
     }
 

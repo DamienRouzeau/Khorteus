@@ -100,6 +100,10 @@ public class SpitterBehaviour : Enemy
             {
                 hit.GetComponent<BulletBehaviour>().Hit(this);
             }
+            else if (hit.CompareTag("Melee"))
+            {
+                TakeDamage(hit.GetComponent<MeleeBehaviour>().GetDamage());
+            }
         }
     }
 

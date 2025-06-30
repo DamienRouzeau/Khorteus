@@ -38,6 +38,14 @@ public class HowlerBehaviour : Enemy
         anim.SetFloat("Speed", agent.velocity.magnitude);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Melee"))
+        {
+            TakeDamage(other.GetComponent<MeleeBehaviour>().GetDamage());
+        }
+    }
+
     private void Scream()
     {
         haveScream = true;

@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   damage: 10
+  initialDamage: 0
   rb: {fileID: 0}
   maxTimeAlive: 1
 --- !u!4 &7963669934356291615 stripped
@@ -334,6 +335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 200
   damage: 50
+  initialDamage: 50
   rb: {fileID: 2574484298076101363}
   maxTimeAlive: 1
 --- !u!4 &4247158324748526266 stripped

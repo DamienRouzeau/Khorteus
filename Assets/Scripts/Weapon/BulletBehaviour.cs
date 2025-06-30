@@ -8,6 +8,7 @@ public class BulletBehaviour : MonoBehaviour
     private float speed;
     [SerializeField]
     private float damage;
+    [SerializeField] private float initialDamage;
     private PoolBullet pool;
     [SerializeField]
     private Rigidbody rb;
@@ -90,6 +91,11 @@ public class BulletBehaviour : MonoBehaviour
     public void SetDamage(float dmg)
     {
         damage = dmg;
+    }
+
+    public void ResetDamage()
+    {
+        damage = initialDamage;
     }
 
     public float GetDamage() { return damage; }

@@ -99,6 +99,8 @@ namespace Player
         private Transform bulletLauncher;
         private Coroutine reloadCoroutine;
         private bool canShot = true;
+        private bool shooting;
+        [SerializeField] MeleeBehaviour melee;
 
         [Header("Turret")]
         [SerializeField]
@@ -113,6 +115,8 @@ namespace Player
         [Header("HEALTH")]
         [SerializeField]
         private float maxHealth = 100;
+        [SerializeField]
+        private float initialMaxHealth = 100;
         [SerializeField]
         private float currentHealth;
         [SerializeField]
@@ -264,8 +268,11 @@ namespace Player
             {
                 Debug.LogError("Can't load save data");
             }
+
             else
             {
+                poolBullets.bulletPrefab.ResetDamage();
+                maxHealth = initialMaxHealth;
                 print(gameData.upgradesUnlocked.Count + " upgrades");
                 foreach (UpgradeDataSave upgradeSaved in gameData.upgradesUnlocked)
                 {
@@ -310,6 +317,7 @@ namespace Player
             currentHealth = maxHealth;
             UpdateHealthBar();
             playerInput.actions["Interact"].canceled += StopInteract;
+            playerInput.actions["Shot"].canceled += StopShot;
             playerInput.actions["InteractWithGamepad"].canceled += StopInteract;
             InputSystem.onAnyButtonPress.Call(OnAnyInput);
             InputSystem.onEvent += OnInputEvent;
@@ -345,7 +353,7 @@ namespace Player
             JumpAndGravity();
             GroundedCheck();
             if (canMove) Move();
-
+            if (shooting) { OnShot(); }
             if (canRotate) Aim();
             if (interacting && minning) { Minning(); }
             else if (interacting && crafting) { Crafting(); }
@@ -363,6 +371,11 @@ namespace Player
                 littleFragSteps.gameObject.SetActive(false);
                 mediumFragSteps.gameObject.SetActive(false);
                 bigFragSteps.gameObject.SetActive(false);
+            }
+            else
+            {
+                minning = false;
+                crafting = false;
             }
             timeSinceLastBullet += Time.deltaTime;
             #endregion
@@ -683,6 +696,7 @@ namespace Player
         private void OnShot()
         {
             if (inMenu) return;
+            shooting = true;
             switch (inventory.GetItemInHand().name)
             {
                 case "Gun":
@@ -690,6 +704,7 @@ namespace Player
                     {
                         if (bulletLeftInMagazine > 0)
                         {
+                            shooting = false;
                             BulletBehaviour bullet = poolBullets.GetBullet();
                             AudioManager.instance.PlayAudio(transform, "Shot", 0.5f, Random.Range(0.9f, 1.1f));
                             weaponAnim.SetTrigger("Shot");
@@ -707,11 +722,13 @@ namespace Player
                     break;
 
                 case "Sniper":
+                    shooting = false;
                     OnTurretPlacement();
                     AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
                     break;
 
                 case "MachineGun":
+                    shooting = false;
                     OnTurretPlacement();
                     AudioManager.instance.PlayAudio(transform, "TurretDeployed", 0.75f);
                     break;
@@ -723,6 +740,15 @@ namespace Player
                 default:
                     Debug.LogError("Item in hand not recognized");
                     break;
+            }
+        }
+
+        private void StopShot(InputAction.CallbackContext context)
+        {
+            if (context.canceled)
+            {
+                Debug.Log("[Save Debug] Shot canceled");
+                shooting = false;
             }
         }
 
@@ -790,6 +816,7 @@ namespace Player
         private void OnScroll()
         {
             if (inMenu) return;
+            melee.SetCanHit(true);
             if (inventory.GetNbItem() > 1 && reloadCoroutine != null)
             {
                 StopCoroutine(reloadCoroutine);

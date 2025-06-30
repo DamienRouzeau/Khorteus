@@ -90,6 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7a3bc36a57916844784c023c0399404c,
         type: 3}
+      propertyPath: m_Layer
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7a3bc36a57916844784c023c0399404c,
+        type: 3}
       propertyPath: m_TagString
       value: Melee
       objectReference: {fileID: 0}
@@ -135,8 +140,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.17482284, y: 0.7052866, z: 0.13023666}
-  m_Center: {x: 0.023956684, y: 0.22721303, z: 0.009523001}
+  m_Size: {x: 0.26788095, y: 0.8736839, z: 0.30946094}
+  m_Center: {x: 0.07048574, y: 0.31141168, z: 0.0628756}
 --- !u!95 &2481235201883412973
 Animator:
   serializedVersion: 5
@@ -173,5 +178,5 @@ MonoBehaviour:
   anim: {fileID: 2481235201883412973}
   col: {fileID: 4749003517095639514}
   damage: 14
-  minningDamage: 4
+  minningDamage: 3
   weight: 8

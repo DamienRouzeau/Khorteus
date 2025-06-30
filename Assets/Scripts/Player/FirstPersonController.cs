@@ -737,6 +737,10 @@ namespace Player
                     inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
                     break;
 
+                case "Axe":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
                 default:
                     Debug.LogError("Item in hand not recognized");
                     break;

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   title: Speed
-  description: Make you move 2% faster
+  description: Make you move 4% faster
   cost: 30
   upgradeID: 11
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 10
-  incrementValue: 0.2
+  incrementValue: 0.004

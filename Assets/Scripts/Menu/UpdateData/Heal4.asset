@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Add 15 to your maximum health
   cost: 50
   upgradeID: 3
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 2
   incrementValue: 15

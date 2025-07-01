@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Decrease shot couldown for each turret by 10 %
   cost: 100
   upgradeID: 15
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 14
   incrementValue: 10

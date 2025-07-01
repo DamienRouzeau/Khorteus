@@ -7599,6 +7599,7 @@ MonoBehaviour:
   canRotate: 1
   playerInput: {fileID: 8616685848737228376}
   tuto: 0
+  speedMultiplicator: 1
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.1

@@ -153,7 +153,7 @@ MonoBehaviour:
   col: {fileID: 3158583954505286279}
   damage: 28
   minningDamage: 3
-  weight: 20
+  weight: 0.02
 --- !u!95 &-4277789614660317105
 Animator:
   serializedVersion: 5

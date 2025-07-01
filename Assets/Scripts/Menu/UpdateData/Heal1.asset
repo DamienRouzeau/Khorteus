@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Add 10 to your maximum health
   cost: 1
   upgradeID: 0
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 0
   incrementValue: 10

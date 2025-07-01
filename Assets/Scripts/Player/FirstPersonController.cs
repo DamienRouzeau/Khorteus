@@ -44,6 +44,7 @@ namespace Player
         private PlayerInput playerInput;
         private bool isInCenter;
         [SerializeField] private bool tuto;
+        [SerializeField] private float speedMultiplicator = 1;
 
 
         [Space(10)]
@@ -294,13 +295,14 @@ namespace Player
 
 
                         case UpgradeType.Speed:
-                            _speed += upgradeSaved.incrementValue;
+                            speedMultiplicator += upgradeSaved.incrementValue;
                             Debug.Log("Speed upgrade detected with the value of " + upgradeSaved.incrementValue);
                             break;
                     }
                 }
                 inventory.AddItemAndKeepItemInHand(melees[gameData.meleeSelected].gameObject);
                 melee = melees[gameData.meleeSelected];
+                speedMultiplicator -= melee.GetWeight();
             }
             #endregion
 
@@ -556,6 +558,9 @@ namespace Player
             }
 
             // move the player
+            float s = _speed;
+            _speed *= speedMultiplicator;
+            Debug.Log("[Speed] " + s + " x " + speedMultiplicator + " = " + _speed);
             _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
         }

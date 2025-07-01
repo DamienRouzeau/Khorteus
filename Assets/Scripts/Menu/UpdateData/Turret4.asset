@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Decrease energy drain for each turret by 25 %
   cost: 200
   upgradeID: 16
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 15
   incrementValue: 25

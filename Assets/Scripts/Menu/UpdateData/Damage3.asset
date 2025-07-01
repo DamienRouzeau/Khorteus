@@ -17,6 +17,6 @@ MonoBehaviour:
   description: Each bullet does 4 additional damage
   cost: 75
   upgradeID: 6
-  isUnlocked: 1
+  isUnlocked: 0
   previousUpgradeID: 5
   incrementValue: 4

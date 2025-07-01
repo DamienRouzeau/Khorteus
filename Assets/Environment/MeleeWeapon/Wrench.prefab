@@ -179,4 +179,4 @@ MonoBehaviour:
   col: {fileID: 4749003517095639514}
   damage: 14
   minningDamage: 3
-  weight: 8
+  weight: 0.008

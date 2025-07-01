@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+
 
 
 public class MeleeButton : MonoBehaviour
@@ -18,6 +20,7 @@ public class MeleeButton : MonoBehaviour
     public void OnBuy()
     {
         UpgradesManager.instance.BuyMeleeWeapon(data, this);
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void Unlocked()
@@ -30,6 +33,7 @@ public class MeleeButton : MonoBehaviour
     {
         selectTxt.text = "Selected";
         background.sprite = selectedBG;
+        EventSystem.current.SetSelectedGameObject(null);
         UpgradesManager.instance.SelectMeleeWeapon(data.upgradeID, this);
     }
 

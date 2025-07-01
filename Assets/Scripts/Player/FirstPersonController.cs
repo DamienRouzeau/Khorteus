@@ -943,13 +943,6 @@ namespace Player
                         PoolTurret.instance.AddTurretToPool(turret);
                         break;
 
-                    case "fragment":
-                        fragment = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
-                        interacting = true;
-                        minning = true;
-                        canMove = false;
-                        canRotate = false;
-                        break;
 
                     case "FragmentTransfert":
                         if (!canInteractWithTransfert) return;
@@ -1084,14 +1077,6 @@ namespace Player
                                 break;
                         }
                         PoolTurret.instance.AddTurretToPool(turret);
-                        break;
-
-                    case "fragment":
-                        fragment = hit.collider.gameObject.GetComponentInParent<FragmentBehaviour>();
-                        interacting = true;
-                        minning = true;
-                        canMove = false;
-                        canRotate = false;
                         break;
 
                     case "FragmentTransfert":

@@ -107,6 +107,22 @@ public class InventorySystem : MonoBehaviour
         UpdateQTT();
     }
 
+    public void AddItemAndKeepItemInHand(GameObject item)
+    {
+        if (items.Contains(item))
+        {
+            nbItem[items.IndexOf(item)]++;
+        }
+        else
+        {
+            items.Add(item);
+            nbItem.Add(1);
+            newItemInInventory.Invoke();
+        }
+        UpdateImages();
+        UpdateQTT();
+    }
+
     public void RemoveItem(GameObject item)
     {
         if (item == items[itemInHand] && nbItem[itemInHand] == 1)

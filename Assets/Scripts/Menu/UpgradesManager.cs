@@ -15,6 +15,13 @@ public class UpgradesManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI crystalsQuantityTxt;
     [SerializeField] private List<UpgradeData> upgrades = new();
     [SerializeField] private List<ButtonData> upgradeButton;
+    private MeleeButton meleeSelected;
+    [SerializeField] private List<MeleeButton> meleeButton;
+    [SerializeField] private List<MeleeData> meleeData;
+
+    [Header("Menus")]
+    [SerializeField] private GameObject skillsMenu;
+    [SerializeField] private GameObject meleeWeaponsMenu;
 
     [Header("Description")]
     [SerializeField] private TextMeshProUGUI upgradeTitle;
@@ -49,22 +56,42 @@ public class UpgradesManager : MonoBehaviour
             foreach (UpgradeDataSave upgradeSaved in gameData.upgradesUnlocked)
             {
                 UpgradeData upgrade = null;
-                foreach(UpgradeData upgdata in upgrades)
+                foreach (UpgradeData upgdata in upgrades)
                 {
                     if (upgdata.upgradeID == upgradeSaved.upgradeID) upgrade = upgdata;
                 }
                 upgrade.isUnlocked = upgradeSaved.isUnlocked;
             }
+            foreach (MeleeDataSave meleeSaved in gameData.meleeWeaponsUnlocked)
+            {
+                MeleeData melee = null;
+                foreach (MeleeData mlData in meleeData)
+                {
+                    if (mlData.upgradeID == meleeSaved.upgradeID) melee = mlData;
+                }
+                melee.isUnlocked = meleeSaved.isUnlocked;
+            }
             crystalsQuantity = gameData.crystalQuantity;
         }
 
-        foreach(ButtonData button in upgradeButton)
+        foreach (ButtonData button in upgradeButton)
         {
-            if(button.data.isUnlocked)
+            if (button.data.isUnlocked)
             {
                 button.Unlocked();
             }
         }
+
+        foreach (MeleeButton button in meleeButton)
+        {
+            if (button.data.isUnlocked)
+            {
+                button.Unlocked();
+            }
+        }
+        Debug.Log(gameData.meleeSelected);
+        meleeButton[gameData.meleeSelected].Selected();
+        meleeSelected = meleeButton[gameData.meleeSelected];
 
         UpdateCrystalQuantity();
     }
@@ -100,6 +127,36 @@ public class UpgradesManager : MonoBehaviour
         }
     }
 
+    public void BuyMeleeWeapon(MeleeData data, MeleeButton button)
+    {
+        AudioManager.instance.PlayAudio(transform, "Clic", 0.2f);
+        Debug.Log("Try to buy");
+        if (crystalsQuantity >= data.cost && !data.isUnlocked) // check if player have enought crystals and not already unlock this upgrade
+        {
+            Debug.Log("1");
+            data.isUnlocked = true;
+            Debug.Log("2");
+            crystalsQuantity -= data.cost;
+            Debug.Log("3");
+            SaveSystem.SetCrystalQuantity(crystalsQuantity);
+            Debug.Log("4");
+            UpdateCrystalQuantity();
+            Debug.Log("5");
+            SaveSystem.AddMelee(data);
+            Debug.Log("6");
+            button.Unlocked();
+            Debug.Log("7");
+        }
+    }
+
+    public void SelectMeleeWeapon(int id, MeleeButton melee)
+    {
+        if (melee == meleeSelected) return;
+        if(meleeSelected != null) meleeSelected.Unselected();
+        meleeSelected = melee;
+        SaveSystem.SelectMelee(id);
+    }
+
     public void ShowDescription(string title, string description, int cost)
     {
         descriptionAnim.SetTrigger("show");
@@ -112,5 +169,17 @@ public class UpgradesManager : MonoBehaviour
     {
         Debug.Log("Hide");
         descriptionAnim.SetTrigger("hide");
+    }
+
+    public void SkillsMenu()
+    {
+        meleeWeaponsMenu.SetActive(false);
+        skillsMenu.SetActive(true);
+    }
+
+    public void MeleeWeaponsMenu()
+    {
+        skillsMenu.SetActive(false);
+        meleeWeaponsMenu.SetActive(true);
     }
 }

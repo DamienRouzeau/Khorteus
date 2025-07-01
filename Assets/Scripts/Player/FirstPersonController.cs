@@ -10,6 +10,8 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem.LowLevel;
+using System.Collections.Generic;
+
 
 
 namespace Player
@@ -101,6 +103,7 @@ namespace Player
         private bool canShot = true;
         private bool shooting;
         [SerializeField] MeleeBehaviour melee;
+        [SerializeField] private List<MeleeBehaviour> melees = new List<MeleeBehaviour>();
 
         [Header("Turret")]
         [SerializeField]
@@ -296,6 +299,8 @@ namespace Player
                             break;
                     }
                 }
+                inventory.AddItemAndKeepItemInHand(melees[gameData.meleeSelected].gameObject);
+                melee = melees[gameData.meleeSelected];
             }
             #endregion
 

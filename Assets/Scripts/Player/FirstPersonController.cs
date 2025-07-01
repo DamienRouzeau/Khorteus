@@ -741,6 +741,38 @@ namespace Player
                     inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
                     break;
 
+                case "Big_Hammer":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Blade":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Circular_Saw":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Dagger":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Hammer":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Mace":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Pipe":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
+                case "Spike_Mace":
+                    inventory.GetItemInHand().GetComponent<MeleeBehaviour>().Hit();
+                    break;
+
                 default:
                     Debug.LogError("Item in hand not recognized");
                     break;

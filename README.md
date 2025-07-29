@@ -1,5 +1,5 @@
-Khorteus est un jeu coopératif PvE à la première personne, développé dans le cadre d’un projet étudiant.
-Les joueurs doivent défendre un générateur central tout en explorant des mines pour récolter des cristaux rares.
+Khorteus est un jeu solo PvE à la première personne, développé dans le cadre d’un projet étudiant.
+Le joueur doit défendre un générateur central de nombreuses vagues d'ennemis variés tout en explorant des mines pour récolter des cristaux et améliorer ses chances de survie.
 
 Itch.io : https://damienrzu.itch.io/khorteus 
 
